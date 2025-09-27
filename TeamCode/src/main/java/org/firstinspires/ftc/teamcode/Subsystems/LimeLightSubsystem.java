@@ -11,7 +11,7 @@ public class LimeLightSubsystem extends SubsystemBase {
     private Limelight3A limelight;
     private Telemetry telemetry;
     private LLResult result;
-    private final int Pipeline = 0;
+    private final int Pipeline = 4;
 
     public LimeLightSubsystem(Limelight3A limelight, Telemetry telemetry){
         this.limelight = limelight;
@@ -19,9 +19,11 @@ public class LimeLightSubsystem extends SubsystemBase {
         limelight.start();
         this.telemetry = telemetry;
     }
+
     public LLResult readAprilTag(){
         getResult();
         result = limelight.getLatestResult();
+
         return result;
 
     }
@@ -35,6 +37,7 @@ public class LimeLightSubsystem extends SubsystemBase {
                 telemetry.addData("ty", result.getTy());
                 telemetry.addData("Botpose", botpose.toString());
                 telemetry.addData("tags", result.getBotposeTagCount());
+                telemetry.addData("LL Status", limelight.getStatus());
            
             }
         }

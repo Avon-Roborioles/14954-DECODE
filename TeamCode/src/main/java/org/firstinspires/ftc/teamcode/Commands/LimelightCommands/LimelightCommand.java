@@ -17,6 +17,6 @@ public class LimelightCommand extends CommandBase {
     public void execute(){
         lastResult = limelightSubsystem.readAprilTag();
         limelightSubsystem.getLimelightTelemetry();
-        limelightSubsystem.setPipeline(0);
+        limelightSubsystem.setPipeline(4);
     }
 }

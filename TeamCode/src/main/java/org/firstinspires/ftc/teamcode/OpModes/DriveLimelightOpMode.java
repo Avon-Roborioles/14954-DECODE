@@ -50,7 +50,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
 
             telemetry.setMsTransmissionInterval(11);
             servo.setPosition(0.5);
-            limelight.pipelineSwitch(1);
+            limelight.pipelineSwitch(4);
             limelight.start();
 
             // Schedule the drive command
@@ -69,12 +69,13 @@ import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
                     telemetry.addData("tx", result.getTx());
                     telemetry.addData("ty", result.getTy());
                     telemetry.addData("Botpose", botpose.toString());
-                    telemetry.addData("tags", result.getBotposeTagCount());
+                    telemetry.addData("tags",result.getFiducialResults());
                     telemetry.addData("distance", getDistance());
+                    telemetry.addData("LL Status", limelight.getStatus());
                     telemetry.update();
 
                     if (result.getTx() != 0) {
-                        servoPos -= 0.00003 * result.getTx();
+                        servoPos -= 0.00006 * result.getTx();
                     }
                 }
 

@@ -11,8 +11,8 @@ public class DriveSubsystem extends SubsystemBase {
   private Motor frontLeft, frontRight, backLeft, backRight;
   private Telemetry telemetry;
   public DriveSubsystem(Motor frontLeft, Motor frontRight, Motor backLeft, Motor backRight, Telemetry telemetry){
-      frontRight.setInverted(true);
-      backRight.setInverted(true);
+//      frontRight.setInverted(true);
+//      backRight.setInverted(true);
       this.frontLeft = frontLeft;
       this.frontRight = frontRight;
       this.backLeft = backLeft;
@@ -27,6 +27,10 @@ public class DriveSubsystem extends SubsystemBase {
           drive.driveRobotCentric(strafeSpeed,forwardSpeed,turnSpeed);
       }
   }
-  public void getDriveTelemetry(){}
+    private double applyDeadband(double value) {
+        return (Math.abs(value) > 0.05) ? value : 0.0;
+    }
+
+    public void getDriveTelemetry(){}
 
 }
