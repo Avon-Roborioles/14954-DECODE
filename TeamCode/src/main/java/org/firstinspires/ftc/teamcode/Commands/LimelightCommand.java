@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Commands.LimelightCommands;
+package org.firstinspires.ftc.teamcode.Commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.hardware.limelightvision.LLResult;

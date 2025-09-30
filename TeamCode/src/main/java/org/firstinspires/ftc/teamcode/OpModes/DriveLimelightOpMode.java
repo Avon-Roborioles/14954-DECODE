@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.LLStatus;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -10,8 +12,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
-import org.firstinspires.ftc.teamcode.Commands.LimelightCommands.DriveCommand;
+
+import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
+
+import java.util.List;
 
 @TeleOp
 
@@ -19,6 +24,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
         private Limelight3A limelight;
         private Servo servo;
         private double servoPos = 0.5;
+
 
         private DriveSubsystem driveSubsystem;
         private DriveCommand driveCommand;
@@ -61,6 +67,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
             while (opModeIsActive()) {
                 // Run the FTCLib command scheduler
                 CommandScheduler.getInstance().run();
+                LLStatus status = limelight.getStatus();
 
                 // ---- Limelight logic (servo adjustment) ----
                 LLResult result = limelight.getLatestResult();
@@ -71,7 +78,12 @@ import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
                     telemetry.addData("Botpose", botpose.toString());
                     telemetry.addData("tags",result.getFiducialResults());
                     telemetry.addData("distance", getDistance());
-                    telemetry.addData("LL Status", limelight.getStatus());
+                    telemetry.addData("LL", "Temp: %.1fC, CPU: %.1f%%, FPS: %d",
+                            status.getTemp(), status.getCpu(),(int)status.getFps());
+                    List<LLResultTypes.FiducialResult> fiducialResults = result.getFiducialResults();
+                    for (LLResultTypes.FiducialResult fr : fiducialResults) {
+                        telemetry.addData("Fiducial", "ID: %d, Family: %s, X: %.2f, Y: %.2f", fr.getFiducialId(), fr.getFamily(), fr.getTargetXDegrees(), fr.getTargetYDegrees());
+                    }
                     telemetry.update();
 
                     if (result.getTx() != 0) {
