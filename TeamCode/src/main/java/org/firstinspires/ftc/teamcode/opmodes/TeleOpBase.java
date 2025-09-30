@@ -3,34 +3,30 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import static java.lang.Math.PI;
 
 import com.pedropathing.geometry.*;
-import com.pedropathing.localization.Localizer;
 import com.pedropathing.paths.*;
 import com.pedropathing.follower.Follower;
-
 import com.arcrobotics.ftclib.command.InstantCommand;
-
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
+import com.qualcomm.robotcore.eventloop.opmode.OpModeRegistrar;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
 import org.firstinspires.ftc.teamcode.Storage;
 import org.firstinspires.ftc.teamcode.commands.teleop.TeleDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.TelePathDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.TeleSlowDriveCommand;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
-
+@TeleOp(name = "TeleOpBase")
 public class TeleOpBase extends Storage {
-    private GamepadEx driverOp, operatorOp;
-    private Constants fConstants;
+    private GamepadEx driverOp;
     private Follower follower;
     private AutoDriveSubsystem autoDriveSubsystem;
     private Path scorePath;
-    public Boolean RedAlliance = null;
 
     @Override
     public void initialize() {
         driverOp = new GamepadEx(gamepad1);
-        operatorOp = new GamepadEx(gamepad2);
 
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(memory.lastPose);
@@ -71,7 +67,7 @@ public class TeleOpBase extends Storage {
 
             // run the scheduler
             while (!isStopRequested() && opModeIsActive()) {
-//            scorePath = new Path(new BezierCurve(new Point(follower.getPose()),  new Point(new Pose(-57 ,-54 , PI/4 ))));
+            scorePath = new Path(new BezierCurve(follower.getPose(),  new Pose(-57 ,-54 , PI/4 )));
                 run();
             }
             reset();

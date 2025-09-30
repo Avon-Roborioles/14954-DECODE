@@ -7,12 +7,8 @@ import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
 import com.pedropathing.ftc.drivetrains.MecanumConstants;
 import com.pedropathing.ftc.localization.constants.OTOSConstants;
-import com.pedropathing.ftc.localization.constants.PinpointConstants;
 import com.pedropathing.ftc.localization.localizers.OTOSLocalizer;
-import com.pedropathing.localization.Localizer;
 import com.pedropathing.paths.PathConstraints;
-import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
-import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -67,10 +63,10 @@ public class Constants extends FollowerConstants {
             .drivePIDFSwitch(15)
             .centripetalScaling(0.0005);
     public static MecanumConstants driveConstants = new MecanumConstants()
-            .leftFrontMotorName("motor_lf")
-            .leftRearMotorName("motor_lb")
-            .rightFrontMotorName("motor_rf")
-            .rightRearMotorName("motor_rb")
+            .leftFrontMotorName("frontLeft")
+            .leftRearMotorName("backLeft")
+            .rightFrontMotorName("frontRight")
+            .rightRearMotorName("backRight")
             .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
