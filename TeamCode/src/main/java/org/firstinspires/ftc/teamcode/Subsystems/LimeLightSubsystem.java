@@ -2,10 +2,14 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.LLStatus;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+
+import java.util.List;
 
 public class LimeLightSubsystem extends SubsystemBase {
     private Limelight3A limelight;
@@ -13,14 +17,14 @@ public class LimeLightSubsystem extends SubsystemBase {
     private LLResult result;
     private final int Pipeline = 4;
 
-    public LimeLightSubsystem(Limelight3A limelight, Telemetry telemetry){
+    public LimeLightSubsystem(Limelight3A limelight, Telemetry telemetry) {
         this.limelight = limelight;
         limelight.pipelineSwitch(Pipeline);
         limelight.start();
         this.telemetry = telemetry;
     }
 
-    public LLResult readAprilTag(){
+    public LLResult readAprilTag() {
         getResult();
         result = limelight.getLatestResult();
 
@@ -28,7 +32,7 @@ public class LimeLightSubsystem extends SubsystemBase {
 
     }
 
-    public void getLimelightTelemetry(){
+    public void getLimelightTelemetry() {
         readAprilTag();
         if (result != null) {
             if (result.isValid()) {
@@ -38,10 +42,29 @@ public class LimeLightSubsystem extends SubsystemBase {
                 telemetry.addData("Botpose", botpose.toString());
                 telemetry.addData("tags", result.getBotposeTagCount());
                 telemetry.addData("LL Status", limelight.getStatus());
-           
+
             }
         }
     }
+
+    public boolean seeTag() {
+        LLResult result = limelight.getLatestResult();
+        List<LLResultTypes.FiducialResult> fiducialResults = result.getFiducialResults();
+
+        for (LLResultTypes.FiducialResult fr : fiducialResults) {
+            if (fr.getFiducialId() == 21) {
+                return true;
+            } else if (fr.getFiducialId() == 22) {
+                return true;
+            } else if (fr.getFiducialId() == 23) {
+                return true;
+            }
+        }
+
+        return false; // if none matched
+    }
+
+
     public void getResult(){
         result = limelight.getLatestResult();
     }

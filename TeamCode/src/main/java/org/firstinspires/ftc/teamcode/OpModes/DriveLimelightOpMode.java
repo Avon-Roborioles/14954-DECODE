@@ -14,7 +14,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
+import org.firstinspires.ftc.teamcode.Commands.LimelightCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 
 import java.util.List;
 
@@ -26,8 +28,11 @@ import java.util.List;
         private double servoPos = 0.5;
 
 
+
         private DriveSubsystem driveSubsystem;
         private DriveCommand driveCommand;
+        private LimelightCommand limelightCommand;
+        private LimeLightSubsystem limelightSubsystem;
 
         @Override
         public void runOpMode() throws InterruptedException {
@@ -53,14 +58,15 @@ import java.util.List;
                     () -> 0.0,                         // heading (put IMU yaw here later)
                     false                              // field-centric off for now
             );
+            limelightCommand = new LimelightCommand(limelightSubsystem);
 
             telemetry.setMsTransmissionInterval(11);
             servo.setPosition(0.5);
-            limelight.pipelineSwitch(4);
+//            limelight.pipelineSwitch(4);
             limelight.start();
 
             // Schedule the drive command
-            CommandScheduler.getInstance().schedule(driveCommand);
+            CommandScheduler.getInstance().schedule(driveCommand, limelightCommand);
 
             waitForStart();
 

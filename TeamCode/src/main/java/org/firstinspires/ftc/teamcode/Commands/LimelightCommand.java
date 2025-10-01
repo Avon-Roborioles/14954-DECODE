@@ -19,4 +19,12 @@ public class LimelightCommand extends CommandBase {
         limelightSubsystem.getLimelightTelemetry();
         limelightSubsystem.setPipeline(4);
     }
+
+    public void end(boolean interrupted){
+        limelightSubsystem.setPipeline(1);
+    }
+    public boolean isFinished(){
+        return limelightSubsystem.seeTag();
+    }
+
 }
