@@ -13,8 +13,12 @@ public class ServoSubsystem extends SubsystemBase{
             this.servo = servo;
             this.servo2 = servo2;
         }
-        public void runServo(double power){
-            servo.setPower(power);
-            servo2.setPower(-power);
+        public void runServo(){
+            servo.setPower(-1);
+            servo2.setPower(1);
+        }
+        public void stopServo(){
+            servo.setPower(0);
+            servo2.setPower(0);
         }
 }

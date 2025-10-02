@@ -9,14 +9,12 @@ import java.util.function.DoubleSupplier;
 
 public class ServoCommand extends CommandBase {
     private ServoSubsystem subsystem;
-    private DoubleSupplier power;
-    public ServoCommand (ServoSubsystem subsystem, DoubleSupplier power){
+    public ServoCommand (ServoSubsystem subsystem ){
         this.subsystem = subsystem;
-        this.power = power;
 addRequirements(subsystem);
     }
     @Override
     public void execute() {
-        subsystem.runServo(power.getAsDouble());
+        subsystem.runServo();
     }
 }
