@@ -1,5 +1,10 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+
+import static org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity.TAG;
+
+import android.util.Log;
+
 import com.pedropathing.control.FilteredPIDFCoefficients;
 import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.follower.Follower;
@@ -97,11 +102,12 @@ public class Constants extends FollowerConstants {
 
     //Add custom localizers or drivetrains here
     public static Follower createFollower(HardwareMap hardwareMap) {
+        Log.e(TAG, "createFollower started");
                 FollowerBuilder fb = new FollowerBuilder(followerConstants, hardwareMap)
                 .mecanumDrivetrain(driveConstants)
-                .pathConstraints(pathConstraints);
-                fb.setLocalizer(new OTOSLocalizer(hardwareMap, sparkConstants));
-
+                .pathConstraints(pathConstraints)
+                .setLocalizer(new OTOSLocalizer(hardwareMap, sparkConstants));
+        Log.e(TAG, "createFollower made and ready to return");
                return fb.build();
 
     }

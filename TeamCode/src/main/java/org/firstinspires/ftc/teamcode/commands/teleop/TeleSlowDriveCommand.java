@@ -25,7 +25,7 @@ public class TeleSlowDriveCommand extends CommandBase {
     }
     @Override
     public void execute(){
-        autoDriveSubsystem.setTeleOpMovementVectors(forward.getAsDouble() * speed1, -strafe.getAsDouble() * speed1, -turn.getAsDouble() * speed1, fieldCentric);
+        autoDriveSubsystem.setTeleOpDrive(forward.getAsDouble() * speed1, -strafe.getAsDouble() * speed1, -turn.getAsDouble() * speed1, fieldCentric);
         autoDriveSubsystem.update();
     }
 }

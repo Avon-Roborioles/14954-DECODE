@@ -2,13 +2,14 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import static java.lang.Math.PI;
 
+import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.pedropathing.geometry.*;
 import com.pedropathing.paths.*;
 import com.pedropathing.follower.Follower;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.qualcomm.robotcore.eventloop.opmode.OpModeRegistrar;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Storage;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.teamcode.commands.teleop.TeleSlowDriveCommand;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 @TeleOp(name = "TeleOpBase")
+
 public class TeleOpBase extends Storage {
     private GamepadEx driverOp;
     private Follower follower;
@@ -27,12 +29,16 @@ public class TeleOpBase extends Storage {
     @Override
     public void initialize() {
         driverOp = new GamepadEx(gamepad1);
-
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(memory.lastPose);
         follower.setPose(memory.lastPose);
         follower.startTeleopDrive();
 
+        telemetry.addData("Starting teleop", "");
+        follower.startTeleopDrive();
+        telemetry.addData("Started teleop", "");
+        double heading = memory.lastPose.getHeading();
+        updateTelemetry(telemetry);
 
         autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry, memory.lastPose);
         initPoseSelect(driverOp);
@@ -53,8 +59,10 @@ public class TeleOpBase extends Storage {
         driverOp.getGamepadButton(GamepadKeys.Button.X)
                 .whileHeld(new TelePathDriveCommand(autoDriveSubsystem, follower.getPose()));
 
-        follower.startTeleopDrive();
+        CommandScheduler.getInstance().schedule(new WaitCommand(10));
+
     }
+
         @Override
         public void runOpMode () throws InterruptedException {
             initialize();
@@ -67,10 +75,9 @@ public class TeleOpBase extends Storage {
 
             // run the scheduler
             while (!isStopRequested() && opModeIsActive()) {
-            scorePath = new Path(new BezierCurve(follower.getPose(),  new Pose(-57 ,-54 , PI/4 )));
                 run();
             }
             reset();
-        }
-    }
+       }
 
+}
