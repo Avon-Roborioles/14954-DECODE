@@ -2,11 +2,11 @@ package org.firstinspires.ftc.teamcode.Commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
-import org.firstinspires.ftc.teamcode.Subsystems.ServoSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
 
-public class StopServoCommand extends CommandBase {
-    private ServoSubsystem subsystem;
-    public StopServoCommand (ServoSubsystem subsystem ){
+public class IntakeStopServoCommand extends CommandBase {
+    private IntakeServoSubsystem subsystem;
+    public IntakeStopServoCommand(IntakeServoSubsystem subsystem ){
         this.subsystem = subsystem;
         addRequirements(subsystem);
 }

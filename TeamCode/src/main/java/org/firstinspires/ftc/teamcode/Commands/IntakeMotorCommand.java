@@ -3,17 +3,17 @@ package org.firstinspires.ftc.teamcode.Commands;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 
-import org.firstinspires.ftc.teamcode.Subsystems.MotorSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.IntakeMotorSubsystem;
 
 import java.util.function.DoubleSupplier;
 
-public class MotorCommand extends CommandBase {
-    private MotorSubsystem driveSubsystem;
+public class IntakeMotorCommand extends CommandBase {
+    private IntakeMotorSubsystem driveSubsystem;
     private DoubleSupplier strafe, forward, turn, heading;
     private MecanumDrive drive;
     private boolean fieldCentric;
 
-    public MotorCommand(MotorSubsystem driveSubsystem, DoubleSupplier strafe, DoubleSupplier forward, DoubleSupplier turn){
+    public IntakeMotorCommand(IntakeMotorSubsystem driveSubsystem, DoubleSupplier strafe, DoubleSupplier forward, DoubleSupplier turn){
         this.driveSubsystem = driveSubsystem;
         this.strafe = strafe;
         this.forward = forward;
