@@ -33,6 +33,7 @@ import java.util.List;
         private DriveCommand driveCommand;
         private LimelightCommand limelightCommand;
         private LimeLightSubsystem limelightSubsystem;
+        private LLResult result;
 
         @Override
         public void runOpMode() throws InterruptedException {
@@ -58,7 +59,7 @@ import java.util.List;
                     () -> 0.0,                         // heading (put IMU yaw here later)
                     false                              // field-centric off for now
             );
-            limelightCommand = new LimelightCommand(limelightSubsystem);
+            limelightCommand = new LimelightCommand(limelightSubsystem, result);
 
             telemetry.setMsTransmissionInterval(11);
             servo.setPosition(0.5);

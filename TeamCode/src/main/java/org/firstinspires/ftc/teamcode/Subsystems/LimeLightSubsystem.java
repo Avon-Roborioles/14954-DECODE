@@ -67,6 +67,8 @@ public class LimeLightSubsystem extends SubsystemBase {
 
     public void getResult(){
         result = limelight.getLatestResult();
+
+
     }
     public void setPipeline(int pipeline){
         limelight.stop();

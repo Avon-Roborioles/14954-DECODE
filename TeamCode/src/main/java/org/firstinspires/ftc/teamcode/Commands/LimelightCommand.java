@@ -9,13 +9,14 @@ public class LimelightCommand extends CommandBase {
     private LimeLightSubsystem limelightSubsystem;
     private LLResult lastResult;
 
-    public LimelightCommand(LimeLightSubsystem limelightSubsystem){
+    public LimelightCommand(LimeLightSubsystem limelightSubsystem, LLResult lastResult){
         this.limelightSubsystem = limelightSubsystem;
+        this.lastResult = lastResult;
         addRequirements(limelightSubsystem);
     }
     @Override
     public void execute(){
-        lastResult = limelightSubsystem.readAprilTag();
+        limelightSubsystem.getResult();
         limelightSubsystem.getLimelightTelemetry();
         limelightSubsystem.setPipeline(4);
     }
