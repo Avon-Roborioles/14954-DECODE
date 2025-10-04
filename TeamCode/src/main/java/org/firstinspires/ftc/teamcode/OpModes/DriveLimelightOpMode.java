@@ -26,6 +26,7 @@ import java.util.List;
         private Limelight3A limelight;
         private Servo servo;
         private double servoPos = 0.5;
+        public static int tag;
 
 
 
@@ -63,11 +64,11 @@ import java.util.List;
 
             telemetry.setMsTransmissionInterval(11);
             servo.setPosition(0.5);
-//            limelight.pipelineSwitch(4);
+           limelight.pipelineSwitch(4);
             limelight.start();
 
             // Schedule the drive command
-            CommandScheduler.getInstance().schedule(driveCommand, limelightCommand);
+            CommandScheduler.getInstance().schedule(driveCommand);
 
             waitForStart();
 
@@ -91,7 +92,22 @@ import java.util.List;
                     for (LLResultTypes.FiducialResult fr : fiducialResults) {
                         telemetry.addData("Fiducial", "ID: %d, Family: %s, X: %.2f, Y: %.2f", fr.getFiducialId(), fr.getFamily(), fr.getTargetXDegrees(), fr.getTargetYDegrees());
                     }
+                    for (LLResultTypes.FiducialResult fr : fiducialResults) {
+                        if (fr.getFiducialId() == 21) {
+                            tag = 21;
+                            limelight.pipelineSwitch(3);
+                        } else if (fr.getFiducialId() == 22) {
+                            tag = 22;
+                            limelight.pipelineSwitch(3);
+                        } else if (fr.getFiducialId() == 23) {
+                            tag = 23;
+                            limelight.pipelineSwitch(3);
+                        }
+                    }
+                    telemetry.addData("tag", tag);
                     telemetry.update();
+
+
 
                     if (result.getTx() != 0) {
                         servoPos -= 0.00006 * result.getTx();
@@ -105,6 +121,14 @@ import java.util.List;
                 }
                 servo.setPosition(servoPos);
             }
+            LLResult result = limelight.getLatestResult();
+            List<LLResultTypes.FiducialResult> fiducialResults = result.getFiducialResults();
+
+
+        }
+
+        int getTag(){
+            return tag;
         }
 
         double getDistance() {

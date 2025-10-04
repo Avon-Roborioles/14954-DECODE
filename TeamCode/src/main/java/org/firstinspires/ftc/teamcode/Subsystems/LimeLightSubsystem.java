@@ -31,6 +31,9 @@ public class LimeLightSubsystem extends SubsystemBase {
         return result;
 
     }
+    public void start(){
+        limelight.start();
+    }
 
     public void getLimelightTelemetry() {
         readAprilTag();
@@ -65,8 +68,9 @@ public class LimeLightSubsystem extends SubsystemBase {
     }
 
 
-    public void getResult(){
+    public LLResult getResult(){
         result = limelight.getLatestResult();
+        return limelight.getLatestResult();
 
 
     }

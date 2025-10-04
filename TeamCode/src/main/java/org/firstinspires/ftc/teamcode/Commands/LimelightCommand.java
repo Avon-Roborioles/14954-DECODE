@@ -16,7 +16,7 @@ public class LimelightCommand extends CommandBase {
     }
     @Override
     public void execute(){
-        limelightSubsystem.getResult();
+
         limelightSubsystem.getLimelightTelemetry();
         limelightSubsystem.setPipeline(4);
     }
