@@ -70,6 +70,8 @@ import java.util.List;
             // Schedule the drive command
             CommandScheduler.getInstance().schedule(driveCommand);
 
+
+
             waitForStart();
 
             while (opModeIsActive()) {
