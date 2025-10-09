@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.button.Button;
+import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -29,7 +31,7 @@ public class BotOpMode extends LinearOpMode {
     private IntakeMotorCommand motorCommand;
     private IntakeServoCommand servoCommand;
     private IntakeStopServoCommand stopServoCommand;
-
+    GamepadEx driverop = new GamepadEx(gamepad1);
 
 
     @Override
@@ -66,6 +68,10 @@ public class BotOpMode extends LinearOpMode {
 
         CommandScheduler.getInstance().schedule(motorCommand);
 
+        Button button1 = new GamepadButton(
+                driverop, GamepadKeys.Button.A
+        );
+
         waitForStart();
 
         shooterAngle.setDirection(Servo.Direction.REVERSE);
@@ -76,7 +82,9 @@ public class BotOpMode extends LinearOpMode {
         while (opModeIsActive()) {
 
             CommandScheduler.getInstance().run();
-            
+
+            button1.whenHeld(new IntakeServoCommand(servoSubsystem));
+            button1.whenReleased(new IntakeServoCommand(servoSubsystem));
 
             newShooterPower = shooterPower;
 
