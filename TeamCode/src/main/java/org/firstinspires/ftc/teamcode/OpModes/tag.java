@@ -12,6 +12,17 @@ public class tag extends LinearOpMode {
     waitForStart();
     while (opModeIsActive()) {
         telemetry.addData("tag#",tag.getTag());
+
+        if (tag.getTag() == 21){
+            telemetry.addData(" tag;", "g,p,p");
+        } else if (tag.getTag() == 22) {
+            telemetry.addData(" tag;", "p,g,p");
+
+        } else if (tag.getTag() == 23) {
+
+            telemetry.addData(" tag;", "p,p,g");
+        }
+
         telemetry.update();
     }
     }
