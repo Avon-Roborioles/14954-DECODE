@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
@@ -13,9 +12,9 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Commands.IntakeMotorCommand;
-import org.firstinspires.ftc.teamcode.Commands.IntakeServoCommand;
-import org.firstinspires.ftc.teamcode.Commands.IntakeStopServoCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeMotorCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeServoCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeMotorSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
 @TeleOp

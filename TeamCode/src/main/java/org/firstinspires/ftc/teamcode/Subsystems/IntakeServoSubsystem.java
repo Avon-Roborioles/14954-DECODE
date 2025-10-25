@@ -15,6 +15,10 @@ public class IntakeServoSubsystem extends SubsystemBase{
             servo.setPower(-1);
             servo2.setPower(1);
         }
+        public void inverseRun(){
+            servo.setPower(1);
+            servo2.setPower(-1);
+        }
         public void stopServo(){
             servo.setPower(0);
             servo2.setPower(0);

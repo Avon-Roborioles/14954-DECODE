@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Commands;
+package org.firstinspires.ftc.teamcode.commands.teleop.intake;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
