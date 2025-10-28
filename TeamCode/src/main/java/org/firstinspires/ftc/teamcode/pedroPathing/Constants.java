@@ -28,13 +28,14 @@ public class Constants extends FollowerConstants {
     private OTOSLocalizer sparkfun;
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(16.2)
-            .forwardZeroPowerAcceleration(-25.9346931313679598)
-            .lateralZeroPowerAcceleration(-67.342491844080064)
+            .forwardZeroPowerAcceleration(-54.97466489724176)
+            .lateralZeroPowerAcceleration(-40.24052679589998)
             .translationalPIDFCoefficients(new PIDFCoefficients(
                     0.03,
                     0,
                     0,
                     0.015
+                    //test was p = 0.01 d = 0.02
             ))
             .translationalPIDFSwitch(4)
             .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(
@@ -79,7 +80,9 @@ public class Constants extends FollowerConstants {
             .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD);
+            .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .xVelocity(62.0852492925689)
+            .yVelocity(54.100817582738685);
     /**
      These are the PathConstraints in order:
      tValueConstraint, velocityConstraint, translationalConstraint, headingConstraint, timeoutConstraint,
@@ -101,7 +104,9 @@ public class Constants extends FollowerConstants {
             .linearUnit(DistanceUnit.INCH)
             .offset(new SparkFunOTOS.Pose2D(0,0,0))
             .angleUnit(AngleUnit.RADIANS)
-            .linearScalar(1.07519939733);
+            .linearScalar(1.07519939733)
+            .angularScalar(0.9787);
+
 
     //Add custom localizers or drivetrains here
     public static Follower createFollower(HardwareMap hardwareMap) {
