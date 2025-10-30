@@ -7,6 +7,7 @@ import static java.lang.Math.PI;
 
 import android.util.Log;
 
+import com.pedropathing.VectorCalculator;
 import com.pedropathing.control.FilteredPIDFCoefficients;
 import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.follower.Follower;
@@ -30,12 +31,12 @@ public class Constants extends FollowerConstants {
             .mass(16.2)
             .forwardZeroPowerAcceleration(-54.97466489724176)
             .lateralZeroPowerAcceleration(-40.24052679589998)
+            .useSecondaryDrivePIDF(false)
             .translationalPIDFCoefficients(new PIDFCoefficients(
-                    0.03,
+                    0.2,
                     0,
-                    0,
+                    0.02,
                     0.015
-                    //test was p = 0.01 d = 0.02
             ))
             .translationalPIDFSwitch(4)
             .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(
