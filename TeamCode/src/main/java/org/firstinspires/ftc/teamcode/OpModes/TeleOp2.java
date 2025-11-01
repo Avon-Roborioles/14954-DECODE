@@ -16,8 +16,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.teamcode.Subsystems.FlipperSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
+import org.firstinspires.ftc.teamcode.commands.flipper.FlipItDown;
+import org.firstinspires.ftc.teamcode.commands.flipper.FlipItUp;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.ToggleBackIntakeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.ToggleBackIntakeCommand2;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.ToggleForwardIntakeCommand;
@@ -51,6 +55,9 @@ public class TeleOp2 extends OpMode {
     private CRServo intakeServo1;
     private CRServo intakeServo2;
     private IntakeServoSubsystem intakeSubsystem;
+    //Flipper
+    private FlipperSubsystem flipper;
+    private Servo flipperServo;
 
 
     @Override
@@ -76,6 +83,8 @@ public class TeleOp2 extends OpMode {
         intakeSubsystem = new IntakeServoSubsystem(intakeServo1, intakeServo2);
         intakeIsRunning = false;
         launchSubsystem = new LaunchSubsystem(launchMotor, launchServo, turnServo);
+        //flipper
+        flipperServo = hardwareMap.get(Servo.class, "flipper");
     }
     @Override
     public void loop() {
@@ -99,6 +108,8 @@ public class TeleOp2 extends OpMode {
             // toggles between 0.8/0.4
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
                 new ToggleLaunchPower(launchSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
+                .toggleWhenPressed(new FlipItUp(flipper), new FlipItDown(flipper));
         if (!automatedDrive) {
             //Make the last parameter false for field-centric
             //In case the drivers want to use a "slowMode" you can scale the vectors
