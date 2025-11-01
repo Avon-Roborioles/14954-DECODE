@@ -40,7 +40,6 @@ public class TeleOp2 extends OpMode {
     public boolean intakeIsRunning;
 
     // launcher variables
-    private double launchPower;
     private DcMotor launchMotor;
     private Servo launchServo;
     private Servo turnServo;
@@ -68,7 +67,6 @@ public class TeleOp2 extends OpMode {
         launchServo = hardwareMap.get(Servo.class, "launchServo");
         launchMotor = hardwareMap.get(DcMotor.class, "launchMotor");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
-        launchPower = launchSubsystem.getPower();
         // intake
         intakeServo1 = hardwareMap.get(CRServo.class, "intakeServo1");
         intakeServo2 = hardwareMap.get(CRServo.class, "intakeServo2");
@@ -87,7 +85,9 @@ public class TeleOp2 extends OpMode {
         driverOp.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new ToggleBackIntakeCommand(intakeSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
-                new LaunchCommand(launchSubsystem, launchPower));
+                new LaunchCommand(launchSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
+                new LaunchCommand(launchSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
                 new DecreaseLaunchPower(launchSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(

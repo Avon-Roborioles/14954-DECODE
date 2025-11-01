@@ -9,6 +9,7 @@ public class LaunchCommand extends CommandBase {
     private double power;
     public LaunchCommand(LaunchSubsystem launchSubsystem){
         this.launchSubsystem = launchSubsystem;
+        power = launchSubsystem.getPower();
         addRequirements(launchSubsystem);
     }
     public LaunchCommand(LaunchSubsystem launchSubsystem, double power){
