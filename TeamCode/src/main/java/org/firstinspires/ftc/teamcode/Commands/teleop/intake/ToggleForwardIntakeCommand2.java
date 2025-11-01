@@ -1,13 +1,16 @@
 package org.firstinspires.ftc.teamcode.commands.teleop.intake;
 
 import com.arcrobotics.ftclib.command.CommandBase;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
 
-public class ToggleBackIntakeCommand extends CommandBase {
+public class ToggleForwardIntakeCommand2 extends CommandBase {
     private IntakeServoSubsystem subsystem;
     private boolean isOn;
     public boolean intakeIsRunning;
-    public ToggleBackIntakeCommand(IntakeServoSubsystem subsystem ){
+    private Telemetry telemetry;
+    public ToggleForwardIntakeCommand2(IntakeServoSubsystem subsystem ){
         this.subsystem = subsystem;
         isOn = intakeIsRunning;
         addRequirements(subsystem);
@@ -15,7 +18,7 @@ public class ToggleBackIntakeCommand extends CommandBase {
     @Override
     public void execute() {
         if (!isOn){
-            subsystem.inverseRun1();
+            subsystem.runServo1();
             isOn = true;
             intakeIsRunning = true;
         } else {

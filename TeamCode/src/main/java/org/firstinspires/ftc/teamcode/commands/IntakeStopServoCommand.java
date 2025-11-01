@@ -12,6 +12,7 @@ public class IntakeStopServoCommand extends CommandBase {
 }
     @Override
         public void execute() {
-            subsystem.stopServo();
+            subsystem.stopServo1();
+            subsystem.stopServo2();
         }
 }

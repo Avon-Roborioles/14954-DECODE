@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.commands.teleop.intake;
 
 import com.arcrobotics.ftclib.command.CommandBase;
+
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
 
-public class ToggleBackIntakeCommand extends CommandBase {
+public class ToggleBackIntakeCommand2 extends CommandBase {
     private IntakeServoSubsystem subsystem;
     private boolean isOn;
     public boolean intakeIsRunning;
-    public ToggleBackIntakeCommand(IntakeServoSubsystem subsystem ){
+    public ToggleBackIntakeCommand2(IntakeServoSubsystem subsystem ){
         this.subsystem = subsystem;
         isOn = intakeIsRunning;
         addRequirements(subsystem);
@@ -15,11 +16,11 @@ public class ToggleBackIntakeCommand extends CommandBase {
     @Override
     public void execute() {
         if (!isOn){
-            subsystem.inverseRun1();
+            subsystem.inverseRun2();
             isOn = true;
             intakeIsRunning = true;
         } else {
-            subsystem.stopServo1();
+            subsystem.stopServo2();
             isOn = false;
             intakeIsRunning = false;
         }

@@ -19,10 +19,13 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.ToggleBackIntakeCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.ToggleBackIntakeCommand2;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.ToggleForwardIntakeCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.ToggleForwardIntakeCommand2;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.DecreaseLaunchPower;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.IncreaseLaunchPower;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.LaunchCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.launch.ToggleLaunchPower;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 import java.util.function.Supplier;
@@ -80,18 +83,22 @@ public class TeleOp2 extends OpMode {
         follower.update();
         telemetryM.update();
         // button commands
+            // intake toggles => side one
         driverOp.getGamepadButton(GamepadKeys.Button.A).whenPressed(
                 new ToggleForwardIntakeCommand(intakeSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                 new ToggleBackIntakeCommand(intakeSubsystem));
+        //                  => side two
+        driverOp.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                new ToggleForwardIntakeCommand2(intakeSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                new ToggleBackIntakeCommand2(intakeSubsystem));
+            // launch
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
                 new LaunchCommand(launchSubsystem));
+            // toggles between 0.8/0.4
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
-                new LaunchCommand(launchSubsystem));
-        driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN).whenPressed(
-                new DecreaseLaunchPower(launchSubsystem));
-        driverOp.getGamepadButton(GamepadKeys.Button.DPAD_UP).whenPressed(
-                new IncreaseLaunchPower(launchSubsystem));
+                new ToggleLaunchPower(launchSubsystem));
         if (!automatedDrive) {
             //Make the last parameter false for field-centric
             //In case the drivers want to use a "slowMode" you can scale the vectors

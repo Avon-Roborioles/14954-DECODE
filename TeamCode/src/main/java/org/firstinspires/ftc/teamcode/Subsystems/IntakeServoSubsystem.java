@@ -11,16 +11,22 @@ public class IntakeServoSubsystem extends SubsystemBase{
             this.servo = servo;
             this.servo2 = servo2;
         }
-        public void runServo(){
+        public void runServo1(){
             servo.setPower(-1);
-            servo2.setPower(1);
         }
-        public void inverseRun(){
+        public void runServo2(){
             servo.setPower(1);
-            servo2.setPower(-1);
         }
-        public void stopServo(){
+        public void inverseRun1(){
+            servo.setPower(1);
+        }
+        public void inverseRun2(){
+            servo.setPower(-1);
+        }
+        public void stopServo1(){
             servo.setPower(0);
-            servo2.setPower(0);
+        }
+        public void stopServo2(){
+            servo.setPower(0);
         }
 }
