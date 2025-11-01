@@ -29,6 +29,7 @@ import org.firstinspires.ftc.teamcode.commands.teleop.intake.ToggleForwardIntake
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.DecreaseLaunchPower;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.IncreaseLaunchPower;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.LaunchCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.launch.ToggleLaunchCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.ToggleLaunchPower;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
@@ -48,7 +49,7 @@ public class TeleOp2 extends OpMode {
 
     // launcher variables
     private DcMotor launchMotor;
-    private Servo launchServo;
+    private CRServo launchServo;
     private Servo turnServo;
     private LaunchSubsystem launchSubsystem;
     // intake variables
@@ -74,7 +75,7 @@ public class TeleOp2 extends OpMode {
                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
                 .build();
         // launcher
-        launchServo = hardwareMap.get(Servo.class, "launchServo");
+        launchServo = hardwareMap.get(CRServo.class, "launchServo");
         launchMotor = hardwareMap.get(DcMotor.class, "launchMotor");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
@@ -104,7 +105,7 @@ public class TeleOp2 extends OpMode {
                 new ToggleBackIntakeCommand2(intakeSubsystem));
             // launch
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER).whenPressed(
-                new LaunchCommand(launchSubsystem));
+                new ToggleLaunchCommand(launchSubsystem));
             // toggles between 0.8/0.4
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER).whenPressed(
                 new ToggleLaunchPower(launchSubsystem));
