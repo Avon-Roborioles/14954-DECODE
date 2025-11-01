@@ -27,6 +27,7 @@ public class LaunchSubsystem extends SubsystemBase {
     }
     public void stopMotor(){
         launchMotor.setPower(0);
+        launchServo.setPower(0);
     }
     public void setAngle(double pos){
         launchServo.setPower(pos);

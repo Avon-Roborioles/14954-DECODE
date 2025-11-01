@@ -7,7 +7,8 @@ public class FlipperSubsystem extends SubsystemBase {
     private Servo servo;
 
     public FlipperSubsystem(Servo servo) {
-        this.servo = servo;
+
+    this.servo = servo;
     }
 
     public void FlipperDown(){
