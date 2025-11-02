@@ -81,18 +81,18 @@ public class TeleOp2 extends CommandOpMode {
 //                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
 //                .build();
 //        // launcher
-        launchServo = hardwareMap.get(CRServo.class, "launchServo");
-        launchMotor = hardwareMap.get(DcMotor.class, "launchMotor");
-        turnServo = hardwareMap.get(Servo.class, "turnServo");
+//        launchServo = hardwareMap.get(CRServo.class, "launchServo");
+//        launchMotor = hardwareMap.get(DcMotor.class, "launchMotor");
+//        turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
         intakeServo1 = hardwareMap.get(CRServo.class, "intakeServo1");
         intakeServo2 = hardwareMap.get(CRServo.class, "intakeServo2");
         intakeSubsystem = new IntakeServoSubsystem(intakeServo1, intakeServo2);
         intakeIsRunning = false;
-        launchSubsystem = new LaunchSubsystem(launchMotor, launchServo, turnServo);
+//        launchSubsystem = new LaunchSubsystem(launchMotor, launchServo, turnServo);
         //flipper
-        flipperServo = hardwareMap.get(Servo.class, "flipper");
-        flipper = new FlipperSubsystem(flipperServo);
+//        flipperServo = hardwareMap.get(Servo.class, "flipper");
+//        flipper = new FlipperSubsystem(flipperServo);
 
 
         telemetry.addData("init complete", "init done");
@@ -121,16 +121,16 @@ public class TeleOp2 extends CommandOpMode {
                             new ToggleForwardIntakeCommand(intakeSubsystem));
             driverOp.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
                     new ToggleBackIntakeCommand(intakeSubsystem));
-            //                  => side two
-            driverOp.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                    new ToggleForwardIntakeCommand2(intakeSubsystem));
-            driverOp.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                    new ToggleBackIntakeCommand2(intakeSubsystem));
-            // launch
+//            //                  => side two
+//            driverOp.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+//                    new ToggleForwardIntakeCommand2(intakeSubsystem));
+//            driverOp.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+//                    new ToggleBackIntakeCommand2(intakeSubsystem));
+//            // launch
             driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                             .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
-            driverOp.getGamepadButton(GamepadKeys.Button.BACK)
-                    .toggleWhenPressed(new FlipItUp(flipper), new FlipItDown(flipper));
+//            driverOp.getGamepadButton(GamepadKeys.Button.BACK)
+//                    .toggleWhenPressed(new FlipItUp(flipper), new FlipItDown(flipper));
 //        if (!automatedDrive) {
             //Make the last parameter false for field-centric
             //In case the drivers want to use a "slowMode" you can scale the vectors
