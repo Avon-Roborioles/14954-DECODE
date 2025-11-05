@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.bylazar.configurables.annotations.Configurable;
@@ -23,8 +24,12 @@ import com.qualcomm.robotcore.robocol.Command;
 import org.firstinspires.ftc.teamcode.Subsystems.FlipperSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
+import org.firstinspires.ftc.teamcode.commands.IntakeServoFront;
 import org.firstinspires.ftc.teamcode.commands.flipper.FlipItDown;
 import org.firstinspires.ftc.teamcode.commands.flipper.FlipItUp;
+import org.firstinspires.ftc.teamcode.commands.teleop.BToggleIntakeDirection;
+import org.firstinspires.ftc.teamcode.commands.teleop.FToggleIntakeDirection;
+import org.firstinspires.ftc.teamcode.commands.teleop.IntakeServoBack;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.ToggleBackIntakeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.ToggleBackIntakeCommand2;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.ToggleForwardIntakeCommand;
@@ -57,8 +62,10 @@ public class TeleOp2 extends CommandOpMode {
     private Servo turnServo;
     private LaunchSubsystem launchSubsystem;
     // intake variables
-    private CRServo intakeServo1;
-    private CRServo intakeServo2;
+    private CRServo intakeServoF1;
+    private CRServo intakeServoF2;
+    private CRServo intakeServoB1;
+    private CRServo intakeServoB2;
     private IntakeServoSubsystem intakeSubsystem;
     //Flipper
 
@@ -85,9 +92,11 @@ public class TeleOp2 extends CommandOpMode {
 //        launchMotor = hardwareMap.get(DcMotor.class, "launchMotor");
 //        turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
-        intakeServo1 = hardwareMap.get(CRServo.class, "intakeServo1");
-        intakeServo2 = hardwareMap.get(CRServo.class, "intakeServo2");
-        intakeSubsystem = new IntakeServoSubsystem(intakeServo1, intakeServo2);
+        intakeServoF1 = hardwareMap.get(CRServo.class, "intakeServoF1");
+        intakeServoF2 = hardwareMap.get(CRServo.class, "intakeServoF2");
+        intakeServoB1 = hardwareMap.get(CRServo.class, "intakeServoB1");
+        intakeServoB2 = hardwareMap.get(CRServo.class, "intakeServoB2");
+        intakeSubsystem = new IntakeServoSubsystem(intakeServoF1, intakeServoF2, intakeServoB1, intakeServoB2);
         intakeIsRunning = false;
 //        launchSubsystem = new LaunchSubsystem(launchMotor, launchServo, turnServo);
         //flipper
@@ -117,16 +126,15 @@ public class TeleOp2 extends CommandOpMode {
 
 
             driverOp.getGamepadButton(GamepadKeys.Button.A)
-                    .whenPressed(
-                            new ToggleForwardIntakeCommand(intakeSubsystem));
+                    .whenPressed(new FToggleIntakeDirection(intakeSubsystem));
             driverOp.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                    new ToggleBackIntakeCommand(intakeSubsystem));
-//            //                  => side two
-//            driverOp.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-//                    new ToggleForwardIntakeCommand2(intakeSubsystem));
-//            driverOp.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-//                    new ToggleBackIntakeCommand2(intakeSubsystem));
-//            // launch
+                    new BToggleIntakeDirection(intakeSubsystem));
+            //                  => side two
+            driverOp.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                    new IntakeServoFront(intakeSubsystem));
+            driverOp.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                    new IntakeServoBack(intakeSubsystem));
+            // launch
             driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                             .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
 //            driverOp.getGamepadButton(GamepadKeys.Button.BACK)
