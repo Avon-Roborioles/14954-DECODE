@@ -53,7 +53,7 @@ public class BotOpMode extends LinearOpMode {
         Motor backRight = new Motor(hardwareMap, "backRight");
         motorSubsystem = new IntakeMotorSubsystem(frontLeft,frontRight,backLeft,backRight);
 
-        servoSubsystem = new IntakeServoSubsystem(hardwareMap.get(CRServo.class, "servo"), hardwareMap.get(CRServo.class, "servo2"));
+//        servoSubsystem = new IntakeServoSubsystem(hardwareMap.get(CRServo.class, "servo"), hardwareMap.get(CRServo.class, "servo2"));
 
         motorCommand = new IntakeMotorCommand(
                 motorSubsystem,
