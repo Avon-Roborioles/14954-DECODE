@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 
 @TeleOp
 public class testOpMode extends LinearOpMode {
@@ -20,10 +21,13 @@ public class testOpMode extends LinearOpMode {
     private CRServo backPass;
     private Servo flipper;
     private DcMotor shooterMotor;
-    private CRServo shooterServo;
     private SparkFunOTOS spark;
     private DriveSubsystem driveSubsystem;
     private org.firstinspires.ftc.teamcode.Commands.DriveCommand driveCommand;
+
+    private Servo launchAngle; // 0 to .4
+    private double anglePos;
+    private LaunchSubsystem launchSubsystem;
 
 
     @Override
@@ -37,10 +41,11 @@ public class testOpMode extends LinearOpMode {
         Motor backRight = new Motor(hardwareMap, "backRight");
         backPass = hardwareMap.get(CRServo.class, "backPass");
         shooterMotor = hardwareMap.get(DcMotor.class, "launcher");
-        shooterServo = hardwareMap.get(CRServo.class, "launchServo");
         spark = hardwareMap.get(SparkFunOTOS.class,"sparkfun");
-
-
+        launchAngle = hardwareMap.get(Servo.class, "launchAngle");
+        anglePos = 0.05;
+        launchSubsystem = new LaunchSubsystem(shooterMotor, launchAngle);
+        launchSubsystem.setLaunchAngle(.05);
 
         driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
 
@@ -89,13 +94,19 @@ public class testOpMode extends LinearOpMode {
 
             if (gamepad1.x){
                 shooterMotor.setPower(0.7);
-                shooterServo.setPower(1);
             } else {
                 shooterMotor.setPower(0);
-                shooterServo.setPower(0);
             }
-
-
+            // test launch angle servo
+            if (gamepad2.dpad_down){
+                launchAngle.setPosition(launchAngle.getPosition()-.05);
+                telemetry.addData("HoodServoPos:", launchAngle.getPosition());
+                telemetry.update();
+            } else if (gamepad2.dpad_up){
+                launchAngle.setPosition(launchAngle.getPosition()+.05);
+                telemetry.addData("HoodServoPos:", launchAngle.getPosition());
+                telemetry.update();
+            }
         }
 
 

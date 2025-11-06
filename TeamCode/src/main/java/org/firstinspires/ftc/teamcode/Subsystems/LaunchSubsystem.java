@@ -7,30 +7,33 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class LaunchSubsystem extends SubsystemBase {
     private DcMotor launchMotor;
-    private CRServo launchServo;
+    private Servo launchAngle;
+    private double anglePos;
     private Servo turnServo;
     private double launchPower;
 
-    public LaunchSubsystem(DcMotor launchMotor, CRServo launchServo, Servo turnServo){
+    public LaunchSubsystem(DcMotor launchMotor, Servo launchAngle, Servo turnServo){
         this.launchMotor = launchMotor;
-        this.launchServo = launchServo;
+        this.launchAngle = launchAngle;
         this.turnServo = turnServo;
         launchPower = 0.8;
     }
+    public LaunchSubsystem(DcMotor launchMotor, Servo launchAngle){
+        this.launchMotor = launchMotor;
+        this.launchAngle = launchAngle;
+        launchPower = 0.8;
+    }
     public void setLaunchPower(double newPower){
-        newPower = launchPower;
+        launchPower = newPower;
+    }
+    public void setLaunchAngle(double pos){
+        anglePos = pos;
     }
     public void runMotor(){
         launchMotor.setPower(launchPower);
-        launchServo.setPower(1);
-
     }
     public void stopMotor(){
         launchMotor.setPower(0);
-        launchServo.setPower(0);
-    }
-    public void setAngle(double pos){
-        launchServo.setPower(pos);
     }
     public void setTurnServo(double pos){
         turnServo.setPosition(pos);

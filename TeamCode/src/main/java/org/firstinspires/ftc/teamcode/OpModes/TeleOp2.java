@@ -58,7 +58,7 @@ public class TeleOp2 extends CommandOpMode {
 
     // launcher variables
     private DcMotor launchMotor;
-    private CRServo launchServo;
+    private Servo launchAngle;
     private Servo turnServo;
     private LaunchSubsystem launchSubsystem;
     // intake variables
@@ -87,7 +87,7 @@ public class TeleOp2 extends CommandOpMode {
                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
                 .build();
         // launcher
-        launchServo = hardwareMap.get(CRServo.class, "launchServo");
+        launchAngle = hardwareMap.get(Servo.class, "launchAngle");
         launchMotor = hardwareMap.get(DcMotor.class, "launchMotor");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
@@ -97,7 +97,7 @@ public class TeleOp2 extends CommandOpMode {
         intakeServoB2 = hardwareMap.get(CRServo.class, "intakeServoB2");
         intakeSubsystem = new IntakeServoSubsystem(intakeServoF1, intakeServoF2, intakeServoB1, intakeServoB2);
         intakeIsRunning = false;
-        launchSubsystem = new LaunchSubsystem(launchMotor, launchServo, turnServo);
+        launchSubsystem = new LaunchSubsystem(launchMotor, launchAngle, turnServo);
         //flipper
         flipperServo = hardwareMap.get(Servo.class, "flipper");
         flipper = new FlipperSubsystem(flipperServo);
