@@ -18,11 +18,12 @@ public class ToggleForwardIntakeCommand2 extends CommandBase {
     @Override
     public void execute() {
         if (!isOn){
-            subsystem.runServo1();
+            subsystem.runServoF();
+            subsystem.runServoB();
             isOn = true;
             intakeIsRunning = true;
         } else {
-            subsystem.stopServo1();
+            subsystem.stopAll();
             isOn = false;
             intakeIsRunning = false;
         }
