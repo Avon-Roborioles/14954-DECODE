@@ -73,24 +73,23 @@ public class TeleOp2 extends CommandOpMode {
     private FlipperSubsystem flipper;
 
 
-
     @Override
     public void initialize() {
         // drive
         driverOp = new GamepadEx(gamepad1);
         operator = new GamepadEx(gamepad2);
-//        follower = Constants.createFollower(hardwareMap);
-//        follower.setStartingPose(startingPose == null ? new Pose() : startingPose);
-//        follower.update();
-//        telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
-//        pathChain = () -> follower.pathBuilder() //Lazy Curve Generation
-//                .addPath(new Path(new BezierLine(follower::getPose, new Pose(45, 98))))
-//                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
-//                .build();
-//        // launcher
-//        launchServo = hardwareMap.get(CRServo.class, "launchServo");
-//        launchMotor = hardwareMap.get(DcMotor.class, "launchMotor");
-//        turnServo = hardwareMap.get(Servo.class, "turnServo");
+        follower = Constants.createFollower(hardwareMap);
+        follower.setStartingPose(startingPose == null ? new Pose() : startingPose);
+        follower.update();
+        telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
+        pathChain = () -> follower.pathBuilder() //Lazy Curve Generation
+                .addPath(new Path(new BezierLine(follower::getPose, new Pose(45, 98))))
+                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
+                .build();
+        // launcher
+        launchServo = hardwareMap.get(CRServo.class, "launchServo");
+        launchMotor = hardwareMap.get(DcMotor.class, "launchMotor");
+        turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
         intakeServoF1 = hardwareMap.get(CRServo.class, "intakeServoF1");
         intakeServoF2 = hardwareMap.get(CRServo.class, "intakeServoF2");
@@ -98,85 +97,73 @@ public class TeleOp2 extends CommandOpMode {
         intakeServoB2 = hardwareMap.get(CRServo.class, "intakeServoB2");
         intakeSubsystem = new IntakeServoSubsystem(intakeServoF1, intakeServoF2, intakeServoB1, intakeServoB2);
         intakeIsRunning = false;
-//        launchSubsystem = new LaunchSubsystem(launchMotor, launchServo, turnServo);
+        launchSubsystem = new LaunchSubsystem(launchMotor, launchServo, turnServo);
         //flipper
-//        flipperServo = hardwareMap.get(Servo.class, "flipper");
-//        flipper = new FlipperSubsystem(flipperServo);
-
-
+        flipperServo = hardwareMap.get(Servo.class, "flipper");
+        flipper = new FlipperSubsystem(flipperServo);
         telemetry.addData("init complete", "init done");
-
         telemetry.update();
-        telemetry.addData("run mode call","ok" );
-
+        telemetry.addData("run mode call", "ok");
 
         //Call this once per loop
-//        follower.update();
-//        telemetryM.update();
+        follower.update();
+        telemetryM.update();
         // button commands
-        // intake toggles => side one
+                  // intake toggles => side one
+        telemetry.addData("op mode active", "ok");
 
-            telemetry.addData("op mode active","ok" );
-
-            //                  => side one
-
-
-
-
-
-
-            driverOp.getGamepadButton(GamepadKeys.Button.A)
-                    .whenPressed(new FToggleIntakeDirection(intakeSubsystem));
-            driverOp.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                    new BToggleIntakeDirection(intakeSubsystem));
-            //                  => side two
-            driverOp.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                    new IntakeServoFront(intakeSubsystem));
-            driverOp.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                    new IntakeServoBack(intakeSubsystem));
-            // launch
-            driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                            .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
-//            driverOp.getGamepadButton(GamepadKeys.Button.BACK)
-//                    .toggleWhenPressed(new FlipItUp(flipper), new FlipItDown(flipper));
-//        if (!automatedDrive) {
+                  //                  => side one
+        driverOp.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(new FToggleIntakeDirection(intakeSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
+                new BToggleIntakeDirection(intakeSubsystem));
+                  //                  => side two
+        driverOp.getGamepadButton(GamepadKeys.Button.B).whenPressed(
+                new IntakeServoFront(intakeSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.X).whenPressed(
+                new IntakeServoBack(intakeSubsystem));
+                  // launch
+        driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
+                .toggleWhenPressed(new FlipItUp(flipper), new FlipItDown(flipper));
+        if (!automatedDrive) {
             //Make the last parameter false for field-centric
             //In case the drivers want to use a "slowMode" you can scale the vectors
 
             //This is the normal version to use in the TeleOp
-//            follower.setTeleOpDrive(
-//                    -gamepad1.left_stick_y,
-//                    -gamepad1.left_stick_x,
-//                    -gamepad1.right_stick_x,
-//                    false // Robot Centric
-//            );
-//        }
+            follower.setTeleOpDrive(
+                    -gamepad1.left_stick_y,
+                    -gamepad1.left_stick_x,
+                    -gamepad1.right_stick_x,
+                    false // Robot Centric
+            );
+         }
 
             //Automated PathFollowing
-//        if (gamepad1.aWasPressed()) {
-//            follower.followPath(pathChain.get());
-//            automatedDrive = true;
-//        }
+            if (gamepad1.aWasPressed()) {
+                follower.followPath(pathChain.get());
+                automatedDrive = true;
+            }
 
             //Stop automated following if the follower is done
-//        if (automatedDrive && (gamepad1.bWasPressed() || !follower.isBusy())) {
-//            follower.startTeleopDrive();
-//            telemetryM.addLine("drive program started");
-//            automatedDrive = false;
-//        }
+            if (automatedDrive && (gamepad1.bWasPressed() || !follower.isBusy())) {
+                follower.startTeleopDrive();
+                telemetryM.addLine("drive program started");
+                automatedDrive = false;
+            }
 
             // print to console
-//        telemetry.addData("x", follower.getPose().getX());
-//        telemetry.addData("y", follower.getPose().getY());
-//        telemetry.addData("heading", follower.getPose().getHeading());
-//        telemetry.addData("|v|", follower.getVelocity().getMagnitude());
-//        telemetry.addData("theta", follower.getVelocity().getTheta());
-//        telemetry.addData("x-component", follower.getVelocity().getXComponent());
-//        telemetry.addData("y-component", follower.getVelocity().getYComponent());
-//        telemetry.addData("automatedDrive", automatedDrive);
-
-
+            telemetry.addData("x", follower.getPose().getX());
+            telemetry.addData("y", follower.getPose().getY());
+            telemetry.addData("heading", follower.getPose().getHeading());
+            telemetry.addData("|v|", follower.getVelocity().getMagnitude());
+            telemetry.addData("theta", follower.getVelocity().getTheta());
+            telemetry.addData("x-component", follower.getVelocity().getXComponent());
+            telemetry.addData("y-component", follower.getVelocity().getYComponent());
+            telemetry.addData("automatedDrive", automatedDrive);
             telemetry.update();
         }
     }
+
 

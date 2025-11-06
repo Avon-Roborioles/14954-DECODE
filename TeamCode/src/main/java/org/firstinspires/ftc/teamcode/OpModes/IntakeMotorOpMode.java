@@ -22,7 +22,7 @@ public class IntakeMotorOpMode extends CommandOpMode {
     public void initialize(){
         control1 = new GamepadEx(gamepad1);
         control2 = new GamepadEx(gamepad2);
-        servo = new IntakeServoSubsystem(hardwareMap.get(CRServo.class, "servo"), hardwareMap.get(CRServo.class, "servo2"));
+        servo = new IntakeServoSubsystem(hardwareMap.get(CRServo.class, "servoF1"), hardwareMap.get(CRServo.class, "servoF2"), hardwareMap.get(CRServo.class, "servoB1"), hardwareMap.get(CRServo.class, "servoB2"));
 
         Motor frontLeft = new Motor(hardwareMap,"motor1");
         Motor frontRight = new Motor(hardwareMap,"motor2");

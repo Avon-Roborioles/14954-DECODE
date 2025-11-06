@@ -15,11 +15,14 @@ public class ToggleBackIntakeCommand extends CommandBase {
     @Override
     public void execute() {
         if (!isOn){
-            subsystem.inverseRun1();
+            subsystem.toggleFrontDirection();
+            subsystem.toggleBackDirection();
+            subsystem.runServoB();
+            subsystem.runServoF();
             isOn = true;
             intakeIsRunning = true;
         } else {
-            subsystem.stopServo1();
+            subsystem.stopAll();
             isOn = false;
             intakeIsRunning = false;
         }

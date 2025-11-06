@@ -12,7 +12,7 @@ addRequirements(subsystem);
     }
     @Override
     public void execute() {
-        subsystem.runServo1();
-        subsystem.runServo2();
+        subsystem.runServoF();
+        subsystem.runServoB();
     }
 }
