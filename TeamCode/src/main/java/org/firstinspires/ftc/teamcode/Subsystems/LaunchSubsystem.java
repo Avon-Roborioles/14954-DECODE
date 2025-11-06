@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class LaunchSubsystem extends SubsystemBase {
     private DcMotor launchMotor;
     private Servo launchAngle;
-    private double anglePos;
     private Servo turnServo;
     private double launchPower;
 
@@ -27,7 +26,7 @@ public class LaunchSubsystem extends SubsystemBase {
         launchPower = newPower;
     }
     public void setLaunchAngle(double pos){
-        anglePos = pos;
+        launchAngle.setPosition(pos);
     }
     public void runMotor(){
         launchMotor.setPower(launchPower);
