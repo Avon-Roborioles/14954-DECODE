@@ -10,7 +10,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
+<<<<<<< Updated upstream
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
+=======
+import org.firstinspires.ftc.teamcode.commands.DriveCommand;
+
+>>>>>>> Stashed changes
 
 @TeleOp
 public class testOpMode extends LinearOpMode {
@@ -22,8 +27,10 @@ public class testOpMode extends LinearOpMode {
     private Servo flipper;
     private DcMotor shooterMotor;
     private SparkFunOTOS spark;
+    private DcMotor frontLeft, frontRight, backLeft,backRight;
+    private DriveCommand drive;
     private DriveSubsystem driveSubsystem;
-    private org.firstinspires.ftc.teamcode.Commands.DriveCommand driveCommand;
+
 
     private Servo launchAngle; // 0 to .4
     private double anglePos;
@@ -35,10 +42,13 @@ public class testOpMode extends LinearOpMode {
         frontIntake = hardwareMap.get(CRServo.class, "frontIntake");
         backIntake = hardwareMap.get(CRServo.class, "backIntake");
         frontPass = hardwareMap.get(CRServo.class, "frontPass");
-        Motor frontLeft = new Motor(hardwareMap, "frontLeft");
-        Motor frontRight = new Motor(hardwareMap, "frontRight");
-        Motor backLeft = new Motor(hardwareMap, "backLeft");
-        Motor backRight = new Motor(hardwareMap, "backRight");
+//        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
+//        frontRight = hardwareMap.get(DcMotor.class,"frontRight");
+//        backLeft = hardwareMap.get(DcMotor.class,"backLeft");
+//        backRight = hardwareMap.get(DcMotor.class,"backRight");
+//        Motor frontRight = new Motor(hardwareMap, "frontRight");
+//        Motor backLeft = new Motor(hardwareMap, "backLeft");
+//        Motor backRight = new Motor(hardwareMap, "backRight");
         backPass = hardwareMap.get(CRServo.class, "backPass");
         shooterMotor = hardwareMap.get(DcMotor.class, "launcher");
         spark = hardwareMap.get(SparkFunOTOS.class,"sparkfun");
@@ -47,26 +57,26 @@ public class testOpMode extends LinearOpMode {
         launchSubsystem = new LaunchSubsystem(shooterMotor, launchAngle);
         launchSubsystem.setLaunchAngle(.05);
 
-        driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
+//        driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
 
-        // Command: map gamepad1 joysticks
-        driveCommand = new org.firstinspires.ftc.teamcode.Commands.DriveCommand(
-                driveSubsystem,
-                () -> gamepad1.left_stick_x,       // strafe
-                () -> -gamepad1.left_stick_y,      // forward (negated because up stick is -1)
-                () -> gamepad1.right_stick_x,      // turn
-                () -> 0.0,                         // heading (put IMU yaw here later)
-                false                              // field-centric off for now
-        );
+//         Command: map gamepad1 joysticks
+//        drive = new org.firstinspires.ftc.teamcode.commands.DriveCommand(
+//                driveSubsystem,
+//                () -> gamepad1.left_stick_x,       // strafe
+//                () -> -gamepad1.left_stick_y,      // forward (negated because up stick is -1)
+//                () -> gamepad1.right_stick_x,      // turn
+//                () -> 0.0,                         // heading (put IMU yaw here later)
+//                false                              // field-centric off for now
+//        );
 
-        CommandScheduler.getInstance().schedule(driveCommand);
+//        CommandScheduler.getInstance().schedule(drive);
 
         waitForStart();
 
         while (opModeIsActive()) {
 
 
-            CommandScheduler.getInstance().run();
+//            CommandScheduler.getInstance().run();
             if (gamepad1.a){
                 frontIntake.setPower(-1);
             } else if (gamepad1.y) {
@@ -78,22 +88,27 @@ public class testOpMode extends LinearOpMode {
             }
 
             if (gamepad1.b){
-                frontPass.setPower(-1);
-                backPass.setPower(1);
-            } else if (gamepad1.dpad_left){
-                frontPass.setPower(-1);
-            } else if(gamepad1.dpad_right){
-                backPass.setPower(1);
-            } else if(gamepad1.dpad_down){
                 frontPass.setPower(1);
                 backPass.setPower(-1);
+            } else if (gamepad1.dpad_left){
+                frontPass.setPower(1);
+            } else if(gamepad1.dpad_right){
+                backPass.setPower(-1);
+            } else if(gamepad1.dpad_down){
+                frontPass.setPower(-1);
+                backPass.setPower(1);
             } else {
                 frontPass.setPower(0);
                 backPass.setPower(0);
             }
 
             if (gamepad1.x){
+<<<<<<< Updated upstream
                 shooterMotor.setPower(0.7);
+=======
+                shooterMotor.setPower(0.9);
+                shooterServo.setPower(1);
+>>>>>>> Stashed changes
             } else {
                 shooterMotor.setPower(0);
             }
