@@ -31,7 +31,7 @@ public class testOpMode extends LinearOpMode {
 
     private Servo launchAngle; // 0 to .4
     private double anglePos;
-    private LaunchSubsystem launchSubsystem;
+
 
 
     @Override
@@ -48,12 +48,11 @@ public class testOpMode extends LinearOpMode {
 //        Motor backRight = new Motor(hardwareMap, "backRight");
 //        Motor frontLeft = new Motor(hardwareMap, "frontLeft");
         backPass = hardwareMap.get(CRServo.class, "backPass");
+        frontPass = hardwareMap.get(CRServo.class, "frontPass");
         shooterMotor = hardwareMap.get(DcMotor.class, "launcher");
-        spark = hardwareMap.get(SparkFunOTOS.class,"sparkfun");
-        launchAngle = hardwareMap.get(Servo.class, "launchAngle");
+      //  spark = hardwareMap.get(SparkFunOTOS.class,"sparkfun");
+      //  launchAngle = hardwareMap.get(Servo.class, "launchAngle");
         anglePos = 0.05;
-        launchSubsystem = new LaunchSubsystem(shooterMotor, launchAngle);
-        launchSubsystem.setLaunchAngle(.05);
 
         driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
 
@@ -67,95 +66,100 @@ public class testOpMode extends LinearOpMode {
 //                false                              // field-centric off for now
 //        );
 
-        CommandScheduler.getInstance().schedule(drive);
+   //  CommandScheduler.getInstance().schedule(drive);
 
         waitForStart();
 
         while (opModeIsActive()) {
 
 
-            CommandScheduler.getInstance().run();
+//            CommandScheduler.getInstance().run();
 
 
-            if (gamepad1.a){
+            if (gamepad1.a) {
                 frontIntake.setPower(-1);
+                frontPass.setPower(1);
+                backPass.setPower(1);
             } else if (gamepad1.y) {
                 backIntake.setPower(1);
-
-            } else{
-                frontIntake.setPower(0);
-                backIntake.setPower(0);
-            }
-
-            if (gamepad1.b){
-                frontPass.setPower(1);
                 backPass.setPower(-1);
-            } else if (gamepad1.dpad_left){
-                frontPass.setPower(1);
-            } else if(gamepad1.dpad_right){
-                backPass.setPower(-1);
-            } else if(gamepad1.dpad_down){
                 frontPass.setPower(-1);
-                backPass.setPower(1);
+            } else if (gamepad1.b) {
+                    frontPass.setPower(1);
+                    backPass.setPower(-1);
+            } else if (gamepad1.dpad_left) {
+                    frontPass.setPower(1);
+            } else if (gamepad1.dpad_right) {
+                    backPass.setPower(-1);
+            } else if (gamepad1.dpad_down) {
+                    frontPass.setPower(-1);
+                    backPass.setPower(1);
             } else {
+                frontIntake.setPower(0);
                 frontPass.setPower(0);
+                backIntake.setPower(0);
                 backPass.setPower(0);
             }
 
-            if (gamepad1.x){
+
+
+            if (gamepad1.x) {
                 shooterMotor.setPower(0.7);
                 shooterMotor.setPower(0.9);
             } else {
                 shooterMotor.setPower(0);
             }
             // test launch angle servo
-            if (gamepad2.dpad_down){
-                launchAngle.setPosition(launchAngle.getPosition()-.05);
+            if (gamepad2.dpad_down) {
+                launchAngle.setPosition(launchAngle.getPosition() - .05);
                 telemetry.addData("HoodServoPos:", launchAngle.getPosition());
                 telemetry.update();
-            } else if (gamepad2.dpad_up){
-                launchAngle.setPosition(launchAngle.getPosition()+.05);
+            } else if (gamepad2.dpad_up) {
+                launchAngle.setPosition(launchAngle.getPosition() + .05);
                 telemetry.addData("HoodServoPos:", launchAngle.getPosition());
                 telemetry.update();
             }
-        }
+            frontLeft.setDirection(DcMotor.Direction.REVERSE);
+            backLeft.setDirection(DcMotor.Direction.REVERSE);
+            frontRight.setDirection(DcMotor.Direction.FORWARD);
+            backRight.setDirection(DcMotor.Direction.FORWARD);
 
-        double max;
+            double max;
 
-        // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-        double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
-        double lateral =  gamepad1.left_stick_x;
-        double yaw     =  gamepad1.right_stick_x;
+            // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
+            double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
+            double lateral = gamepad1.left_stick_x;
+            double yaw = gamepad1.right_stick_x;
 
-        // Combine the joystick requests for each axis-motion to determine each wheel's power.
-        // Set up a variable for each drive wheel to save the power level for telemetry.
-        double frontLeftPower  = axial + lateral + yaw;
-        double frontRightPower = axial - lateral - yaw;
-        double backLeftPower   = axial - lateral + yaw;
-        double backRightPower  = axial + lateral - yaw;
+            // Combine the joystick requests for each axis-motion to determine each wheel's power.
+            // Set up a variable for each drive wheel to save the power level for telemetry.
+            double frontLeftPower = axial + lateral + yaw;
+            double frontRightPower = axial - lateral - yaw;
+            double backLeftPower = axial - lateral + yaw;
+            double backRightPower = axial + lateral - yaw;
 
-        // Normalize the values so no wheel power exceeds 100%
-        // This ensures that the robot maintains the desired motion.
-        max = Math.max(Math.abs(frontLeftPower), Math.abs(frontRightPower));
-        max = Math.max(max, Math.abs(backLeftPower));
-        max = Math.max(max, Math.abs(backRightPower));
+            // Normalize the values so no wheel power exceeds 100%
+            // This ensures that the robot maintains the desired motion.
+            max = Math.max(Math.abs(frontLeftPower), Math.abs(frontRightPower));
+            max = Math.max(max, Math.abs(backLeftPower));
+            max = Math.max(max, Math.abs(backRightPower));
 
-        if (max > 1.0) {
-            frontLeftPower  /= max;
-            frontRightPower /= max;
-            backLeftPower   /= max;
-            backRightPower  /= max;
-        }
+            if (max > 1.0) {
+                frontLeftPower /= max;
+                frontRightPower /= max;
+                backLeftPower /= max;
+                backRightPower /= max;
+            }
 
-        // This is test code:
-        //
-        // Uncomment the following code to test your motor directions.
-        // Each button should make the corresponding motor run FORWARD.
-        //   1) First get all the motors to take to correct positions on the robot
-        //      by adjusting your Robot Configuration if necessary.
-        //   2) Then make sure they run in the correct direction by modifying the
-        //      the setDirection() calls above.
-        // Once the correct motors move in the correct direction re-comment this code.
+            // This is test code:
+            //
+            // Uncomment the following code to test your motor directions.
+            // Each button should make the corresponding motor run FORWARD.
+            //   1) First get all the motors to take to correct positions on the robot
+            //      by adjusting your Robot Configuration if necessary.
+            //   2) Then make sure they run in the correct direction by modifying the
+            //      the setDirection() calls above.
+            // Once the correct motors move in the correct direction re-comment this code.
 
             /*
             frontLeftPower  = gamepad1.x ? 1.0 : 0.0;  // X gamepad
@@ -164,10 +168,11 @@ public class testOpMode extends LinearOpMode {
             backRightPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
             */
 
-        // Send calculated power to wheels
-        frontLeft.setPower(frontLeftPower);
-        frontRight.setPower(frontRightPower);
-        backLeft.setPower(backLeftPower);
-        backRight.setPower(backRightPower);
+            // Send calculated power to wheels
+            frontLeft.setPower(frontLeftPower);
+            frontRight.setPower(frontRightPower);
+            backLeft.setPower(backLeftPower);
+            backRight.setPower(backRightPower);
+        }
     }
 }
