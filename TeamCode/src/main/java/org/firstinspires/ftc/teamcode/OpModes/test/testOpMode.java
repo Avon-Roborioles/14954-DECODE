@@ -10,12 +10,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
-<<<<<<< Updated upstream
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
-=======
-import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 
->>>>>>> Stashed changes
+
 
 @TeleOp
 public class testOpMode extends LinearOpMode {
@@ -28,7 +25,7 @@ public class testOpMode extends LinearOpMode {
     private DcMotor shooterMotor;
     private SparkFunOTOS spark;
     private DcMotor frontLeft, frontRight, backLeft,backRight;
-    private DriveCommand drive;
+    private org.firstinspires.ftc.teamcode.Commands.DriveCommand drive;
     private DriveSubsystem driveSubsystem;
 
 
@@ -103,12 +100,8 @@ public class testOpMode extends LinearOpMode {
             }
 
             if (gamepad1.x){
-<<<<<<< Updated upstream
                 shooterMotor.setPower(0.7);
-=======
                 shooterMotor.setPower(0.9);
-                shooterServo.setPower(1);
->>>>>>> Stashed changes
             } else {
                 shooterMotor.setPower(0);
             }
