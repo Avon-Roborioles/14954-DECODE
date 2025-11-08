@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -22,8 +23,8 @@ public class DriveSubsystem extends SubsystemBase {
       this.telemetry = telemetry;
   }
     public DriveSubsystem(Motor fLeft, Motor fRight, Motor bLeft, Motor bRight, Telemetry telemetry){
-//      frontRight.setInverted(true);
-//      backRight.setInverted(true);
+      frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+      backRight.setDirection(DcMotorSimple.Direction.REVERSE);
         this.fLeft = fLeft;
         this.fRight = fRight;
         this.bLeft = bLeft;
