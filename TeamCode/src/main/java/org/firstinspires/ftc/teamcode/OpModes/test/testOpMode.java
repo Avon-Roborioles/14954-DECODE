@@ -23,6 +23,7 @@ public class testOpMode extends LinearOpMode {
     private CRServo backPass;
     private Servo flipper;
     private DcMotor shooterMotor;
+    private CRServo shooterServo;
     private SparkFunOTOS spark;
     private DcMotor frontLeft, frontRight, backLeft,backRight;
     private org.firstinspires.ftc.teamcode.Commands.DriveCommand drive;
@@ -50,8 +51,9 @@ public class testOpMode extends LinearOpMode {
         backPass = hardwareMap.get(CRServo.class, "backPass");
         frontPass = hardwareMap.get(CRServo.class, "frontPass");
         shooterMotor = hardwareMap.get(DcMotor.class, "launcher");
+        shooterServo = hardwareMap.get(CRServo.class,"launchServo");
       //  spark = hardwareMap.get(SparkFunOTOS.class,"sparkfun");
-      //  launchAngle = hardwareMap.get(Servo.class, "launchAngle");
+        launchAngle = hardwareMap.get(Servo.class, "shooterFlap");
         anglePos = 0.05;
 
         driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
@@ -81,9 +83,8 @@ public class testOpMode extends LinearOpMode {
                 frontPass.setPower(1);
                 backPass.setPower(1);
             } else if (gamepad1.y) {
-                backIntake.setPower(1);
-                backPass.setPower(-1);
-                frontPass.setPower(-1);
+                frontIntake.setPower(-1);
+                frontPass.setPower(1);
             } else if (gamepad1.b) {
                     frontPass.setPower(1);
                     backPass.setPower(-1);
@@ -104,18 +105,21 @@ public class testOpMode extends LinearOpMode {
 
 
             if (gamepad1.x) {
-                shooterMotor.setPower(0.7);
                 shooterMotor.setPower(0.9);
-            } else {
-                shooterMotor.setPower(0);
+                shooterServo.setPower(1);
+
             }
+//            } else {
+//                shooterMotor.setPower(0);
+//                shooterServo.setPower(0);
+//            }
             // test launch angle servo
             if (gamepad2.dpad_down) {
-                launchAngle.setPosition(launchAngle.getPosition() - .05);
+                launchAngle.setPosition(launchAngle.getPosition() - .005);
                 telemetry.addData("HoodServoPos:", launchAngle.getPosition());
                 telemetry.update();
             } else if (gamepad2.dpad_up) {
-                launchAngle.setPosition(launchAngle.getPosition() + .05);
+                launchAngle.setPosition(launchAngle.getPosition() + .005);
                 telemetry.addData("HoodServoPos:", launchAngle.getPosition());
                 telemetry.update();
             }
@@ -173,6 +177,7 @@ public class testOpMode extends LinearOpMode {
             frontRight.setPower(frontRightPower);
             backLeft.setPower(backLeftPower);
             backRight.setPower(backRightPower);
+
         }
     }
 }
