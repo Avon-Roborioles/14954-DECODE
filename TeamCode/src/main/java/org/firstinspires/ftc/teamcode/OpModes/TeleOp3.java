@@ -19,8 +19,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Subsystems.FlipperSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
-import org.firstinspires.ftc.teamcode.commands.flipper.FlipItDown;
-import org.firstinspires.ftc.teamcode.commands.flipper.FlipItUp;
+//import org.firstinspires.ftc.teamcode.commands.flipper.FlipItDown;
+//import org.firstinspires.ftc.teamcode.commands.flipper.FlipItUp;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeBackToFront;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToBack;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeToLauncher;
@@ -82,8 +82,8 @@ public class TeleOp3 extends CommandOpMode {
         intakeSubsystem = new IntakeServoSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launchSubsystem = new LaunchSubsystem(launchMotor, launchAngle, turnServo);
         //flipper
-        flipperServo = hardwareMap.get(Servo.class, "flipper");
-        flipper = new FlipperSubsystem(flipperServo);
+//        flipperServo = hardwareMap.get(Servo.class, "flipper");
+//        flipper = new FlipperSubsystem(flipperServo);
         telemetry.addData("init complete", "init done");
         telemetry.update();
         telemetry.addData("run mode call", "ok");
@@ -103,8 +103,8 @@ public class TeleOp3 extends CommandOpMode {
                   // launch
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
-        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
-                .toggleWhenPressed(new FlipItUp(flipper), new FlipItDown(flipper));
+//        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
+//                .toggleWhenPressed(new FlipItUp(flipper), new FlipItDown(flipper));
 
             follower.setTeleOpDrive(
                     -gamepad1.left_stick_y,
