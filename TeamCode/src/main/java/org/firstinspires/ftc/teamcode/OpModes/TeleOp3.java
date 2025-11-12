@@ -23,6 +23,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 //import org.firstinspires.ftc.teamcode.commands.flipper.FlipItUp;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeBackToFront;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToBack;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeToLauncher;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.RunMotor;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.StopMotor;
@@ -44,6 +45,7 @@ public class TeleOp3 extends CommandOpMode {
     private DcMotor launchMotor;
     private Servo launchAngle;
     private Servo turnServo;
+    private CRServo launchServo;
     private LaunchSubsystem launchSubsystem;
     // intake variables
     private CRServo frontIntakeServo;
@@ -63,16 +65,17 @@ public class TeleOp3 extends CommandOpMode {
         driverOp = new GamepadEx(gamepad1);
         operator = new GamepadEx(gamepad2);
         follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(startingPose == null ? new Pose() : startingPose);
-        follower.update();
+//        follower.setStartingPose(startingPose == null ? new Pose() : startingPose);
+//        follower.update();
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
-        pathChain = () -> follower.pathBuilder() //Lazy Curve Generation
-                .addPath(new Path(new BezierLine(follower::getPose, new Pose(45, 98))))
-                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
-                .build();
+//        pathChain = () -> follower.pathBuilder() //Lazy Curve Generation
+//                .addPath(new Path(new BezierLine(follower::getPose, new Pose(45, 98))))
+//                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
+//                .build();
         // launcher
         launchAngle = hardwareMap.get(Servo.class, "launchAngle");
         launchMotor = hardwareMap.get(DcMotor.class, "launchMotor");
+        launchServo = hardwareMap.get(CRServo.class, "launchServo");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
         frontIntakeServo = hardwareMap.get(CRServo.class, "frontIntake");
@@ -80,7 +83,7 @@ public class TeleOp3 extends CommandOpMode {
         backIntakeServo = hardwareMap.get(CRServo.class, "backIntake");
         backPassServo = hardwareMap.get(CRServo.class, "backPass");
         intakeSubsystem = new IntakeServoSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
-        launchSubsystem = new LaunchSubsystem(launchMotor, launchAngle, turnServo);
+        launchSubsystem = new LaunchSubsystem(launchMotor, launchAngle, turnServo ,launchServo);
         //flipper
 //        flipperServo = hardwareMap.get(Servo.class, "flipper");
 //        flipper = new FlipperSubsystem(flipperServo);
@@ -89,40 +92,42 @@ public class TeleOp3 extends CommandOpMode {
         telemetry.addData("run mode call", "ok");
 
         //Call this once per loop
-        follower.update();
+//        follower.update();
         telemetryM.update();
         // button commands
                   // intake toggles => side one
         telemetry.addData("op mode active", "ok");
         driverOp.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new IntakeFrontToBack(intakeSubsystem));
-        driverOp.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                new IntakeBackToFront(intakeSubsystem));
-        driverOp.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                new IntakeToLauncher(intakeSubsystem));
+                        .toggleWhenPressed(new IntakeFrontToBack(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.Y)
+                        .toggleWhenPressed(new IntakeBackToFront(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+        // intake toggles => side two)
+        driverOp.getGamepadButton(GamepadKeys.Button.B)
+                        .toggleWhenPressed(new IntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+
                   // launch
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
 //        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
 //                .toggleWhenPressed(new FlipItUp(flipper), new FlipItDown(flipper));
 
-            follower.setTeleOpDrive(
-                    -gamepad1.left_stick_y,
-                    -gamepad1.left_stick_x,
-                    -gamepad1.right_stick_x,
-                    false // Robot Centric
-            );
+//            follower.setTeleOpDrive(
+//                    -gamepad1.left_stick_y,
+//                    -gamepad1.left_stick_x,
+//                    -gamepad1.right_stick_x,
+//                    false // Robot Centric
+//            );
 
 
             // print to console
-            telemetry.addData("x", follower.getPose().getX());
-            telemetry.addData("y", follower.getPose().getY());
-            telemetry.addData("heading", follower.getPose().getHeading());
-            telemetry.addData("|v|", follower.getVelocity().getMagnitude());
-            telemetry.addData("theta", follower.getVelocity().getTheta());
-            telemetry.addData("x-component", follower.getVelocity().getXComponent());
-            telemetry.addData("y-component", follower.getVelocity().getYComponent());
-            telemetry.update();
+//            telemetry.addData("x", follower.getPose().getX());
+//            telemetry.addData("y", follower.getPose().getY());
+//            telemetry.addData("heading", follower.getPose().getHeading());
+//            telemetry.addData("|v|", follower.getVelocity().getMagnitude());
+//            telemetry.addData("theta", follower.getVelocity().getTheta());
+//            telemetry.addData("x-component", follower.getVelocity().getXComponent());
+//            telemetry.addData("y-component", follower.getVelocity().getYComponent());
+//            telemetry.update();
         }
     }
 

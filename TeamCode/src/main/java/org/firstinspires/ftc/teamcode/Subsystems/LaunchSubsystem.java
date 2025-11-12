@@ -9,12 +9,14 @@ public class LaunchSubsystem extends SubsystemBase {
     private DcMotor launchMotor;
     private Servo launchAngle;
     private Servo turnServo;
+    private CRServo launchServo;
     private double launchPower;
 
-    public LaunchSubsystem(DcMotor launchMotor, Servo launchAngle, Servo turnServo){
+    public LaunchSubsystem(DcMotor launchMotor, Servo launchAngle, Servo turnServo, CRServo launchServo){
         this.launchMotor = launchMotor;
         this.launchAngle = launchAngle;
         this.turnServo = turnServo;
+        this.launchServo = launchServo;
         launchPower = 0.8;
     }
     public LaunchSubsystem(DcMotor launchMotor, Servo launchAngle){
@@ -30,9 +32,11 @@ public class LaunchSubsystem extends SubsystemBase {
     }
     public void runMotor(){
         launchMotor.setPower(launchPower);
+        launchServo.setPower(1);
     }
     public void stopMotor(){
         launchMotor.setPower(0);
+        launchServo.setPower(0);
     }
     public void setTurnServo(double pos){
         turnServo.setPosition(pos);

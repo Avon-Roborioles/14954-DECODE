@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class IntakeServoSubsystem extends SubsystemBase {
     public enum SubSystemServoId {
@@ -75,16 +76,24 @@ public class IntakeServoSubsystem extends SubsystemBase {
     }
 
         public void IntakeFrontToBack(){
-            CommandServo(SubSystemServoId.frontIntake, true, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.frontPass, true, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.backIntake, false, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.backPass, true, CRServo.Direction.REVERSE);
+
+            frontIntake.setPower(-1);
+
+            frontPass.setPower(1);
+
+            backIntake.setPower(1);
+
+//            backPass.setPower(-1);
         }
         public void IntakeFrontToCenter(){
-            CommandServo(SubSystemServoId.frontIntake, true, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.frontPass, true, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.backIntake, false, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.backPass, false, CRServo.Direction.REVERSE);
+
+            frontIntake.setPower(1);
+
+            frontPass.setPower(1);
+
+            backIntake.setPower(0);
+
+            backPass.setPower(0);
         }
         public void IntakeFrontOnly(){
             CommandServo(SubSystemServoId.frontIntake, true, CRServo.Direction.FORWARD);
@@ -93,28 +102,29 @@ public class IntakeServoSubsystem extends SubsystemBase {
             CommandServo(SubSystemServoId.backPass, false, CRServo.Direction.REVERSE);
         }
         public void IntakeBackToFront(){
-            CommandServo(SubSystemServoId.frontIntake, false, CRServo.Direction.REVERSE);
-            CommandServo(SubSystemServoId.frontPass, true, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.backIntake, true, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.backPass, true, CRServo.Direction.FORWARD);
+
+            frontIntake.setPower(0);
+            frontPass.setPower(1);
+            backIntake.setPower(1);
+            backPass.setPower(0);
         }
         public void IntakeBackToCenter(){
-            CommandServo(SubSystemServoId.frontIntake, false, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.frontPass, false, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.backIntake, true, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.backPass, true, CRServo.Direction.FORWARD);
+
+            frontIntake.setPower(0);
+            frontPass.setPower(0);
+            backIntake.setPower(1);
+            backPass.setPower(-1);
         }
         public void IntakeBackOnly(){
-            CommandServo(SubSystemServoId.frontIntake, false, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.frontPass, false, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.backIntake, true, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.backPass, false, CRServo.Direction.REVERSE);
+
         }
         public void TransferToLauncher(){
-            CommandServo(SubSystemServoId.frontIntake, false, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.frontPass, true, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.backIntake, false, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.backPass, true, CRServo.Direction.FORWARD);
+
+            frontIntake.setPower(0);
+            frontPass.setPower(1);
+            backIntake.setPower(0);
+            backPass.setPower(0);
+
         }
         public void stopAll(){
             frontIntake.setPower(0);
