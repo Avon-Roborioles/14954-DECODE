@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 
 @Configurable
 @TeleOp(name = "TeleOp1")
-public class TeleOp1 extends OpMode {
+public class DriveOnlySparkOp extends OpMode {
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this
     private boolean automatedDrive;

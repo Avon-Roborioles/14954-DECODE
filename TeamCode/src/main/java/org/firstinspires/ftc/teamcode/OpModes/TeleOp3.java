@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
@@ -13,48 +11,34 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.robocol.Command;
 
 import org.firstinspires.ftc.teamcode.Subsystems.FlipperSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
-import org.firstinspires.ftc.teamcode.commands.IntakeServoFront;
 import org.firstinspires.ftc.teamcode.commands.flipper.FlipItDown;
 import org.firstinspires.ftc.teamcode.commands.flipper.FlipItUp;
-import org.firstinspires.ftc.teamcode.commands.teleop.BToggleIntakeDirection;
-import org.firstinspires.ftc.teamcode.commands.teleop.FToggleIntakeDirection;
-import org.firstinspires.ftc.teamcode.commands.teleop.IntakeServoBack;
-import org.firstinspires.ftc.teamcode.commands.teleop.intake.ToggleBackIntakeCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.intake.ToggleBackIntakeCommand2;
-import org.firstinspires.ftc.teamcode.commands.teleop.intake.ToggleForwardIntakeCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.intake.ToggleForwardIntakeCommand2;
-import org.firstinspires.ftc.teamcode.commands.teleop.launch.DecreaseLaunchPower;
-import org.firstinspires.ftc.teamcode.commands.teleop.launch.IncreaseLaunchPower;
-import org.firstinspires.ftc.teamcode.commands.teleop.launch.LaunchCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeBackToFront;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToBack;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeToLauncher;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.RunMotor;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.StopMotor;
-import org.firstinspires.ftc.teamcode.commands.teleop.launch.ToggleLaunchCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.launch.ToggleLaunchPower;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 import java.util.function.Supplier;
+
 @TeleOp
-public class TeleOp2 extends CommandOpMode {
+public class TeleOp3 extends CommandOpMode {
     // drive variables
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this
-    private boolean automatedDrive;
     private Supplier<PathChain> pathChain;
     private TelemetryManager telemetryM;
     private GamepadEx driverOp;
     private GamepadEx operator;
-    public boolean intakeIsRunning;
 
     // launcher variables
     private DcMotor launchMotor;
@@ -62,10 +46,10 @@ public class TeleOp2 extends CommandOpMode {
     private Servo turnServo;
     private LaunchSubsystem launchSubsystem;
     // intake variables
-    private CRServo intakeServoF1;
-    private CRServo intakeServoF2;
-    private CRServo intakeServoB1;
-    private CRServo intakeServoB2;
+    private CRServo frontIntakeServo;
+    private CRServo frontPassServo;
+    private CRServo backIntakeServo;
+    private CRServo backPassServo;
     private IntakeServoSubsystem intakeSubsystem;
     //Flipper
 
@@ -91,12 +75,11 @@ public class TeleOp2 extends CommandOpMode {
         launchMotor = hardwareMap.get(DcMotor.class, "launchMotor");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
-        intakeServoF1 = hardwareMap.get(CRServo.class, "intakeServoF1");
-        intakeServoF2 = hardwareMap.get(CRServo.class, "intakeServoF2");
-        intakeServoB1 = hardwareMap.get(CRServo.class, "intakeServoB1");
-        intakeServoB2 = hardwareMap.get(CRServo.class, "intakeServoB2");
-        intakeSubsystem = new IntakeServoSubsystem(intakeServoF1, intakeServoF2, intakeServoB1, intakeServoB2);
-        intakeIsRunning = false;
+        frontIntakeServo = hardwareMap.get(CRServo.class, "frontIntake");
+        frontPassServo = hardwareMap.get(CRServo.class, "frontPass");
+        backIntakeServo = hardwareMap.get(CRServo.class, "backIntake");
+        backPassServo = hardwareMap.get(CRServo.class, "backPass");
+        intakeSubsystem = new IntakeServoSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launchSubsystem = new LaunchSubsystem(launchMotor, launchAngle, turnServo);
         //flipper
         flipperServo = hardwareMap.get(Servo.class, "flipper");
@@ -111,47 +94,25 @@ public class TeleOp2 extends CommandOpMode {
         // button commands
                   // intake toggles => side one
         telemetry.addData("op mode active", "ok");
-
-                  //                  => side one
         driverOp.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new FToggleIntakeDirection(intakeSubsystem));
+                .whenPressed(new IntakeFrontToBack(intakeSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.Y).whenPressed(
-                new BToggleIntakeDirection(intakeSubsystem));
-                  //                  => side two
+                new IntakeBackToFront(intakeSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.B).whenPressed(
-                new IntakeServoFront(intakeSubsystem));
-        driverOp.getGamepadButton(GamepadKeys.Button.X).whenPressed(
-                new IntakeServoBack(intakeSubsystem));
+                new IntakeToLauncher(intakeSubsystem));
                   // launch
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.BACK)
                 .toggleWhenPressed(new FlipItUp(flipper), new FlipItDown(flipper));
-        if (!automatedDrive) {
-            //Make the last parameter false for field-centric
-            //In case the drivers want to use a "slowMode" you can scale the vectors
 
-            //This is the normal version to use in the TeleOp
             follower.setTeleOpDrive(
                     -gamepad1.left_stick_y,
                     -gamepad1.left_stick_x,
                     -gamepad1.right_stick_x,
                     false // Robot Centric
             );
-         }
 
-            //Automated PathFollowing
-            if (gamepad1.aWasPressed()) {
-                follower.followPath(pathChain.get());
-                automatedDrive = true;
-            }
-
-            //Stop automated following if the follower is done
-            if (automatedDrive && (gamepad1.bWasPressed() || !follower.isBusy())) {
-                follower.startTeleopDrive();
-                telemetryM.addLine("drive program started");
-                automatedDrive = false;
-            }
 
             // print to console
             telemetry.addData("x", follower.getPose().getX());
@@ -161,7 +122,6 @@ public class TeleOp2 extends CommandOpMode {
             telemetry.addData("theta", follower.getVelocity().getTheta());
             telemetry.addData("x-component", follower.getVelocity().getXComponent());
             telemetry.addData("y-component", follower.getVelocity().getYComponent());
-            telemetry.addData("automatedDrive", automatedDrive);
             telemetry.update();
         }
     }
