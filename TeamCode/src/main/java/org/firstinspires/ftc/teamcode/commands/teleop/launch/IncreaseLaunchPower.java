@@ -14,7 +14,7 @@ public class IncreaseLaunchPower extends CommandBase {
     }
     @Override
     public void execute(){
-        launchPower = launchPower+.2;
+        launchPower = launchPower + .2;
         subsystem.setLaunchPower(launchPower);
     }
 }

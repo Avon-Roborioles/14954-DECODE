@@ -21,12 +21,15 @@ import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 //import org.firstinspires.ftc.teamcode.commands.flipper.FlipItDown;
 //import org.firstinspires.ftc.teamcode.commands.flipper.FlipItUp;
+import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeBackToFront;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToBack;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeToLauncher;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.RunMotor;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.StopMotor;
+import org.firstinspires.ftc.teamcode.commands.teleop.turntable.TurntableTest1;
+import org.firstinspires.ftc.teamcode.commands.teleop.turntable.TurntableTest2;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 import java.util.function.Supplier;
@@ -58,6 +61,9 @@ public class TeleOp3 extends CommandOpMode {
     private Servo flipperServo;
     private FlipperSubsystem flipper;
 
+    private Servo turntableServo;
+    private TurnTableSubsystem TurnSubsystem;
+
 
     @Override
     public void initialize() {
@@ -84,6 +90,8 @@ public class TeleOp3 extends CommandOpMode {
         backPassServo = hardwareMap.get(CRServo.class, "backPass");
         intakeSubsystem = new IntakeServoSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launchSubsystem = new LaunchSubsystem(launchMotor, launchAngle, turnServo ,launchServo);
+
+        TurnSubsystem = new TurnTableSubsystem(turnServo);
         //flipper
 //        flipperServo = hardwareMap.get(Servo.class, "flipper");
 //        flipper = new FlipperSubsystem(flipperServo);
@@ -94,6 +102,9 @@ public class TeleOp3 extends CommandOpMode {
         //Call this once per loop
 //        follower.update();
         telemetryM.update();
+
+        //turntable
+
         // button commands
                   // intake toggles => side one
         telemetry.addData("op mode active", "ok");
@@ -104,6 +115,9 @@ public class TeleOp3 extends CommandOpMode {
         // intake toggles => side two)
         driverOp.getGamepadButton(GamepadKeys.Button.B)
                         .toggleWhenPressed(new IntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.X)
+                        .toggleWhenPressed(new TurntableTest1(TurnSubsystem), new TurntableTest2(TurnSubsystem));
+
 
                   // launch
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)

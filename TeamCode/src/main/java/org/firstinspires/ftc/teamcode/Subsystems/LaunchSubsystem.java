@@ -11,6 +11,7 @@ public class LaunchSubsystem extends SubsystemBase {
     private Servo turnServo;
     private CRServo launchServo;
     private double launchPower;
+    private double Anglepos = 0.05;
 
     public LaunchSubsystem(DcMotor launchMotor, Servo launchAngle, Servo turnServo, CRServo launchServo){
         this.launchMotor = launchMotor;
@@ -29,6 +30,12 @@ public class LaunchSubsystem extends SubsystemBase {
     }
     public void setLaunchAngle(double pos){
         launchAngle.setPosition(pos);
+    }
+
+
+
+    public double getAnglepos(){
+        return Anglepos;
     }
     public void runMotor(){
         launchMotor.setPower(launchPower);

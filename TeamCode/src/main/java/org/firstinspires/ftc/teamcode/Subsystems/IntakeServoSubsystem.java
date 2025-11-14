@@ -83,7 +83,7 @@ public class IntakeServoSubsystem extends SubsystemBase {
 
             backIntake.setPower(1);
 
-//            backPass.setPower(-1);
+            backPass.setPower(-1);
         }
         public void IntakeFrontToCenter(){
 
@@ -106,7 +106,7 @@ public class IntakeServoSubsystem extends SubsystemBase {
             frontIntake.setPower(0);
             frontPass.setPower(1);
             backIntake.setPower(1);
-            backPass.setPower(0);
+            backPass.setPower(-1);
         }
         public void IntakeBackToCenter(){
 
@@ -123,7 +123,7 @@ public class IntakeServoSubsystem extends SubsystemBase {
             frontIntake.setPower(0);
             frontPass.setPower(1);
             backIntake.setPower(0);
-            backPass.setPower(0);
+            backPass.setPower(-1);
 
         }
         public void stopAll(){
