@@ -1,8 +1,12 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.util.Timing;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 public class IntakeServoSubsystem extends SubsystemBase {
     public enum SubSystemServoId {
@@ -59,7 +63,7 @@ public class IntakeServoSubsystem extends SubsystemBase {
                 servo = backPass;
                 break;
         }
-         currentServoPower = servo.getPower();
+        currentServoPower = servo.getPower();
 
         // stop servo before changing direction
         if (desiredDirection != servo.getDirection()) {
@@ -75,62 +79,121 @@ public class IntakeServoSubsystem extends SubsystemBase {
         }
     }
 
-        public void IntakeFrontToBack(){
+    public void IntakeFrontToBack() {
+        frontIntake.setPower(-1);
+        frontPass.setPower(1);
+        backIntake.setPower(1);
+        backPass.setPower(-1);
+    }
 
+    public void IntakeFrontToBack(long ms) {
+        Timing.Timer timer = new Timing.Timer(ms, TimeUnit.MILLISECONDS);
+        timer.start();
+        while (timer.isTimerOn()) {
             frontIntake.setPower(-1);
-
             frontPass.setPower(1);
-
             backIntake.setPower(1);
-
             backPass.setPower(-1);
         }
-        public void IntakeFrontToCenter(){
+    }
 
+    public void IntakeFrontToCenter() {
+        frontIntake.setPower(1);
+        frontPass.setPower(1);
+        backIntake.setPower(0);
+        backPass.setPower(0);
+    }
+
+    public void IntakeFrontToCenter(long ms) {
+        Timing.Timer timer = new Timing.Timer(ms, TimeUnit.MILLISECONDS);
+        timer.start();
+        while (timer.isTimerOn()) {
             frontIntake.setPower(1);
-
             frontPass.setPower(1);
-
             backIntake.setPower(0);
-
             backPass.setPower(0);
         }
-        public void IntakeFrontOnly(){
-            CommandServo(SubSystemServoId.frontIntake, true, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.frontPass, false, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.backIntake, false, CRServo.Direction.FORWARD);
-            CommandServo(SubSystemServoId.backPass, false, CRServo.Direction.REVERSE);
-        }
-        public void IntakeBackToFront(){
+    }
 
+    public void IntakeFrontOnly() {
+        frontIntake.setPower(1);
+        frontPass.setPower(1);
+        backIntake.setPower(0);
+        backPass.setPower(0);
+    }
+
+    public void IntakeBackToFront() {
+        frontIntake.setPower(0);
+        frontPass.setPower(1);
+        backIntake.setPower(1);
+        backPass.setPower(-1);
+    }
+
+    public void IntakeBackToFront(long ms) {
+        Timing.Timer timer = new Timing.Timer(ms, TimeUnit.MILLISECONDS);
+        while (timer.isTimerOn()) {
             frontIntake.setPower(0);
             frontPass.setPower(1);
             backIntake.setPower(1);
             backPass.setPower(-1);
         }
-        public void IntakeBackToCenter(){
+    }
 
+    public void IntakeBackToCenter() {
+        frontIntake.setPower(0);
+        frontPass.setPower(0);
+        backIntake.setPower(1);
+        backPass.setPower(-1);
+    }
+
+    public void IntakeBackToCenter(long ms) {
+        Timing.Timer timer = new Timing.Timer(ms, TimeUnit.MILLISECONDS);
+        while (timer.isTimerOn()) {
             frontIntake.setPower(0);
             frontPass.setPower(0);
             backIntake.setPower(1);
             backPass.setPower(-1);
         }
-        public void IntakeBackOnly(){
+    }
 
-        }
-        public void TransferToLauncher(){
+    public void IntakeBackOnly() {
+        frontIntake.setPower(0);
+        frontPass.setPower(0);
+        backIntake.setPower(1);
+        backPass.setPower(1);
+    }
 
+    public void TransferToLauncher() {
+        frontIntake.setPower(0);
+        frontPass.setPower(1);
+        backIntake.setPower(0);
+        backPass.setPower(-1);
+    }
+
+    public void TransferToLauncher(long ms) {
+        Timing.Timer timer = new Timing.Timer(ms, TimeUnit.MILLISECONDS);
+        while (timer.isTimerOn()) {
             frontIntake.setPower(0);
             frontPass.setPower(1);
             backIntake.setPower(0);
             backPass.setPower(-1);
-
         }
-        public void stopAll(){
-            frontIntake.setPower(0);
-            frontPass.setPower(0);
-            backIntake.setPower(0);
-            backPass.setPower(0);
-        }
+    }
 
+    public void stopAll() {
+        frontIntake.setPower(0);
+        frontPass.setPower(0);
+        backIntake.setPower(0);
+        backPass.setPower(0);
+    }
+
+    public boolean isOff() {
+        if (frontIntake.getPower() == 0
+                && frontPass.getPower() == 0
+                && backIntake.getPower() == 0
+                && backPass.getPower() == 0) {
+            return true;
+        }
+        return false;
+    }
 }
