@@ -1,12 +1,18 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
+import static java.lang.Math.PI;
+
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.HeadingInterpolator;
+import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -79,13 +85,12 @@ public class TeleOp3 extends CommandOpMode {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
         follower = Constants.createFollower(hardwareMap);
-//        follower.setStartingPose(startingPose == null ? new Pose() : startingPose);
-//        follower.update();
+        follower.setStartingPose(startingPose == null ? new Pose() : startingPose);
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
-//        pathChain = () -> follower.pathBuilder() //Lazy Curve Generation
-//                .addPath(new Path(new BezierLine(follower::getPose, new Pose(45, 98))))
-//                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
-//                .build();
+        pathChain = () -> follower.pathBuilder() //Lazy Curve Generation
+                .addPath(new Path(new BezierLine(follower::getPose, new Pose(45, 98, PI))))
+                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
+                .build();
         // launcher
         launchAngle = hardwareMap.get(Servo.class, "launchAngle");
         launchMotor = hardwareMap.get(DcMotor.class, "launchMotor");
@@ -106,59 +111,63 @@ public class TeleOp3 extends CommandOpMode {
         //flipper
 //        flipperServo = hardwareMap.get(Servo.class, "flipper");
 //        flipper = new FlipperSubsystem(flipperServo);
-        telemetry.addData("init complete", "init done");
-        telemetry.update();
-        telemetry.addData("run mode call", "ok");
-
-        //Call this once per loop
-//        follower.update();
-        telemetryM.update();
-
-        //turntable
-
 
 
         // button commands
-                  // intake toggles => side one
-        telemetry.addData("op mode active", "ok");
+        // intake toggles => side one
         driverOp.getGamepadButton(GamepadKeys.Button.A)
-                        .toggleWhenPressed(new IntakeFrontToBack(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+                .toggleWhenPressed(new IntakeFrontToBack(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
-                        .toggleWhenPressed(new IntakeBackToFront(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+                .toggleWhenPressed(new IntakeBackToFront(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         // intake toggles => side two)
         driverOp.getGamepadButton(GamepadKeys.Button.B)
-                        .toggleWhenPressed(new IntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+                .toggleWhenPressed(new IntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
 //        driverOp.getGamepadButton(GamepadKeys.Button.X)
 //                        .toggleWhenPressed(new TurntableTest1(TurnSubsystem), new TurntableTest2(TurnSubsystem));
 
         TurnSubsystem.setDefaultCommand(new limelightAngleCommand(limelightSubsystem,TurnSubsystem));
-                  // launch
+        // launch
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
 //        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
 //                .toggleWhenPressed(new FlipItUp(flipper), new FlipItDown(flipper));
+        telemetry.addData("init complete", "init done");
+        telemetry.update();
 
-//            follower.setTeleOpDrive(
-//                    -gamepad1.left_stick_y,
-//                    -gamepad1.left_stick_x,
-//                    -gamepad1.right_stick_x,
-//                    false // Robot Centric
-//            );
+        follower.startTeleopDrive();
+    }
+
+    @Override
+    public void run() {
+        super.run(); // This is important to run the command scheduler
+
+        //Call this once per loop
+        follower.update();
+        telemetryM.update();
+
+        follower.setTeleOpDrive(
+                -gamepad1.left_stick_y,
+                -gamepad1.left_stick_x,
+                gamepad1.right_stick_x,
+                false // Robot Centric
+        );
+        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
+                .whenPressed(new InstantCommand(() -> {follower.setPose(new Pose(0, 0, PI));}));
 
 
 //            limelightSubsystem.setDefaultCommand(new LimelightCommand(limelightSubsystem, limelightSubsystem.getResult(), telemetry));
 
-            // print to console
-//            telemetry.addData("x", follower.getPose().getX());
-//            telemetry.addData("y", follower.getPose().getY());
-//            telemetry.addData("heading", follower.getPose().getHeading());
-//            telemetry.addData("|v|", follower.getVelocity().getMagnitude());
-//            telemetry.addData("theta", follower.getVelocity().getTheta());
-//            telemetry.addData("x-component", follower.getVelocity().getXComponent());
-//            telemetry.addData("y-component", follower.getVelocity().getYComponent());
-//            telemetry.update();
-        }
-
+        // print to console
+        telemetry.addData("x", follower.getPose().getX());
+        telemetry.addData("y", follower.getPose().getY());
+        telemetry.addData("heading", follower.getPose().getHeading());
+        telemetry.addData("|v|", follower.getVelocity().getMagnitude());
+        telemetry.addData("theta", follower.getVelocity().getTheta());
+        telemetry.addData("x-component", follower.getVelocity().getXComponent());
+        telemetry.addData("y-component", follower.getVelocity().getYComponent());
+        telemetry.update();
     }
+}
+
 
 
