@@ -14,7 +14,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 
 import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
-import org.firstinspires.ftc.teamcode.Commands.LimelightCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 
@@ -32,7 +31,6 @@ import java.util.List;
 
         private DriveSubsystem driveSubsystem;
         private DriveCommand driveCommand;
-        private LimelightCommand limelightCommand;
         private LimeLightSubsystem limelightSubsystem;
         private LLResult result;
 
@@ -60,7 +58,7 @@ import java.util.List;
                     () -> 0.0,                         // heading (put IMU yaw here later)
                     false                              // field-centric off for now
             );
-            limelightCommand = new LimelightCommand(limelightSubsystem, result);
+
 
             telemetry.setMsTransmissionInterval(11);
             servo.setPosition(0.5);

@@ -35,7 +35,7 @@ public class LaunchSubsystem extends SubsystemBase {
 
 
     public double getAnglepos(){
-        return Anglepos;
+        return launchAngle.getPosition();
     }
     public void runMotor(){
         launchMotor.setPower(launchPower);
