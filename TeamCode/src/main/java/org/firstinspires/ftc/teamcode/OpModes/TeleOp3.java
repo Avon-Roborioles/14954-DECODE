@@ -18,8 +18,10 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.FlipperSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
@@ -33,6 +35,7 @@ import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeBackToFront;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToBack;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeToLauncher;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.sensor.DistanceIntakeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.RunMotor;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.StopMotor;
 //import org.firstinspires.ftc.teamcode.commands.teleop.turntable.TurntableTest1;
@@ -62,15 +65,11 @@ public class TeleOp3 extends CommandOpMode {
     private CRServo frontPassServo;
     private CRServo backIntakeServo;
     private CRServo backPassServo;
+    private DigitalChannel fSensor, mSensor, bSensor;
     private IntakeServoSubsystem intakeSubsystem;
-    //Flipper
-
-    private Servo flipperServo;
-    private FlipperSubsystem flipper;
-
+    private DistanceSubsystem distanceSubsystem;
     private Servo turntableServo;
     private TurnTableSubsystem TurnSubsystem;
-
     private LimeLightSubsystem limelightSubsystem;
     private Limelight3A limelight;
 
@@ -101,36 +100,36 @@ public class TeleOp3 extends CommandOpMode {
         frontPassServo = hardwareMap.get(CRServo.class, "frontPass");
         backIntakeServo = hardwareMap.get(CRServo.class, "backIntake");
         backPassServo = hardwareMap.get(CRServo.class, "backPass");
+
+        fSensor = hardwareMap.get(DigitalChannel.class, "fSensor");
+        mSensor = hardwareMap.get(DigitalChannel.class, "mSensor");
+        bSensor = hardwareMap.get(DigitalChannel.class, "bSensor");
+
+        distanceSubsystem = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intakeSubsystem = new IntakeServoSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launchSubsystem = new LaunchSubsystem(launchMotor, launchAngle, turnServo ,launchServo);
         limelightSubsystem = new LimeLightSubsystem(limelight);
-        TurnSubsystem = new TurnTableSubsystem(turnServo);
+
         //turntable
-
         TurnSubsystem = new TurnTableSubsystem(turnServo);
-        //flipper
-//        flipperServo = hardwareMap.get(Servo.class, "flipper");
-//        flipper = new FlipperSubsystem(flipperServo);
-
 
         // button commands
-        // intake toggles => side one
         driverOp.getGamepadButton(GamepadKeys.Button.A)
                 .toggleWhenPressed(new IntakeFrontToBack(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
                 .toggleWhenPressed(new IntakeBackToFront(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
-        // intake toggles => side two)
         driverOp.getGamepadButton(GamepadKeys.Button.B)
                 .toggleWhenPressed(new IntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
 //        driverOp.getGamepadButton(GamepadKeys.Button.X)
 //                        .toggleWhenPressed(new TurntableTest1(TurnSubsystem), new TurntableTest2(TurnSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                        .whenPressed(new DistanceIntakeCommand(distanceSubsystem, intakeSubsystem));
 
         TurnSubsystem.setDefaultCommand(new limelightAngleCommand(limelightSubsystem,TurnSubsystem));
         // launch
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
-//        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
-//                .toggleWhenPressed(new FlipItUp(flipper), new FlipItDown(flipper));
+
         telemetry.addData("init complete", "init done");
         telemetry.update();
 
