@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class TurnTableSubsystem extends SubsystemBase {
     private Servo turntable;
+    private double newPos;
     // It's better to manage the servo position within the follow method.
     // private double servoPos = 0.08;
 
@@ -12,7 +13,7 @@ public class TurnTableSubsystem extends SubsystemBase {
     private static final double MIN_POS = 0.51;
     private static final double MAX_POS = 0.65;
     // Proportional gain for turning. Tune this value.
-    private static final double Kp = 0.01;
+    private static final double Kp = 0.005;
 
     public TurnTableSubsystem(Servo turntable) {
         this.turntable = turntable;
@@ -25,16 +26,18 @@ public class TurnTableSubsystem extends SubsystemBase {
             double currentPos = turntable.getPosition();
             // Calculate the adjustment. The sign depends on your servo's orientation.
             // You may need to change '-' to '+'
-            double newPos = currentPos + (Kp * tx);
+             newPos += (Kp * tx);
 
             // Clamp the new position to stay within the servo's safe range
             if (newPos > MAX_POS) {
                 newPos = MAX_POS;
             } else if (newPos < MIN_POS) {
                 newPos = MIN_POS;
+            } else{
+                turntable.setPosition(newPos);
             }
 
-            turntable.setPosition(newPos);
+
         }
         // If tx is 0 (no target), the servo will hold its last position.
     }
