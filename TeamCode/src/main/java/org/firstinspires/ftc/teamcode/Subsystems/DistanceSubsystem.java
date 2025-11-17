@@ -1,36 +1,34 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
-public class REV2mDistanceSubsystem extends SubsystemBase {
-    private DistanceSensor fSensor, mSensor, bSensor;
+public class DistanceSubsystem extends SubsystemBase {
+    private DigitalChannel fSensor, mSensor, bSensor;
     private double distanceToArtifact = 3.5; //distance in cm
 
-    public REV2mDistanceSubsystem(DistanceSensor fSensor, DistanceSensor mSensor, DistanceSensor bSensor){
+    public DistanceSubsystem(DigitalChannel fSensor, DigitalChannel mSensor, DigitalChannel bSensor){
         this.fSensor = fSensor; //front distance sensor
         this.mSensor = mSensor; //middle distance sensor
         this.bSensor = bSensor; //back distance sensor
     }
 
     public boolean checkFront(){
-        if (fSensor.getDistance(DistanceUnit.CM) <= distanceToArtifact){
+        if (fSensor.getState()){
             return true; //yes, there is an artifact
         } else {
             return false; //no, there is not an artifact
         }
     }
     public boolean checkMiddle(){
-        if (mSensor.getDistance(DistanceUnit.CM) <= distanceToArtifact){
+        if (mSensor.getState()){
             return true; //yes, there is an artifact
         } else {
             return false; //no, there is not an artifact
         }
     }
     public boolean checkBack(){
-        if (bSensor.getDistance(DistanceUnit.CM) <= distanceToArtifact){
+        if (bSensor.getState()){
             return true; //yes, there is an artifact
         } else {
             return false; //no, there is not an artifact
@@ -38,9 +36,9 @@ public class REV2mDistanceSubsystem extends SubsystemBase {
     }
     public String[] reportDistanceAsString(){
         String[] currentDistances
-                = {"front (cm): " + fSensor.getDistance(DistanceUnit.CM),
-                "back (cm): " + mSensor.getDistance(DistanceUnit.CM),
-                "middle (cm): " + bSensor.getDistance(DistanceUnit.CM)};
+                = {"front (cm): " + fSensor.getState(),
+                "back (cm): " + mSensor.getState(),
+                "middle (cm): " + bSensor.getState()};
         return currentDistances;
     }
     public int getArtifactNum(){
