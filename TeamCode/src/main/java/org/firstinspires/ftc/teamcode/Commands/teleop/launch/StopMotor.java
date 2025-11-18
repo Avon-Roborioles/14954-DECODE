@@ -17,6 +17,6 @@ public class StopMotor extends CommandBase {
     }
 
     public boolean isFinished() {
-        return false;
+        return true;
     }
 }

@@ -115,9 +115,9 @@ public class TeleOp3 extends CommandOpMode {
 
         // button commands
         driverOp.getGamepadButton(GamepadKeys.Button.A)
-                .toggleWhenPressed(new IntakeFrontToBack(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+                .toggleWhenPressed(new IntakeFrontToBack(intakeSubsystem, distanceSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
-                .toggleWhenPressed(new IntakeBackToFront(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+                .toggleWhenPressed(new IntakeBackToFront(intakeSubsystem, distanceSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.B)
                 .toggleWhenPressed(new IntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
 //        driverOp.getGamepadButton(GamepadKeys.Button.X)
@@ -150,7 +150,7 @@ public class TeleOp3 extends CommandOpMode {
                 gamepad1.right_stick_x,
                 false // Robot Centric
         );
-        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
+        driverOp.getGamepadButton(GamepadKeys.Button.BACK) // Heading Reset
                 .whenPressed(new InstantCommand(() -> {follower.setPose(new Pose(0, 0, PI));}));
 
 

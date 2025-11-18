@@ -43,7 +43,7 @@ public class DistanceIntakeCommand extends SequentialCommandGroup {
                     new IntakeToLauncher(intakeSubsystem));
         } else if (Arrays.equals(layout, array3)){                      // o - o - x
             addCommands(
-                    new IntakeBackToCenter(intakeSubsystem),
+                    new IntakeBackToCenter(intakeSubsystem, distanceSubsystem),
                     new IntakeToLauncher(intakeSubsystem));
         } else if (Arrays.equals(layout, array4)){                  // x - x - o
             addCommands(
@@ -53,18 +53,18 @@ public class DistanceIntakeCommand extends SequentialCommandGroup {
         } else if (Arrays.equals(layout, array5)){                   // o - x - o
             addCommands(
                     new IntakeToLauncher(intakeSubsystem),
-                    new IntakeBackToCenter(intakeSubsystem),
+                    new IntakeBackToCenter(intakeSubsystem, distanceSubsystem),
                     new IntakeToLauncher(intakeSubsystem));
         } else if (Arrays.equals(layout, array6)){                  // x - o - x
             addCommands(
-                    new IntakeBackToCenter(intakeSubsystem),
+                    new IntakeBackToCenter(intakeSubsystem, distanceSubsystem),
                     // transfers artifact originally in back to launcher while moving front to center
                     new IntakeFrontToCenterAndUp(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem));
         } else {
             addCommands(
                     new IntakeToLauncher(intakeSubsystem),          // x - x - x
-                    new IntakeBackToCenter(intakeSubsystem),
+                    new IntakeBackToCenter(intakeSubsystem , distanceSubsystem),
                     // transfers artifact originally in back to launcher while moving front to center
                     new IntakeFrontToCenterAndUp(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem));
