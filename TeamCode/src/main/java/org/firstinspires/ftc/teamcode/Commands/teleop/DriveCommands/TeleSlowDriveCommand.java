@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.commands.teleop;
+package org.firstinspires.ftc.teamcode.commands.teleop.DriveCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
@@ -7,14 +7,14 @@ import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
 
 import java.util.function.DoubleSupplier;
 
-public class TeleDriveCommand extends CommandBase {
+public class TeleSlowDriveCommand extends CommandBase {
     private AutoDriveSubsystem autoDriveSubsystem;
     private Telemetry telemetry;
-    private double speed1 = 0;
+    private double speed1 = 0.3;
     private DoubleSupplier strafe, forward, turn;
     private boolean fieldCentric;
 
-    public TeleDriveCommand(AutoDriveSubsystem autoDriveSubsystem, Telemetry telemetry, DoubleSupplier forward, DoubleSupplier strafe, DoubleSupplier turn, boolean fieldCentric){
+    public TeleSlowDriveCommand(AutoDriveSubsystem autoDriveSubsystem, Telemetry telemetry, DoubleSupplier forward, DoubleSupplier strafe, DoubleSupplier turn, boolean fieldCentric){
         this.autoDriveSubsystem = autoDriveSubsystem;
         this.telemetry = telemetry;
         this.strafe = strafe;
@@ -25,8 +25,7 @@ public class TeleDriveCommand extends CommandBase {
     }
     @Override
     public void execute(){
-        autoDriveSubsystem.setTeleOpDrive(forward.getAsDouble(), -strafe.getAsDouble(), -turn.getAsDouble(), fieldCentric);
+        autoDriveSubsystem.setTeleOpDrive(forward.getAsDouble() * speed1, -strafe.getAsDouble() * speed1, -turn.getAsDouble() * speed1, fieldCentric);
         autoDriveSubsystem.update();
     }
-
 }
