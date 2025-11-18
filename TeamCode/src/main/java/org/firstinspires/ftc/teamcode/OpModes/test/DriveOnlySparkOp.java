@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.test;
 
 
 import com.bylazar.configurables.annotations.Configurable;
