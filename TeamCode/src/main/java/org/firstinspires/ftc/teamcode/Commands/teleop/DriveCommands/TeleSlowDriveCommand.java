@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.commands.teleop.DriveCommands;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.subsystems.AutoDriveSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 
 import java.util.function.DoubleSupplier;
 
