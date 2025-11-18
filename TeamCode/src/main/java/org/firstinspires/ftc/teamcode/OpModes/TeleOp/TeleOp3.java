@@ -22,7 +22,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
-import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 //import org.firstinspires.ftc.teamcode.commands.flipper.FlipItDown;
 //import org.firstinspires.ftc.teamcode.commands.flipper.FlipItUp;
@@ -56,7 +56,6 @@ public class TeleOp3 extends CommandOpMode {
     // launcher variables
     private DcMotor launchMotor;
     private Servo launchAngle;
-    private Servo turnServo;
     private CRServo launchServo;
     private LaunchSubsystem launchSubsystem;
     // intake variables
@@ -64,24 +63,28 @@ public class TeleOp3 extends CommandOpMode {
     private CRServo frontPassServo;
     private CRServo backIntakeServo;
     private CRServo backPassServo;
+    private IntakeSubsystem intakeSubsystem;
+    //Distance Sensor Variables
     private DigitalChannel fSensor, mSensor, bSensor;
-    private IntakeServoSubsystem intakeSubsystem;
     private DistanceSubsystem distanceSubsystem;
-    private Servo turntableServo;
+   // Turntable Variables
+   private Servo turnServo;
     private TurnTableSubsystem TurnSubsystem;
+    // Limelight Variables
     private LimeLightSubsystem limelightSubsystem;
     private Limelight3A limelight;
 
 
     @Override
     public void initialize() {
-        // drive
+        // controlAssignments
         driverOp = new GamepadEx(gamepad1);
         operator = new GamepadEx(gamepad2);
 
         //limelight
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
+        //Follower
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startingPose == null ? new Pose() : startingPose);
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
@@ -99,13 +102,13 @@ public class TeleOp3 extends CommandOpMode {
         frontPassServo = hardwareMap.get(CRServo.class, "frontPass");
         backIntakeServo = hardwareMap.get(CRServo.class, "backIntake");
         backPassServo = hardwareMap.get(CRServo.class, "backPass");
-
+        // distance Sensors
         fSensor = hardwareMap.get(DigitalChannel.class, "fSensor");
         mSensor = hardwareMap.get(DigitalChannel.class, "mSensor");
         bSensor = hardwareMap.get(DigitalChannel.class, "bSensor");
-
+        //Subsystems
         distanceSubsystem = new DistanceSubsystem(fSensor, mSensor, bSensor);
-        intakeSubsystem = new IntakeServoSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
+        intakeSubsystem = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launchSubsystem = new LaunchSubsystem(launchMotor, launchAngle, turnServo ,launchServo);
         limelightSubsystem = new LimeLightSubsystem(limelight);
 
