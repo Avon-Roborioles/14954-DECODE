@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.subsystems;
+package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.pedropathing.follower.Follower;
@@ -6,7 +6,7 @@ import com.pedropathing.geometry.*;
 import com.pedropathing.paths.*;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Storage;
+
 
 
 public class AutoDriveSubsystem extends SubsystemBase {
@@ -39,7 +39,6 @@ public class AutoDriveSubsystem extends SubsystemBase {
     }
     public void update(){
         follower.update();
-        Storage.memory.lastPose = follower.getPose();
       //  follower.drawOnDashBoard();
     }
     public boolean isBusy(){
