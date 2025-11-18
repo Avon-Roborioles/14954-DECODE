@@ -1,15 +1,12 @@
 package org.firstinspires.ftc.teamcode.commands.teleop.intake;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.util.Timing;
 
-import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
-
-import java.util.concurrent.TimeUnit;
+import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 
 public class IntakeStopServoCommand extends CommandBase {
-    private IntakeServoSubsystem subsystem;
-    public IntakeStopServoCommand(IntakeServoSubsystem subsystem ){
+    private IntakeSubsystem subsystem;
+    public IntakeStopServoCommand(IntakeSubsystem subsystem ){
         this.subsystem = subsystem;
         addRequirements(subsystem);
 }

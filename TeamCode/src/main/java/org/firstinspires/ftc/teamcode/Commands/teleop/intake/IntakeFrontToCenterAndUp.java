@@ -3,15 +3,15 @@ package org.firstinspires.ftc.teamcode.commands.teleop.intake;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.util.Timing;
 
-import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 
 import java.util.concurrent.TimeUnit;
 
 public class IntakeFrontToCenterAndUp extends CommandBase{
-    private IntakeServoSubsystem intakeServoSubsystem;
+    private IntakeSubsystem intakeServoSubsystem;
     private Timing.Timer timer = new Timing.Timer(500, TimeUnit.MILLISECONDS);
 
-    public IntakeFrontToCenterAndUp(IntakeServoSubsystem intakeServoSubsystem){
+    public IntakeFrontToCenterAndUp(IntakeSubsystem intakeServoSubsystem){
         this.intakeServoSubsystem = intakeServoSubsystem;
         addRequirements(intakeServoSubsystem);
         timer.start();

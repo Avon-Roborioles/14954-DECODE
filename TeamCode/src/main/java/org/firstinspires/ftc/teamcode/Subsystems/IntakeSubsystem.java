@@ -3,12 +3,10 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.util.Timing;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
-public class IntakeServoSubsystem extends SubsystemBase {
+public class IntakeSubsystem extends SubsystemBase {
     public enum SubSystemServoId {
         frontIntake,
         frontPass,
@@ -27,7 +25,7 @@ public class IntakeServoSubsystem extends SubsystemBase {
     private double power;
 
 
-    public IntakeServoSubsystem(CRServo frontIntake, CRServo frontPass, CRServo backIntake, CRServo backPass) {
+    public IntakeSubsystem(CRServo frontIntake, CRServo frontPass, CRServo backIntake, CRServo backPass) {
         this.frontIntake = frontIntake;
         this.frontPass = frontPass;
         this.backIntake = backIntake;

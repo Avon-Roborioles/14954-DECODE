@@ -1,21 +1,19 @@
 package org.firstinspires.ftc.teamcode.commands.teleop.intake.sensor;
 
-import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
-import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeBackToCenter;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToCenter;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToCenterAndUp;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeToLauncher;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class DistanceIntakeCommand extends SequentialCommandGroup {
     private DistanceSubsystem distanceSubsystem;
-    private IntakeServoSubsystem intakeSubsystem;
+    private IntakeSubsystem intakeSubsystem;
     private int[] layout;
 
     // all possible combinations
@@ -26,7 +24,7 @@ public class DistanceIntakeCommand extends SequentialCommandGroup {
     private int[] array5 = {0,1,1};
     private int[] array6 = {1,0,1};
 
-    public DistanceIntakeCommand(DistanceSubsystem distanceSubsystem, IntakeServoSubsystem intakeSubsystem){
+    public DistanceIntakeCommand(DistanceSubsystem distanceSubsystem, IntakeSubsystem intakeSubsystem){
         this.distanceSubsystem = distanceSubsystem;
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(distanceSubsystem, intakeSubsystem);
