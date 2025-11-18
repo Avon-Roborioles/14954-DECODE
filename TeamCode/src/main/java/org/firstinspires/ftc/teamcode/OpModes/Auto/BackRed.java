@@ -1,36 +1,30 @@
 package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
-import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.follower;
-
 import com.arcrobotics.ftclib.command.Command;
-import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.Path;
-import com.pedropathing.paths.PathChain;
-import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-
 @Autonomous
-public class BackBlue extends AutoBase {
+public class BackRed extends AutoBase{
     Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;
     Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
 
-    Pose startPose = new Pose(80, 7, Math.toRadians(90));
-    Pose launchPreloadPose = new Pose(74, 19, Math.toRadians(115));
-    Pose prepGrab1Pose = new Pose(99, 36, Math.toRadians(0));
-    Pose grab1Pose = new Pose(132, 36, Math.toRadians(0));
-    Pose midpointPose = new Pose(73, 54, Math.toRadians(90));
-    Pose launch1Pose = new Pose(66, 80, Math.toRadians(125));
-    Pose prepGrab2Pose = new Pose(99, 36, Math.toRadians(0));
-    Pose grab2Pose = new Pose(126, 60, Math.toRadians(0));
-    Pose midpoint2Pose = new Pose(73, 36, Math.toRadians(90));
-    Pose launch2Pose = new Pose(66, 80, Math.toRadians(125));
-    Pose leavePose = new Pose(72, 48, Math.toRadians(90));
+    Pose startPose = new Pose(64, 7, Math.toRadians(90));
+    Pose launchPreloadPose = new Pose(72, 23, Math.toRadians(55));
+    Pose prepGrab1Pose = new Pose(46, 36, Math.toRadians(180));
+    Pose grab1Pose = new Pose(14, 36, Math.toRadians(180));
+    Pose midpointPose = new Pose(71, 60, Math.toRadians(90));
+    Pose launch1Pose = new Pose(80, 81, Math.toRadians(45));
+    Pose prepGrab2Pose = new Pose(45, 60, Math.toRadians(180));
+    Pose grab2Pose = new Pose(16, 60, Math.toRadians(180));
+    Pose midpoint2Pose = new Pose(71, 60, Math.toRadians(90));
+    Pose launch2Pose = new Pose(80, 81, Math.toRadians(45));
+    Pose leavePose = new Pose(59, 48, Math.toRadians(45));
 
 
     @Override
@@ -49,10 +43,8 @@ public class BackBlue extends AutoBase {
         follower.setStartingPose(startPose);
         follower.setMaxPower(1);
 
-
-
-
     }
+
     public void buildPath(){
         //launch Preload
         launchPreload = new Path(new BezierCurve(startPose, launchPreloadPose));
@@ -100,22 +92,8 @@ public class BackBlue extends AutoBase {
         launch2.setTimeoutConstraint(250);
 
         //leave
-        Leave = new Path(new BezierCurve(launch2Pose, leavePose));
-        Leave.setLinearHeadingInterpolation(launch2Pose.getHeading(), leavePose.getHeading());
+        Leave = new Path(new BezierLine(launch2Pose, leavePose));
         Leave.setTimeoutConstraint(250);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 
