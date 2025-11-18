@@ -37,8 +37,8 @@ public class DistanceSubsystem extends SubsystemBase {
     public String[] reportDistanceAsString(){
         String[] currentDistances
                 = {"front (cm): " + fSensor.getState(),
-                "back (cm): " + mSensor.getState(),
-                "middle (cm): " + bSensor.getState()};
+                "middle (cm): " + mSensor.getState(),
+                "back (cm): " + bSensor.getState()};
         return currentDistances;
     }
     public int getArtifactNum(){
