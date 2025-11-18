@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
 import static java.lang.Math.PI;
 
@@ -22,7 +22,6 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
-import org.firstinspires.ftc.teamcode.Subsystems.FlipperSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 //import org.firstinspires.ftc.teamcode.commands.flipper.FlipItDown;
@@ -30,7 +29,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 //import org.firstinspires.ftc.teamcode.commands.LimelightCommand;
-import org.firstinspires.ftc.teamcode.commands.limelightAngleCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.turntable.limelightAngleCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeBackToFront;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToBack;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeStopServoCommand;

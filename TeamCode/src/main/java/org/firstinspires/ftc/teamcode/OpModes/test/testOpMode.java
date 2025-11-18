@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.OpModes.test;
 
-import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -10,8 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
-import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
-
+import org.firstinspires.ftc.teamcode.commands.teleop.DriveCommands.DriveCommand;
 
 
 @TeleOp
@@ -26,7 +23,7 @@ public class testOpMode extends LinearOpMode {
     private CRServo shooterServo;
     private SparkFunOTOS spark;
     private DcMotor frontLeft, frontRight, backLeft,backRight;
-    private org.firstinspires.ftc.teamcode.Commands.DriveCommand drive;
+    private DriveCommand drive;
     private DriveSubsystem driveSubsystem;
 
 
