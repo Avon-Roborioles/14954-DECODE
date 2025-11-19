@@ -52,15 +52,15 @@ public class ProtypeShooterControl extends LinearOpMode {
         double newServoAngle = 0.0;
 
 
-        shooterMotor = hardwareMap.get(DcMotor.class, "shooterMotor");
+        shooterMotor = hardwareMap.get(DcMotor.class, "launchMotor");
         shooterMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        shooterAngle = hardwareMap.get(Servo.class, "shooterAngle");
+        shooterAngle = hardwareMap.get(Servo.class, "LaunchAngle");
 
         waitForStart();
 
         shooterAngle.setDirection(Servo.Direction.REVERSE);
-        shooterAngle.setPosition(0.0);
+//        shooterAngle.setPosition(0.0);
         launchServoAngle = shooterAngle.getPosition();
 
 

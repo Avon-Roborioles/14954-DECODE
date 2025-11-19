@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.test;
 
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -22,35 +24,39 @@ public class testOpMode extends LinearOpMode {
     private DcMotor shooterMotor;
     private CRServo shooterServo;
     private SparkFunOTOS spark;
-    private DcMotor frontLeft, frontRight, backLeft,backRight;
+    private DcMotor frontLeft, frontRight, backLeft, backRight;
     private DriveCommand drive;
     private DriveSubsystem driveSubsystem;
+    private Limelight3A limelight;
 
 
     private Servo launchAngle; // 0 to .4
+    private Servo turnServo;
     private double anglePos;
-
+    private double servoPos = 0.5;
 
 
     @Override
     public void runOpMode() throws InterruptedException {
+        turnServo = hardwareMap.get(Servo.class, "turnServo");
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
         frontIntake = hardwareMap.get(CRServo.class, "frontIntake");
         backIntake = hardwareMap.get(CRServo.class, "backIntake");
         frontPass = hardwareMap.get(CRServo.class, "frontPass");
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-        frontRight = hardwareMap.get(DcMotor.class,"frontRight");
-        backLeft = hardwareMap.get(DcMotor.class,"backLeft");
-        backRight = hardwareMap.get(DcMotor.class,"backRight");
+        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+        backRight = hardwareMap.get(DcMotor.class, "backRight");
 //        Motor frontRight = new Motor(hardwareMap, "frontRight");
 //        Motor backLeft = new Motor(hardwareMap, "backLeft");
 //        Motor backRight = new Motor(hardwareMap, "backRight");
 //        Motor frontLeft = new Motor(hardwareMap, "frontLeft");
         backPass = hardwareMap.get(CRServo.class, "backPass");
         frontPass = hardwareMap.get(CRServo.class, "frontPass");
-        shooterMotor = hardwareMap.get(DcMotor.class, "launcher");
-        shooterServo = hardwareMap.get(CRServo.class,"launchServo");
-      //  spark = hardwareMap.get(SparkFunOTOS.class,"sparkfun");
-        launchAngle = hardwareMap.get(Servo.class, "shooterFlap");
+        shooterMotor = hardwareMap.get(DcMotor.class, "launchMotor");
+        shooterServo = hardwareMap.get(CRServo.class, "launchServo");
+        //  spark = hardwareMap.get(SparkFunOTOS.class,"sparkfun");
+        launchAngle = hardwareMap.get(Servo.class, "launchAngle");
         anglePos = 0.05;
 
         driveSubsystem = new DriveSubsystem(frontLeft, frontRight, backLeft, backRight, telemetry);
@@ -65,15 +71,26 @@ public class testOpMode extends LinearOpMode {
 //                false                              // field-centric off for now
 //        );
 
-   //  CommandScheduler.getInstance().schedule(drive);
+        //  CommandScheduler.getInstance().schedule(drive);
 
         waitForStart();
 
-        while (opModeIsActive()) {
+        while (opModeIsActive() && !isStopRequested()) {
 
 
 //            CommandScheduler.getInstance().run();
 
+            LLResult result = limelight.getLatestResult();
+            if (result.getTx() != 0) {
+                servoPos -= 0.00006 * result.getTx();
+            }
+        }
+        if (servoPos > 0.75) {
+            servoPos = 0.75;
+        } else if (servoPos < 0.35) {
+            servoPos = 0.35;
+        }
+        turnServo.setPosition(servoPos);
 
             if (gamepad1.a) {
                 frontIntake.setPower(-1);
@@ -177,4 +194,4 @@ public class testOpMode extends LinearOpMode {
 
         }
     }
-}
+

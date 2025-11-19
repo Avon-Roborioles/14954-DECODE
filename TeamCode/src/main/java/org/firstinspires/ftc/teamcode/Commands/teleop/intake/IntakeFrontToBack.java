@@ -23,7 +23,7 @@ public class IntakeFrontToBack extends CommandBase{
     public void execute() {
         intakeServoSubsystem.IntakeFrontToBack();
     }
-    public boolean isFinished(){
-        return distanceSubsystem.checkBack();
-    }
+//    public boolean isFinished(){
+//        return distanceSubsystem.checkBack();
+//    }
 }

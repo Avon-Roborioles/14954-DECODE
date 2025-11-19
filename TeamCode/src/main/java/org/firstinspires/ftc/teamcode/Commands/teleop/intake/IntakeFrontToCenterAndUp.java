@@ -21,7 +21,7 @@ public class IntakeFrontToCenterAndUp extends CommandBase{
         intakeServoSubsystem.IntakeFrontToCenter();
         intakeServoSubsystem.TransferToLauncher();
     }
-    public boolean isFinished(){
-        return timer.done();
-    }
+//    public boolean isFinished(){
+//        return timer.done();
+//    }
 }

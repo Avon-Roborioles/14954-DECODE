@@ -18,12 +18,12 @@ public class LaunchSubsystem extends SubsystemBase {
         this.launchAngle = launchAngle;
         this.turnServo = turnServo;
         this.launchServo = launchServo;
-        launchPower = 0.8;
+        launchPower = 1;
     }
     public LaunchSubsystem(DcMotor launchMotor, Servo launchAngle){
         this.launchMotor = launchMotor;
         this.launchAngle = launchAngle;
-        launchPower = 0.8;
+        launchPower = 1;
     }
     public void setLaunchPower(double newPower){
         launchPower = newPower;

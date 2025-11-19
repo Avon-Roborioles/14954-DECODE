@@ -80,8 +80,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public void IntakeFrontToBack() {
         frontIntake.setPower(-1);
         frontPass.setPower(1);
-        backIntake.setPower(1);
-        backPass.setPower(-1);
+        backIntake.setPower(0);
+        backPass.setPower(1);
     }
 
     public void IntakeFrontToBack(long ms) {
@@ -89,14 +89,14 @@ public class IntakeSubsystem extends SubsystemBase {
         timer.start();
         while (timer.isTimerOn()) {
             frontIntake.setPower(-1);
-            frontPass.setPower(1);
+            frontPass.setPower(-1);
             backIntake.setPower(1);
-            backPass.setPower(-1);
+            backPass.setPower(1);
         }
     }
 
     public void IntakeFrontToCenter() {
-        frontIntake.setPower(1);
+        frontIntake.setPower(-1);
         frontPass.setPower(1);
         backIntake.setPower(0);
         backPass.setPower(0);
@@ -107,7 +107,7 @@ public class IntakeSubsystem extends SubsystemBase {
         timer.start();
         while (timer.isTimerOn()) {
             frontIntake.setPower(1);
-            frontPass.setPower(1);
+            frontPass.setPower(-1);
             backIntake.setPower(0);
             backPass.setPower(0);
         }
@@ -115,7 +115,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void IntakeFrontOnly() {
         frontIntake.setPower(1);
-        frontPass.setPower(1);
+        frontPass.setPower(-1);
         backIntake.setPower(0);
         backPass.setPower(0);
     }
@@ -172,9 +172,9 @@ public class IntakeSubsystem extends SubsystemBase {
         Timing.Timer timer = new Timing.Timer(ms, TimeUnit.MILLISECONDS);
         while (timer.isTimerOn()) {
             frontIntake.setPower(0);
-            frontPass.setPower(1);
+            frontPass.setPower(-1);
             backIntake.setPower(0);
-            backPass.setPower(-1);
+            backPass.setPower(1);
         }
     }
 
