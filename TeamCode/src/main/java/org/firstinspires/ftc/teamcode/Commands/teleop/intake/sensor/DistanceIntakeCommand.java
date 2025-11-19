@@ -4,22 +4,25 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeBackToCenter;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToCenter;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToCenterAndUp;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeToLauncher;
 
 public class DistanceIntakeCommand extends SequentialCommandGroup {
-
+//public class DistanceIntakeCommand extends SequentialCommandGroup {
     public DistanceIntakeCommand(DistanceSubsystem distanceSubsystem,
-                                 IntakeSubsystem intakeSubsystem) {
+                                 IntakeSubsystem intakeSubsystem, LaunchSubsystem launchSubsystem) {
 
-        addRequirements(distanceSubsystem, intakeSubsystem);
+        addRequirements(distanceSubsystem, intakeSubsystem, launchSubsystem);
 
         boolean f = distanceSubsystem.checkFront();
         boolean m = distanceSubsystem.checkMiddle();
         boolean b = distanceSubsystem.checkBack();
-
+//        SequentialCommandGroup intakeSequence = new SequentialCommandGroup();
+        // to add the motors
         // FRONT ONLY
         if (f && !m && !b) {
             addCommands(
@@ -72,6 +75,8 @@ public class DistanceIntakeCommand extends SequentialCommandGroup {
                     new IntakeFrontToCenterAndUp(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem)
             );
+        } else if (!f && !m && !b) {
+            new IntakeStopServoCommand(intakeSubsystem);
         }
     }
 }

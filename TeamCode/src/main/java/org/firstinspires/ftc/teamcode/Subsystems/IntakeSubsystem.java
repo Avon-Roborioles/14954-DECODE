@@ -79,7 +79,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void IntakeFrontToBack() {
         frontIntake.setPower(-1);
-        frontPass.setPower(1);
+        frontPass.setPower(-1);
         backIntake.setPower(0);
         backPass.setPower(1);
     }
@@ -97,7 +97,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void IntakeFrontToCenter() {
         frontIntake.setPower(-1);
-        frontPass.setPower(1);
+        frontPass.setPower(-1);
         backIntake.setPower(0);
         backPass.setPower(0);
     }
@@ -122,9 +122,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void IntakeBackToFront() {
         frontIntake.setPower(0);
-        frontPass.setPower(1);
+        frontPass.setPower(-1);
         backIntake.setPower(1);
-        backPass.setPower(-1);
+        backPass.setPower(1);
     }
 
     public void IntakeBackToFront(long ms) {
@@ -141,7 +141,7 @@ public class IntakeSubsystem extends SubsystemBase {
         frontIntake.setPower(0);
         frontPass.setPower(0);
         backIntake.setPower(1);
-        backPass.setPower(-1);
+        backPass.setPower(1);
     }
 
     public void IntakeBackToCenter(long ms) {
@@ -163,9 +163,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void TransferToLauncher() {
         frontIntake.setPower(0);
-        frontPass.setPower(1);
+        frontPass.setPower(-1);
         backIntake.setPower(0);
-        backPass.setPower(-1);
+        backPass.setPower(1);
     }
 
     public void TransferToLauncher(long ms) {
@@ -183,6 +183,16 @@ public class IntakeSubsystem extends SubsystemBase {
         frontPass.setPower(0);
         backIntake.setPower(0);
         backPass.setPower(0);
+    }
+    public void Puke(){
+        frontIntake.setPower(1);
+        frontPass.setPower(1);
+        backIntake.setPower(-1);
+        backPass.setPower(-1);
+    }
+    public void intakeOnly(){
+        frontIntake.setPower(-1);
+        backIntake.setPower(1);
     }
 
     public boolean isOff() {

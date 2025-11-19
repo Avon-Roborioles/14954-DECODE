@@ -31,6 +31,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 //import org.firstinspires.ftc.teamcode.commands.LimelightCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToCenter;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToCenterAndUp;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.PukeCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.sensor.IntakeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.turntable.limelightAngleCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeBackToFront;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToBack;
@@ -128,12 +130,24 @@ public class TeleOp3 extends CommandOpMode {
                 .toggleWhenPressed(new IntakeBackToFront(intakeSubsystem, distanceSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.B)
                 .toggleWhenPressed(new IntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
-        driverOp.getGamepadButton(GamepadKeys.Button.X)
-                        .toggleWhenPressed(new IntakeFrontToCenter(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+//        driverOp.getGamepadButton(GamepadKeys.Button.X)
+//                        .toggleWhenPressed(new IntakeFrontToCenter(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
 //        driverOp.getGamepadButton(GamepadKeys.Button.X)
 //                        .toggleWhenPressed(new TurntableTest1(TurnSubsystem), new TurntableTest2(TurnSubsystem));
+//        driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+//                        .whenHeld(new DistanceIntakeCommand(distanceSubsystem, intakeSubsystem, launchSubsystem));
+
+        driverOp.getGamepadButton(GamepadKeys.Button.X)
+                        .whenHeld(new IntakeCommand(distanceSubsystem,intakeSubsystem));
+
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                        .whenHeld(new DistanceIntakeCommand(distanceSubsystem, intakeSubsystem));
+                        .whenHeld(new InstantCommand(() -> {
+                            new DistanceIntakeCommand(distanceSubsystem, intakeSubsystem, launchSubsystem).schedule();
+                        }));
+        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
+                        .whenHeld(new PukeCommand(intakeSubsystem))
+                                .whenReleased(new IntakeStopServoCommand(intakeSubsystem));
+
 
 
 //        TurnSubsystem.setDefaultCommand(new limelightAngleCommand(limelightSubsystem,TurnSubsystem));
