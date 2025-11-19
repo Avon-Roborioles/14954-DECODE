@@ -16,7 +16,7 @@ public class limelightAngleCommand extends CommandBase {
     }
 
     public void initialize(){
-        limelightSubsystem.setPipeline(0);
+        limelightSubsystem.setPipeline(1);
         limelightSubsystem.start();
 
     }

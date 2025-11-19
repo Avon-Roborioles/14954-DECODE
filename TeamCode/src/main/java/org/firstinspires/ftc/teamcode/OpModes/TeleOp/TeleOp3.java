@@ -29,6 +29,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 //import org.firstinspires.ftc.teamcode.commands.LimelightCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToCenter;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToCenterAndUp;
 import org.firstinspires.ftc.teamcode.commands.teleop.turntable.limelightAngleCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeBackToFront;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToBack;
@@ -82,7 +84,7 @@ public class TeleOp3 extends CommandOpMode {
         operator = new GamepadEx(gamepad2);
 
         //limelight
-        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+//        limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
         //Follower
         follower = Constants.createFollower(hardwareMap);
@@ -106,11 +108,15 @@ public class TeleOp3 extends CommandOpMode {
         fSensor = hardwareMap.get(DigitalChannel.class, "fSensor");
         mSensor = hardwareMap.get(DigitalChannel.class, "mSensor");
         bSensor = hardwareMap.get(DigitalChannel.class, "bSensor");
+        fSensor.setMode(DigitalChannel.Mode.INPUT);
+        mSensor.setMode(DigitalChannel.Mode.INPUT);
+        bSensor.setMode(DigitalChannel.Mode.INPUT);
+
         //Subsystems
         distanceSubsystem = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intakeSubsystem = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launchSubsystem = new LaunchSubsystem(launchMotor, launchAngle, turnServo ,launchServo);
-        limelightSubsystem = new LimeLightSubsystem(limelight);
+//        limelightSubsystem = new LimeLightSubsystem(limelight);
 
         //turntable
         TurnSubsystem = new TurnTableSubsystem(turnServo);
@@ -122,12 +128,15 @@ public class TeleOp3 extends CommandOpMode {
                 .toggleWhenPressed(new IntakeBackToFront(intakeSubsystem, distanceSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.B)
                 .toggleWhenPressed(new IntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.X)
+                        .toggleWhenPressed(new IntakeFrontToCenter(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
 //        driverOp.getGamepadButton(GamepadKeys.Button.X)
 //                        .toggleWhenPressed(new TurntableTest1(TurnSubsystem), new TurntableTest2(TurnSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                        .whenPressed(new DistanceIntakeCommand(distanceSubsystem, intakeSubsystem));
+                        .whenHeld(new DistanceIntakeCommand(distanceSubsystem, intakeSubsystem));
 
-        TurnSubsystem.setDefaultCommand(new limelightAngleCommand(limelightSubsystem,TurnSubsystem));
+
+//        TurnSubsystem.setDefaultCommand(new limelightAngleCommand(limelightSubsystem,TurnSubsystem));
         // launch
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));

@@ -9,20 +9,55 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @TeleOp
 public class DistanceTest extends LinearOpMode {
     private DigitalChannel fSensor, mSensor, bSensor;
-    private Telemetry telemetry;
+
+
+
+
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
+
         fSensor = hardwareMap.get(DigitalChannel.class, "fSensor");
+
         mSensor = hardwareMap.get(DigitalChannel.class, "mSensor");
+
         bSensor = hardwareMap.get(DigitalChannel.class, "bSensor");
+
+        fSensor.setMode(DigitalChannel.Mode.INPUT);
+        mSensor.setMode(DigitalChannel.Mode.INPUT);
+        bSensor.setMode(DigitalChannel.Mode.INPUT);
+
+
+
 
     waitForStart();
 
     while (opModeIsActive()){
-        telemetry.addData("front (cm): ", fSensor.getState());
-        telemetry.addData("middle (cm): ", mSensor.getState());
-        telemetry.addData("back", bSensor.getState());
+
+        boolean stateHighF = fSensor.getState();
+        boolean stateHighM = mSensor.getState();
+        boolean stateHighB = bSensor.getState();
+
+        boolean detectedF = stateHighF;
+        boolean detectedM = stateHighM;
+        boolean detectedB = stateHighB;
+
+        if (detectedF) {
+            telemetry.addLine( "Fdetected");
+        } else {
+            telemetry.addLine("Fnotdetected");
+        }
+
+        if (detectedM) {
+            telemetry.addLine("Mdetected");
+        } else {
+            telemetry.addLine("Mnotdetected");
+        }
+        if (detectedB) {
+            telemetry.addLine("Bdetected");
+        } else {
+            telemetry.addLine("Bnotdetected");
+        }
         telemetry.update();
 
     }
