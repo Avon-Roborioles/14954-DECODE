@@ -32,7 +32,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToCenter;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToCenterAndUp;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.PukeCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.intake.sensor.IntakeCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.sensor.AllIntakeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.turntable.limelightAngleCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeBackToFront;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToBack;
@@ -138,7 +138,7 @@ public class TeleOp3 extends CommandOpMode {
 //                        .whenHeld(new DistanceIntakeCommand(distanceSubsystem, intakeSubsystem, launchSubsystem));
 
         driverOp.getGamepadButton(GamepadKeys.Button.X)
-                        .whenHeld(new IntakeCommand(distanceSubsystem,intakeSubsystem));
+                        .whenHeld(new AllIntakeCommand(distanceSubsystem,intakeSubsystem));
 
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                         .whenHeld(new InstantCommand(() -> {

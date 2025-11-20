@@ -21,6 +21,7 @@ public class DistanceIntakeCommand extends SequentialCommandGroup {
         boolean f = distanceSubsystem.checkFront();
         boolean m = distanceSubsystem.checkMiddle();
         boolean b = distanceSubsystem.checkBack();
+
 //        SequentialCommandGroup intakeSequence = new SequentialCommandGroup();
         // to add the motors
         // FRONT ONLY

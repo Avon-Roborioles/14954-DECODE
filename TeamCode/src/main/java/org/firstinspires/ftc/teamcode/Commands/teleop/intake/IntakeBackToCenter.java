@@ -23,7 +23,7 @@ public class IntakeBackToCenter extends CommandBase{
     public void execute() {
         intakeServoSubsystem.IntakeBackToCenter();
     }
-//    public boolean isFinished(){
-//        return false;
-//    }
+    public boolean isFinished(){
+        return timer.done();
+    }
 }

@@ -20,7 +20,7 @@ public class IntakeFrontToCenter extends CommandBase{
     public void execute() {
         intakeServoSubsystem.IntakeFrontToCenter();
     }
-//    public boolean isFinished(){
-//        return timer.done();
-//    }
+    public boolean isFinished(){
+        return timer.done();
+    }
 }
