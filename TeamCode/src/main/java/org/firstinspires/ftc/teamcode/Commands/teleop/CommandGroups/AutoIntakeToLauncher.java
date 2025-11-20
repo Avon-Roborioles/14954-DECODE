@@ -77,7 +77,9 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
                     new IntakeToLauncher(intakeSubsystem)
             );
         } else if (!f && !m && !b) {
-            new IntakeStopServoCommand(intakeSubsystem);
+            addCommands(
+            new IntakeStopServoCommand(intakeSubsystem)
+            );
         }
     }
 }
