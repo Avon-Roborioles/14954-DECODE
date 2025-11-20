@@ -1,18 +1,16 @@
-package org.firstinspires.ftc.teamcode.commands.teleop.intake.sensor;
+package org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeBackToCenter;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeBackToFront;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToBack;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToCenter;
-import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToCenterAndUp;
-import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeStopServoCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeToLauncher;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.ParallelIntakeOuter;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.sensor.IntakeBackOnly;
+import org.firstinspires.ftc.teamcode.commands.teleop.intake.sensor.IntakeFrontOnly;
 
 public class AllIntakeCommand extends SequentialCommandGroup {
     public AllIntakeCommand(DistanceSubsystem distanceSubsystem,

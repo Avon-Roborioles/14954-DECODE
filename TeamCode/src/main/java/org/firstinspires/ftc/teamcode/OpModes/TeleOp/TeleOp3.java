@@ -29,16 +29,13 @@ import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 //import org.firstinspires.ftc.teamcode.commands.LimelightCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToCenter;
-import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToCenterAndUp;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.PukeCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.intake.sensor.AllIntakeCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.turntable.limelightAngleCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AllIntakeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeBackToFront;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToBack;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeToLauncher;
-import org.firstinspires.ftc.teamcode.commands.teleop.intake.sensor.DistanceIntakeCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeToLauncher;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.RunMotor;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.StopMotor;
 //import org.firstinspires.ftc.teamcode.commands.teleop.turntable.TurntableTest1;
@@ -142,7 +139,7 @@ public class TeleOp3 extends CommandOpMode {
 
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                         .whenHeld(new InstantCommand(() -> {
-                            new DistanceIntakeCommand(distanceSubsystem, intakeSubsystem, launchSubsystem).schedule();
+                            new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem).schedule();
                         }));
         driverOp.getGamepadButton(GamepadKeys.Button.BACK)
                         .whenHeld(new PukeCommand(intakeSubsystem))

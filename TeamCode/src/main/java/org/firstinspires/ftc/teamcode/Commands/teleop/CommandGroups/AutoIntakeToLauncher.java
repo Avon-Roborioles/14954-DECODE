@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.commands.teleop.intake.sensor;
+package org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
@@ -11,10 +11,10 @@ import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToCenter
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeToLauncher;
 
-public class DistanceIntakeCommand extends SequentialCommandGroup {
+public class AutoIntakeToLauncher extends SequentialCommandGroup {
 //public class DistanceIntakeCommand extends SequentialCommandGroup {
-    public DistanceIntakeCommand(DistanceSubsystem distanceSubsystem,
-                                 IntakeSubsystem intakeSubsystem, LaunchSubsystem launchSubsystem) {
+    public AutoIntakeToLauncher(DistanceSubsystem distanceSubsystem,
+                                IntakeSubsystem intakeSubsystem, LaunchSubsystem launchSubsystem) {
 
         addRequirements(distanceSubsystem, intakeSubsystem, launchSubsystem);
 
