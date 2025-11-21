@@ -5,35 +5,38 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 
-public class IntakeOnlyCommand extends CommandBase {
+public class IntakeSide extends CommandBase {
     private IntakeSubsystem intakeSubsystem;
     private DistanceSubsystem distanceSubsystem;
+    private boolean isFront;
 
-    public IntakeOnlyCommand(IntakeSubsystem intakeSubsystem, DistanceSubsystem distanceSubsystem) {
+    public IntakeSide(IntakeSubsystem intakeSubsystem, DistanceSubsystem distanceSubsystem) {
         this.intakeSubsystem = intakeSubsystem;
         this.distanceSubsystem = distanceSubsystem;
 
     }
-
     public void initialize() {
-        distanceSubsystem.setIntakeFromFront(null);
+        isFront = distanceSubsystem.isIntakingFromFront();
     }
 
     public void execute() {
 
 
-        intakeSubsystem.intakeOnly();
+        if (isFront){
+            intakeSubsystem.IntakeFrontToCenter();
+        } else if (!isFront){
+            intakeSubsystem.IntakeBackToCenter();
+        }
     }
 
     public boolean isFinished() {
         boolean f = distanceSubsystem.checkFront();
         boolean b = distanceSubsystem.checkBack();
-        if (f || b) {
-            distanceSubsystem.setIntakeFromFront(f);
-            return true;
+        if (isFront) {
+            return b;
+        } else if (!isFront) {
+            return f;
         }
         return false;
     }
 }
-
-

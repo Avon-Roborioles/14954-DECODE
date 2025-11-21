@@ -16,8 +16,9 @@ public class TurnTableSubsystem extends SubsystemBase {
     // Define the limits for your servo
     private static final double MIN_POS = 0.40;
     private static final double MAX_POS = 0.70;
+    private double pos = 0.6;
     // Proportional gain for turning. Tune this value.
-    private static final double Kp = 0.00006;
+    private static final double Kp = -0.002;
 
     public TurnTableSubsystem(Servo turntable) {
         this.turntable = turntable;
@@ -31,7 +32,7 @@ public class TurnTableSubsystem extends SubsystemBase {
             Log.e("currentPos","current:" + currentPos );
             // Calculate the adjustment. The sign depends on your servo's orientation.
             // You may need to change '-' to '+'
-             newPos -= (Kp * tx);
+             newPos = pos + (Kp * tx);
 
              Log.e("newpos", "newpos:" + newPos );
 

@@ -81,7 +81,7 @@ public class IntakeSubsystem extends SubsystemBase {
         frontIntake.setPower(-1);
         frontPass.setPower(-1);
         backIntake.setPower(0);
-        backPass.setPower(1);
+        backPass.setPower(-1);
     }
 
     public void IntakeFrontToBack(long ms) {
@@ -114,15 +114,16 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void IntakeFrontOnly() {
-        frontIntake.setPower(1);
-        frontPass.setPower(-1);
+        frontIntake.setPower(-1);
+        frontPass.setPower(0);
         backIntake.setPower(0);
         backPass.setPower(0);
     }
 
+
     public void IntakeBackToFront() {
         frontIntake.setPower(0);
-        frontPass.setPower(-1);
+        frontPass.setPower(1);
         backIntake.setPower(1);
         backPass.setPower(1);
     }
@@ -157,8 +158,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public void IntakeBackOnly() {
         frontIntake.setPower(0);
         frontPass.setPower(0);
-        backIntake.setPower(1);
-        backPass.setPower(1);
+        backIntake.setPower(0);
+        backPass.setPower(-1);
     }
 
     public void TransferToLauncher() {

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 public class DistanceSubsystem extends SubsystemBase {
     private DigitalChannel fSensor, mSensor, bSensor;
     private double distanceToArtifact = 3.5; //distance in cm
+    private Boolean intakeFromFront = null;
 
     public DistanceSubsystem(DigitalChannel fSensor, DigitalChannel mSensor, DigitalChannel bSensor){
         this.fSensor = fSensor; //front distance sensor
@@ -54,17 +55,20 @@ public class DistanceSubsystem extends SubsystemBase {
         }
         return num;
     }
-    public int[] getArtifactPos(){
-        int[] pos = new int[3];
-        if(checkFront()){
-            pos[0] = 1;
-        }
-        if(checkMiddle()){
-            pos[1] = 1;
-        }
-        if(checkBack()){
-            pos[2] = 1;
-        }
-        return pos;
+
+
+    public boolean isFront(){
+        return fSensor.getState();
+    }
+    public boolean isBack(){
+        return fSensor.getState();
+    }
+    public Boolean isIntakingFromFront() {
+        return intakeFromFront;
+    }
+    public void setIntakeFromFront(Boolean intakeFromFront){
+        this.intakeFromFront = intakeFromFront;
+
+
     }
 }

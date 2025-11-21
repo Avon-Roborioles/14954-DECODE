@@ -40,6 +40,7 @@ import org.firstinspires.ftc.teamcode.commands.teleop.launch.RunMotor;
 import org.firstinspires.ftc.teamcode.commands.teleop.launch.StopMotor;
 //import org.firstinspires.ftc.teamcode.commands.teleop.turntable.TurntableTest1;
 //import org.firstinspires.ftc.teamcode.commands.teleop.turntable.TurntableTest2;
+import org.firstinspires.ftc.teamcode.commands.teleop.turntable.limelightAngleCommand;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 import java.util.function.Supplier;
@@ -83,7 +84,7 @@ public class TeleOp3 extends CommandOpMode {
         operator = new GamepadEx(gamepad2);
 
         //limelight
-//        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
         //Follower
         follower = Constants.createFollower(hardwareMap);
@@ -115,7 +116,7 @@ public class TeleOp3 extends CommandOpMode {
         distanceSubsystem = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intakeSubsystem = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launchSubsystem = new LaunchSubsystem(launchMotor, launchAngle, turnServo ,launchServo);
-//        limelightSubsystem = new LimeLightSubsystem(limelight);
+        limelightSubsystem = new LimeLightSubsystem(limelight);
 
         //turntable
         TurnSubsystem = new TurnTableSubsystem(turnServo);
@@ -135,7 +136,7 @@ public class TeleOp3 extends CommandOpMode {
 //                        .whenHeld(new DistanceIntakeCommand(distanceSubsystem, intakeSubsystem, launchSubsystem));
 
         driverOp.getGamepadButton(GamepadKeys.Button.X)
-                        .whenHeld(new AllIntakeCommand(distanceSubsystem,intakeSubsystem));
+                        .whenPressed(new AllIntakeCommand(distanceSubsystem,intakeSubsystem));
 
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                         .whenHeld(new InstantCommand(() -> {
@@ -147,7 +148,7 @@ public class TeleOp3 extends CommandOpMode {
 
 
 
-//        TurnSubsystem.setDefaultCommand(new limelightAngleCommand(limelightSubsystem,TurnSubsystem));
+        TurnSubsystem.setDefaultCommand(new limelightAngleCommand(limelightSubsystem,TurnSubsystem));
         // launch
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));

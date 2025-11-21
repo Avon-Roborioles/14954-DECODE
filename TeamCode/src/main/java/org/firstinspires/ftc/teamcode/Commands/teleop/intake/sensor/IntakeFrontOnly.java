@@ -16,7 +16,6 @@ public class IntakeFrontOnly extends CommandBase{
     public IntakeFrontOnly(IntakeSubsystem intakeServoSubsystem, DistanceSubsystem distanceSubsystem){
         this.intakeServoSubsystem = intakeServoSubsystem;
         this.distanceSubsystem = distanceSubsystem;
-        addRequirements(intakeServoSubsystem, distanceSubsystem);
         timer.start();
     }
     @Override
