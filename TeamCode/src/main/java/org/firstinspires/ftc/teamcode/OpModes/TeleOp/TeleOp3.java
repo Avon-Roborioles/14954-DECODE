@@ -29,8 +29,9 @@ import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 //import org.firstinspires.ftc.teamcode.commands.LimelightCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.PukeCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AllIntakeCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeBackToFront;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeFrontToBack;
 import org.firstinspires.ftc.teamcode.commands.teleop.intake.IntakeStopServoCommand;
@@ -53,7 +54,7 @@ public class TeleOp3 extends CommandOpMode {
     private Supplier<PathChain> pathChain;
     private TelemetryManager telemetryM;
     private GamepadEx driverOp;
-    private GamepadEx operator;
+    private GamepadEx operatorOp;
 
     // launcher variables
     private DcMotor launchMotor;
@@ -81,7 +82,7 @@ public class TeleOp3 extends CommandOpMode {
     public void initialize() {
         // controlAssignments
         driverOp = new GamepadEx(gamepad1);
-        operator = new GamepadEx(gamepad2);
+        operatorOp = new GamepadEx(gamepad2);
 
         //limelight
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
@@ -135,22 +136,33 @@ public class TeleOp3 extends CommandOpMode {
 //        driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
 //                        .whenHeld(new DistanceIntakeCommand(distanceSubsystem, intakeSubsystem, launchSubsystem));
 
-        driverOp.getGamepadButton(GamepadKeys.Button.X)
-                        .whenPressed(new AllIntakeCommand(distanceSubsystem,intakeSubsystem));
+
 
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                         .whenHeld(new InstantCommand(() -> {
                             new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem).schedule();
                         }));
-        driverOp.getGamepadButton(GamepadKeys.Button.BACK)
-                        .whenPressed(new PukeCommand(intakeSubsystem));
+
+        driverOp.getGamepadButton(GamepadKeys.Button.X) // Heading Reset
+                .whenPressed(new InstantCommand(() -> {follower.setPose(new Pose(0, 0, PI));}));
 
 
+
+        // Operator commands
+
+        operatorOp.getGamepadButton(GamepadKeys.Button.B)
+                        .whenPressed(new CancelCommand(intakeSubsystem,launchSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
+                .whenHeld(new PukeCommand(intakeSubsystem))
+                        .whenReleased(new IntakeStopServoCommand(intakeSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(new AutoIntakeCommand(distanceSubsystem,intakeSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
 
         TurnSubsystem.setDefaultCommand(new limelightAngleCommand(limelightSubsystem,TurnSubsystem));
         // launch
-        driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
+
 
         telemetry.addData("init complete", "init done");
         telemetry.update();
@@ -172,8 +184,7 @@ public class TeleOp3 extends CommandOpMode {
                 gamepad1.right_stick_x,
                 false // Robot Centric
         );
-        driverOp.getGamepadButton(GamepadKeys.Button.BACK) // Heading Reset
-                .whenPressed(new InstantCommand(() -> {follower.setPose(new Pose(0, 0, PI));}));
+
 
 
 //            limelightSubsystem.setDefaultCommand(new LimelightCommand(limelightSubsystem, limelightSubsystem.getResult(), telemetry));

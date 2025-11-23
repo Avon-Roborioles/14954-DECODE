@@ -12,7 +12,7 @@ public class PassToCenter extends CommandBase {
     private IntakeSubsystem intakeSubsystem;
     private DistanceSubsystem distanceSubsystem;
     private boolean isFront;
-    private Timing.Timer timer = new Timing.Timer(400, TimeUnit.MILLISECONDS);
+    private Timing.Timer timer;
 
     public PassToCenter(IntakeSubsystem intakeSubsystem, DistanceSubsystem distanceSubsystem){
         this.intakeSubsystem = intakeSubsystem;
@@ -20,9 +20,10 @@ public class PassToCenter extends CommandBase {
     }
     public void initialize(){
         isFront = distanceSubsystem.isIntakingFromFront();
+        timer = new Timing.Timer(400, TimeUnit.MILLISECONDS);
 
     }
-
+@Override
     public void execute() {
         if (isFront){
             intakeSubsystem.IntakeFrontToCenter();
@@ -30,7 +31,7 @@ public class PassToCenter extends CommandBase {
             intakeSubsystem.IntakeBackToCenter();
         }
     }
-
+@Override
     public boolean isFinished(){
         boolean m = distanceSubsystem.checkMiddle();
 
@@ -40,4 +41,6 @@ public class PassToCenter extends CommandBase {
 
         return timer.done();
     }
+
+
 }

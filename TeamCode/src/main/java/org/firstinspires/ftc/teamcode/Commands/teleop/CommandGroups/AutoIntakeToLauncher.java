@@ -34,12 +34,14 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
             // MIDDLE ONLY
         } else if (!f && m && !b) {
             addCommands(
+                   new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem)
             );
 
             // BACK ONLY
         } else if (!f && !m && b) {
             addCommands(
+                    new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeBackToCenter(intakeSubsystem, distanceSubsystem),
                     new IntakeToLauncher(intakeSubsystem)
             );
@@ -47,6 +49,7 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
             // FRONT + MIDDLE
         } else if (f && m && !b) {
             addCommands(
+                    new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem),
                     new IntakeFrontToCenter(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem)
@@ -55,6 +58,7 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
             // MIDDLE + BACK
         } else if (!f && m && b) {
             addCommands(
+                    new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem),
                     new IntakeBackToCenter(intakeSubsystem, distanceSubsystem),
                     new IntakeToLauncher(intakeSubsystem)
@@ -63,6 +67,7 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
             // FRONT + BACK
         } else if (f && !m && b) {
             addCommands(
+                    new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeBackToCenter(intakeSubsystem, distanceSubsystem),
                     new IntakeFrontToCenterAndUp(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem)
@@ -71,6 +76,7 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
             // ALL 3
         } else if (f && m && b) {
             addCommands(
+                    new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem),
                     new IntakeBackToCenter(intakeSubsystem, distanceSubsystem),
                     new IntakeFrontToCenterAndUp(intakeSubsystem),

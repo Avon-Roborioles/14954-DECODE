@@ -158,8 +158,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public void IntakeBackOnly() {
         frontIntake.setPower(0);
         frontPass.setPower(0);
-        backIntake.setPower(0);
-        backPass.setPower(-1);
+        backIntake.setPower(1);
+        backPass.setPower(0);
     }
 
     public void TransferToLauncher() {
@@ -188,7 +188,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public void Puke(){
         frontIntake.setPower(1);
         frontPass.setPower(1);
-        backIntake.setPower(0);
+        backIntake.setPower(-1);
         backPass.setPower(-1);
     }
     public void intakeOnly(){
