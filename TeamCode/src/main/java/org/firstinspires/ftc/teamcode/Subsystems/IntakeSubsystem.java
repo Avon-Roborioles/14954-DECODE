@@ -1,8 +1,12 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.util.Timing;
 import com.qualcomm.robotcore.hardware.CRServo;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.concurrent.TimeUnit;
 
@@ -197,4 +201,10 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
 
+    public void getTelemetry(Telemetry telemetry) {
+        telemetry.addData("frontIntakePower", frontIntake.getPower());
+        telemetry.addData("frontPassPower", frontPass.getPower());
+        telemetry.addData("backIntakePower", backIntake.getPower());
+        telemetry.addData("backPassPower", backPass.getPower());
+    }
 }

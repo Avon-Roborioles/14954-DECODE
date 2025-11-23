@@ -1,22 +1,22 @@
-package org.firstinspires.ftc.teamcode.commands.teleop.launch;
+package org.firstinspires.ftc.teamcode.commands.teleop.launchCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 
-public class RunMotor extends CommandBase {
+public class StopMotor extends CommandBase {
     private LaunchSubsystem subsystem;
 
-    public RunMotor(LaunchSubsystem subsystem){
+    public StopMotor(LaunchSubsystem subsystem) {
         this.subsystem = subsystem;
         addRequirements(subsystem);
     }
 
     public void execute() {
-        subsystem.runMotor();
+        subsystem.stopMotor();
     }
 
     public boolean isFinished() {
-        return false;
+        return true;
     }
 }

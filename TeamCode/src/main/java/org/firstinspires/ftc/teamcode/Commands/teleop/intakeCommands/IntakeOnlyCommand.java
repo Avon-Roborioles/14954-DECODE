@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.commands.teleop.intake;
+package org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 

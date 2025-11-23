@@ -41,6 +41,7 @@ public class ProtypeShooterControl extends LinearOpMode {
     public DcMotor shooterMotor = null;
     private double shooterPower;
     public Servo shooterAngle = null;
+    private Servo turn;
 
     @Override
     public void runOpMode() {
@@ -51,17 +52,27 @@ public class ProtypeShooterControl extends LinearOpMode {
         final double servoAngleChange = 0.002;
         double newServoAngle = 0.0;
 
+        double turnAngle = 0.6;
+        double newTurnAngle = 0.0;
+        double turnAngleChange = 0.01;
+
+
 
         shooterMotor = hardwareMap.get(DcMotor.class, "launchMotor");
         shooterMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        shooterAngle = hardwareMap.get(Servo.class, "LaunchAngle");
+        shooterAngle = hardwareMap.get(Servo.class, "launchAngle");
+
+        turn = hardwareMap.get(Servo.class, "turnServo");
+
 
         waitForStart();
 
         shooterAngle.setDirection(Servo.Direction.REVERSE);
 //        shooterAngle.setPosition(0.0);
         launchServoAngle = shooterAngle.getPosition();
+        turnAngle = turn.getPosition();
+
 
 
         while (opModeIsActive()) {
@@ -83,6 +94,11 @@ public class ProtypeShooterControl extends LinearOpMode {
             } else if (gamepad1.dpadLeftWasPressed()) {
                 newServoAngle -= servoAngleChange;
             }
+            if (gamepad2.dpadRightWasPressed()) {
+                newTurnAngle += turnAngleChange;
+            } else if (gamepad2.dpadLeftWasPressed()) {
+                newTurnAngle -= turnAngleChange;
+            }
 
             if(gamepad1.a) {
                 shooterPower += .05;
@@ -103,10 +119,15 @@ public class ProtypeShooterControl extends LinearOpMode {
                 launchServoAngle = newServoAngle;
                 shooterAngle.setPosition(launchServoAngle);
             }
+            if ((newTurnAngle > 0.0) && (newTurnAngle < 1.0)) {
+                turnAngle = newTurnAngle;
+                turn.setPosition(turnAngle);
+            }
 
 
             telemetry.addData("shooterMotorSpeed", "%.2f", shooterPower);
             telemetry.addData("shooterLaunchPosition", "%.3f", launchServoAngle);
+            telemetry.addData("turnAngle", "%.3f", turnAngle);
             telemetry.update();
         }
 

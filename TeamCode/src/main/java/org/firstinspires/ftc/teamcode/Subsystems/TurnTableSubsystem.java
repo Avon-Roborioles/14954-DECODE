@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import static org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity.TAG;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import android.util.Log;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class TurnTableSubsystem extends SubsystemBase {
     private Servo turntable;
@@ -14,16 +17,40 @@ public class TurnTableSubsystem extends SubsystemBase {
     // private double servoPos = 0.08;
 
     // Define the limits for your servo
-    private static final double MIN_POS = 0;
-    private static final double MAX_POS = 0;
-    private double pos = 0.6;
+    private static final double MIN_POS = 0.61;
+    private static final double MAX_POS = 1;
+    private double pos = 0.8;
     // Proportional gain for turning. Tune this value.
     private static final double Kp = -0.0048;
+
+    private static final double MANUAL_SPEED_MULTIPLIER = 0.005;
 
     public TurnTableSubsystem(Servo turntable) {
         this.turntable = turntable;
     }
 
+
+    public void moveManual(double inputSpeed) {
+        // Get the current position
+        double currentPos = turntable.getPosition();
+
+        // Calculate new position: current + (joystick_value * speed_factor)
+        // If inputSpeed is 0, the position won't change.
+        double targetPos = currentPos + (inputSpeed * MANUAL_SPEED_MULTIPLIER);
+
+        // Ensure we don't go past the physical limits (0.0 to 1.0 are standard servo limits)
+        // If you have specific limits like 0.2 to 0.8, change the numbers below.
+        if (targetPos > MAX_POS) {
+            targetPos = MAX_POS;
+        } else if (targetPos < MIN_POS) {
+            targetPos = MIN_POS;
+        }
+
+        turntable.setPosition(targetPos);
+
+        // Update 'pos' variable to track this new manual position
+        pos = targetPos;
+    }
     public void limelightFollow(double tx) {
         // Only adjust if a target is visible (tx is non-zero)
         if (tx != 0) {
@@ -50,6 +77,10 @@ public class TurnTableSubsystem extends SubsystemBase {
         // If tx is 0 (no target), the servo will hold its last position.
     }
 
-    // other methods from your class...
+
+    public void getTelemetry(Telemetry telemetry){
+        double currentPos = turntable.getPosition();
+        telemetry.addData("turntable position", currentPos);
+    }
 }
 

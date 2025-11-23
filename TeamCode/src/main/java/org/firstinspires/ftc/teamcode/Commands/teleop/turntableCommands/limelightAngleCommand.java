@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.commands.teleop.turntable;
+package org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 

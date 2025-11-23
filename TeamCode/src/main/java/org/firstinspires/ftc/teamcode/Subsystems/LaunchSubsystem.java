@@ -1,9 +1,13 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class LaunchSubsystem extends SubsystemBase {
     private DcMotor launchMotor;
@@ -25,9 +29,17 @@ public class LaunchSubsystem extends SubsystemBase {
         this.launchAngle = launchAngle;
         launchPower = 1;
     }
-    public void setLaunchPower(double newPower){
-        launchPower = newPower;
+
+    public void adjustLaunchPower(double value){
+        launchPower = launchPower + value;
+
+        if(launchPower > 1){
+            launchPower = 1;
+        }else if(launchPower < 0){
+            launchPower = 0;
+        }
     }
+
     public void setLaunchAngle(double pos){
         launchAngle.setPosition(pos);
     }
@@ -50,6 +62,11 @@ public class LaunchSubsystem extends SubsystemBase {
     }
     public double getPower(){
         return launchPower;
+    }
+    public void getTelemetry(Telemetry telemetry){
+        telemetry.addData("launchPower", launchMotor.getPower());
+        telemetry.addData("launchEncoder", launchMotor.getCurrentPosition());
+        telemetry.addData("launchAngle", launchAngle.getPosition());
     }
 
 }

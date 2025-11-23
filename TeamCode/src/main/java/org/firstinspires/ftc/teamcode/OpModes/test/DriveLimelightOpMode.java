@@ -77,9 +77,10 @@ import java.util.List;
             while (opModeIsActive()) {
                 // Run the FTCLib command scheduler
                 CommandScheduler.getInstance().run();
-                LLStatus status = limelight.getStatus();
+
 
                 // ---- Limelight logic (servo adjustment) ----
+                LLStatus status = limelight.getStatus();
                 LLResult result = limelight.getLatestResult();
                 if (result != null && result.isValid()) {
                     Pose3D botpose = result.getBotpose();

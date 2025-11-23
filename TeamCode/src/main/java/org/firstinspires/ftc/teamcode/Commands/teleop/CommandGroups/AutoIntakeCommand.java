@@ -5,7 +5,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.IntakeFinal;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.commands.teleop.intake.*;
+import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.*;
 
 public class AutoIntakeCommand extends SequentialCommandGroup {
 

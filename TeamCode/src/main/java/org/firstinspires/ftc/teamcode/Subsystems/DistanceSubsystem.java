@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class DistanceSubsystem extends SubsystemBase {
     private DigitalChannel fSensor, mSensor, bSensor;
@@ -70,5 +74,10 @@ public class DistanceSubsystem extends SubsystemBase {
         this.intakeFromFront = intakeFromFront;
 
 
+    }
+    public void getTelemetry(Telemetry telemetry){
+        telemetry.addData("front", fSensor.getState());
+        telemetry.addData("middle", mSensor.getState());
+        telemetry.addData("back", bSensor.getState());
     }
 }

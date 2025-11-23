@@ -1,26 +1,28 @@
-package org.firstinspires.ftc.teamcode.commands.teleop.intake;
+package org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.util.Timing;
 
+import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 
 import java.util.concurrent.TimeUnit;
 
-public class IntakeFrontToCenter extends CommandBase{
+public class IntakeFrontOnly extends CommandBase{
     private IntakeSubsystem intakeServoSubsystem;
+    private DistanceSubsystem distanceSubsystem;
     private Timing.Timer timer = new Timing.Timer(500, TimeUnit.MILLISECONDS);
 
-    public IntakeFrontToCenter(IntakeSubsystem intakeServoSubsystem){
+    public IntakeFrontOnly(IntakeSubsystem intakeServoSubsystem, DistanceSubsystem distanceSubsystem){
         this.intakeServoSubsystem = intakeServoSubsystem;
-        addRequirements(intakeServoSubsystem);
+        this.distanceSubsystem = distanceSubsystem;
         timer.start();
     }
     @Override
     public void execute() {
-        intakeServoSubsystem.IntakeFrontToCenter();
+        intakeServoSubsystem.IntakeFrontOnly();
     }
     public boolean isFinished(){
-        return timer.done();
+        return distanceSubsystem.checkFront();
     }
 }
