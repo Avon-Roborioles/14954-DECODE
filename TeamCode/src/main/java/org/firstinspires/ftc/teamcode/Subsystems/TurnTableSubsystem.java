@@ -14,11 +14,11 @@ public class TurnTableSubsystem extends SubsystemBase {
     // private double servoPos = 0.08;
 
     // Define the limits for your servo
-    private static final double MIN_POS = 0.40;
-    private static final double MAX_POS = 0.70;
+    private static final double MIN_POS = 0;
+    private static final double MAX_POS = 0;
     private double pos = 0.6;
     // Proportional gain for turning. Tune this value.
-    private static final double Kp = -0.002;
+    private static final double Kp = -0.0048;
 
     public TurnTableSubsystem(Servo turntable) {
         this.turntable = turntable;
@@ -37,14 +37,14 @@ public class TurnTableSubsystem extends SubsystemBase {
              Log.e("newpos", "newpos:" + newPos );
 
             // Clamp the new position to stay within the servo's safe range
-            if (newPos > MAX_POS) {
-                newPos = MAX_POS;
-            } else if (newPos < MIN_POS) {
-                newPos = MIN_POS;
-            } else{
-                turntable.setPosition(newPos);
-            }
-
+//            if (newPos > MAX_POS) {
+//                newPos = MAX_POS;
+//            } else if (newPos < MIN_POS) {
+//                newPos = MIN_POS;
+//            } else{
+//                turntable.setPosition(newPos);
+//            }
+            turntable.setPosition(newPos);
 
         }
         // If tx is 0 (no target), the servo will hold its last position.

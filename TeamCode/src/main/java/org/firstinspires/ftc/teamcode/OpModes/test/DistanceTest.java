@@ -3,13 +3,14 @@ package org.firstinspires.ftc.teamcode.OpModes.test;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @TeleOp
 public class DistanceTest extends LinearOpMode {
     private DigitalChannel fSensor, mSensor, bSensor;
-
+    private Servo test;
 
 
 
@@ -26,13 +27,15 @@ public class DistanceTest extends LinearOpMode {
         fSensor.setMode(DigitalChannel.Mode.INPUT);
         mSensor.setMode(DigitalChannel.Mode.INPUT);
         bSensor.setMode(DigitalChannel.Mode.INPUT);
+        test = hardwareMap.get(Servo.class, "turnServo");
+        test.setPosition(0.6);
 
 
 
 
     waitForStart();
 
-    while (opModeIsActive()){
+    while (opModeIsActive() && !isStopRequested()){
 
         boolean stateHighF = fSensor.getState();
         boolean stateHighM = mSensor.getState();
@@ -58,6 +61,10 @@ public class DistanceTest extends LinearOpMode {
         } else {
             telemetry.addLine("Bnotdetected");
         }
+
+
+        telemetry.addData("Servo pos", test.getPosition());
+
         telemetry.update();
 
     }

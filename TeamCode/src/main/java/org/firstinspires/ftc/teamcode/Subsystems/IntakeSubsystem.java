@@ -188,7 +188,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public void Puke(){
         frontIntake.setPower(1);
         frontPass.setPower(1);
-        backIntake.setPower(-1);
+        backIntake.setPower(0);
         backPass.setPower(-1);
     }
     public void intakeOnly(){
@@ -196,13 +196,5 @@ public class IntakeSubsystem extends SubsystemBase {
         backIntake.setPower(1);
     }
 
-    public boolean isOff() {
-        if (frontIntake.getPower() == 0
-                && frontPass.getPower() == 0
-                && backIntake.getPower() == 0
-                && backPass.getPower() == 0) {
-            return true;
-        }
-        return false;
-    }
+
 }

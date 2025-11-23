@@ -143,8 +143,7 @@ public class TeleOp3 extends CommandOpMode {
                             new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem).schedule();
                         }));
         driverOp.getGamepadButton(GamepadKeys.Button.BACK)
-                        .whenHeld(new PukeCommand(intakeSubsystem))
-                                .whenReleased(new IntakeStopServoCommand(intakeSubsystem));
+                        .whenPressed(new PukeCommand(intakeSubsystem));
 
 
 
