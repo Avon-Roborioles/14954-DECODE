@@ -87,7 +87,9 @@ public class TeleOpBlue extends CommandOpMode {
 
         //Follower
         follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(startingPose == null ? new Pose() : startingPose);
+
+        follower.setStartingPose(new Pose(0, 0, PI));
+        follower.setPose(new Pose(0, 0, PI));
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         pathChain = () -> follower.pathBuilder() //Lazy Curve Generation
                 .addPath(new Path(new BezierLine(follower::getPose, new Pose(45, 98, PI))))
@@ -133,6 +135,7 @@ public class TeleOpBlue extends CommandOpMode {
                 .whenHeld(new InstantCommand(() -> {
                     new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem).schedule();
                 }));
+
 
         driverOp.getGamepadButton(GamepadKeys.Button.X) // Heading Reset
                 .whenPressed(new InstantCommand(() -> {follower.setPose(new Pose(0, 0, PI));}));
