@@ -24,23 +24,18 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
-//import org.firstinspires.ftc.teamcode.commands.flipper.FlipItDown;
-//import org.firstinspires.ftc.teamcode.commands.flipper.FlipItUp;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
-//import org.firstinspires.ftc.teamcode.commands.LimelightCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.PukeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeToLauncher;
+import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeBackToFront;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeFrontToBack;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeToLauncher;
-import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeToLauncher;
+import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.PukeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.RunMotor;
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
-//import org.firstinspires.ftc.teamcode.commands.teleop.turntable.TurntableTest1;
-//import org.firstinspires.ftc.teamcode.commands.teleop.turntable.TurntableTest2;
 import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.ManualTurntableCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.limelightAngleCommand;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
@@ -48,7 +43,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import java.util.function.Supplier;
 
 @TeleOp
-public class TeleOp3 extends CommandOpMode {
+public class TeleOpBlue extends CommandOpMode {
     // drive variables
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this
@@ -71,8 +66,8 @@ public class TeleOp3 extends CommandOpMode {
     //Distance Sensor Variables
     private DigitalChannel fSensor, mSensor, bSensor;
     private DistanceSubsystem distanceSubsystem;
-   // Turntable Variables
-   private Servo turnServo;
+    // Turntable Variables
+    private Servo turnServo;
     private TurnTableSubsystem TurnSubsystem;
     // Limelight Variables
     private LimeLightSubsystem limelightSubsystem;
@@ -135,9 +130,9 @@ public class TeleOp3 extends CommandOpMode {
 
 
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                        .whenHeld(new InstantCommand(() -> {
-                            new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem).schedule();
-                        }));
+                .whenHeld(new InstantCommand(() -> {
+                    new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem).schedule();
+                }));
 
         driverOp.getGamepadButton(GamepadKeys.Button.X) // Heading Reset
                 .whenPressed(new InstantCommand(() -> {follower.setPose(new Pose(0, 0, PI));}));
@@ -147,20 +142,20 @@ public class TeleOp3 extends CommandOpMode {
         // Operator commands
 
         operatorOp.getGamepadButton(GamepadKeys.Button.B)
-                        .whenPressed(new CancelCommand(intakeSubsystem,launchSubsystem));
+                .whenPressed(new CancelCommand(intakeSubsystem,launchSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)
                 .toggleWhenPressed(new IntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenHeld(new PukeCommand(intakeSubsystem))
-                        .whenReleased(new IntakeStopServoCommand(intakeSubsystem));
+                .whenReleased(new IntakeStopServoCommand(intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(new AutoIntakeCommand(distanceSubsystem,intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
 
-        TurnSubsystem.setDefaultCommand(new limelightAngleCommand(limelightSubsystem,TurnSubsystem));
+        TurnSubsystem.setDefaultCommand(new limelightAngleCommand(limelightSubsystem,TurnSubsystem, false));
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
-                .toggleWhenPressed(new ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new limelightAngleCommand(limelightSubsystem, TurnSubsystem));
+                .toggleWhenPressed(new ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new limelightAngleCommand(limelightSubsystem, TurnSubsystem, false));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(new InstantCommand(() -> launchSubsystem.adjustLaunchPower(0.05)));
 
@@ -206,6 +201,7 @@ public class TeleOp3 extends CommandOpMode {
         telemetry.update();
     }
 }
+
 
 
 
