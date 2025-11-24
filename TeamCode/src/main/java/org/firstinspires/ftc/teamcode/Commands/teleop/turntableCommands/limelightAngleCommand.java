@@ -8,15 +8,24 @@ import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 public class limelightAngleCommand extends CommandBase {
     private LimeLightSubsystem limelightSubsystem;
     private TurnTableSubsystem turnTableSubsystem;
+    private boolean redAlliance = false;
 
-    public limelightAngleCommand(LimeLightSubsystem limelightSubsystem, TurnTableSubsystem turnTableSubsystem){
+
+    public limelightAngleCommand(LimeLightSubsystem limelightSubsystem, TurnTableSubsystem turnTableSubsystem, boolean redAlliance){
         this.limelightSubsystem = limelightSubsystem;
         this.turnTableSubsystem = turnTableSubsystem;
+        this.redAlliance = redAlliance;
         addRequirements(limelightSubsystem, turnTableSubsystem);
     }
 
     public void initialize(){
-        limelightSubsystem.setPipeline(1);
+        if (redAlliance){
+            limelightSubsystem.setPipeline(1);
+        }else{
+            limelightSubsystem.setPipeline(2);
+        }
+
+//        limelightSubsystem.setPipeline(7);
         limelightSubsystem.start();
 
     }
