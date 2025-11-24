@@ -82,8 +82,10 @@ public class Constants extends FollowerConstants {
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .useBrakeModeInTeleOp(true)
             .xVelocity(62.0852492925689)
             .yVelocity(54.100817582738685);
+
     /**
      These are the PathConstraints in order:
      tValueConstraint, velocityConstraint, translationalConstraint, headingConstraint, timeoutConstraint,

@@ -90,6 +90,7 @@ public class TeleOpBlue extends CommandOpMode {
 
         follower.setStartingPose(new Pose(0, 0, PI));
         follower.setPose(new Pose(0, 0, PI));
+
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         pathChain = () -> follower.pathBuilder() //Lazy Curve Generation
                 .addPath(new Path(new BezierLine(follower::getPose, new Pose(45, 98, PI))))
