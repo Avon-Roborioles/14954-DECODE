@@ -39,7 +39,10 @@ public class PassToCenter extends CommandBase {
             timer.start();
         }
 
-        return timer.done();
+        return timer.done()&& distanceSubsystem.checkMiddle();
+    }
+    public void end(boolean interrupted){
+        intakeSubsystem.stopPass();
     }
 
 

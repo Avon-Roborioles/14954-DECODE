@@ -29,25 +29,32 @@
 
 package org.firstinspires.ftc.teamcode.OpModes.test;
 
+import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
 @TeleOp(name = "Shooter control code", group = "prototype")
 public class ProtypeShooterControl extends LinearOpMode {
 
-    public DcMotor shooterMotor = null;
-    private double shooterPower;
+    public DcMotorEx shooterMotor = null;
+    private double shooterV;
     public Servo shooterAngle = null;
     private Servo turn;
+    private Limelight3A limelight;
+    private LLResult result;
 
     @Override
     public void runOpMode() {
-        final double motorIncrement = 0.1;
+        final double motorIncrement = 50;
         double newShooterPower = 0.0;
-        shooterPower = 0.8;
+        shooterV = 0.0;
         double launchServoAngle = 0.0;
         final double servoAngleChange = 0.002;
         double newServoAngle = 0.0;
@@ -57,15 +64,17 @@ public class ProtypeShooterControl extends LinearOpMode {
         double turnAngleChange = 0.01;
 
 
+        shooterMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
 
-        shooterMotor = hardwareMap.get(DcMotor.class, "launchMotor");
-        shooterMotor.setDirection(DcMotor.Direction.FORWARD);
 
         shooterAngle = hardwareMap.get(Servo.class, "launchAngle");
 
         turn = hardwareMap.get(Servo.class, "turnServo");
 
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
+        limelight.pipelineSwitch(2);
+        limelight.start();
         waitForStart();
 
         shooterAngle.setDirection(Servo.Direction.REVERSE);
@@ -74,9 +83,8 @@ public class ProtypeShooterControl extends LinearOpMode {
         turnAngle = turn.getPosition();
 
 
-
         while (opModeIsActive()) {
-            newShooterPower = shooterPower;
+
 
             if (gamepad1.dpadUpWasPressed()) {
                 newShooterPower += motorIncrement;
@@ -84,10 +92,8 @@ public class ProtypeShooterControl extends LinearOpMode {
                 newShooterPower -= motorIncrement;
             }
 
-            if ((newShooterPower > 0.0) && (newShooterPower < 1.0)) {
-                shooterPower = newShooterPower;
-                shooterMotor.setPower(shooterPower);
-            }
+            shooterV = newShooterPower;
+            shooterMotor.setVelocity(shooterV);
 
             if (gamepad1.dpadRightWasPressed()) {
                 newServoAngle += servoAngleChange;
@@ -100,10 +106,6 @@ public class ProtypeShooterControl extends LinearOpMode {
                 newTurnAngle -= turnAngleChange;
             }
 
-            if(gamepad1.a) {
-                shooterPower += .05;
-                shooterMotor.setPower(shooterPower);
-            }
 
 //            if (gamepad1.a) {
 //                shooterPower = 1.0;
@@ -112,7 +114,6 @@ public class ProtypeShooterControl extends LinearOpMode {
 //                shooterPower = 0.8;
 //                shooterMotor.setPower(shooterPower);
 //            }
-
 
 
             if ((newServoAngle > 0.0) && (newServoAngle < 1.0)) {
@@ -125,11 +126,29 @@ public class ProtypeShooterControl extends LinearOpMode {
             }
 
 
-            telemetry.addData("shooterMotorSpeed", "%.2f", shooterPower);
+            telemetry.addData("shooterMotorSpeed", "%.2f", shooterV);
             telemetry.addData("shooterLaunchPosition", "%.3f", launchServoAngle);
             telemetry.addData("turnAngle", "%.3f", turnAngle);
+            telemetry.addData("getDistance", getDistance());
             telemetry.update();
+
+            LLResult result = limelight.getLatestResult();
+
         }
+    }
+
+    double getDistance() {
+        LLResult result = limelight.getLatestResult();
+        double targetOffsetAngle_Vertical = result.getTy();
+
+        double limelightMountAngleDegrees = 20.0;
+        double limelightLensHeightInches = 14.5;
+        double goalHeightInches = 28.5;
+
+        double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
+        double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+
+        return (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
 
     }
 }

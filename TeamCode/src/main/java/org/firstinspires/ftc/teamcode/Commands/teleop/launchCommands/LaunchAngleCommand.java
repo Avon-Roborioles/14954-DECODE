@@ -12,7 +12,7 @@ public class LaunchAngleCommand extends CommandBase {
     }
 
     public void execute(double pos){
-     subsystem.setLaunchAngle(pos);
+//     subsystem.setLaunchAngle(pos);
     }
 
 

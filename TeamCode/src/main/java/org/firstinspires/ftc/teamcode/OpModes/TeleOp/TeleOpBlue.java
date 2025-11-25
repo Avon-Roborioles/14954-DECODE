@@ -18,6 +18,7 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -37,7 +38,7 @@ import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.PukeCommand
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.RunMotor;
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.ManualTurntableCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.limelightAngleCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.limelightTurnCommand;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 import java.util.function.Supplier;
@@ -53,7 +54,7 @@ public class TeleOpBlue extends CommandOpMode {
     private GamepadEx operatorOp;
 
     // launcher variables
-    private DcMotor launchMotor;
+    private DcMotorEx launchMotor;
     private Servo launchAngle;
     private CRServo launchServo;
     private LaunchSubsystem launchSubsystem;
@@ -98,7 +99,7 @@ public class TeleOpBlue extends CommandOpMode {
                 .build();
         // launcher
         launchAngle = hardwareMap.get(Servo.class, "launchAngle");
-        launchMotor = hardwareMap.get(DcMotor.class, "launchMotor");
+        launchMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
         launchServo = hardwareMap.get(CRServo.class, "launchServo");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
@@ -157,14 +158,14 @@ public class TeleOpBlue extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
 
-        TurnSubsystem.setDefaultCommand(new limelightAngleCommand(limelightSubsystem,TurnSubsystem, false));
+        TurnSubsystem.setDefaultCommand(new limelightTurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem, false));
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
-                .toggleWhenPressed(new ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new limelightAngleCommand(limelightSubsystem, TurnSubsystem, false));
+                .toggleWhenPressed(new ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new limelightTurnCommand(limelightSubsystem, TurnSubsystem,launchSubsystem, false));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(new InstantCommand(() -> launchSubsystem.adjustLaunchPower(0.05)));
+                .whenPressed(new InstantCommand(() -> launchSubsystem.adjustLaunchPower(50)));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(new InstantCommand(() -> launchSubsystem.adjustLaunchPower(-0.05)));
+                .whenPressed(new InstantCommand(() -> launchSubsystem.adjustLaunchPower(-50)));
 
         // launch
 

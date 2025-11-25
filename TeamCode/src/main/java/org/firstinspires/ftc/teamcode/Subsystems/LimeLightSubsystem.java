@@ -61,8 +61,8 @@ public class LimeLightSubsystem extends SubsystemBase {
         LLResult result = limelight.getLatestResult();
         double targetOffsetAngle_Vertical = result.getTy();
 
-        double limelightMountAngleDegrees = 24.0;
-        double limelightLensHeightInches = 11.5;
+        double limelightMountAngleDegrees = 20.0;
+        double limelightLensHeightInches = 14.5;
         double goalHeightInches = 28.5;
 
         double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
@@ -75,20 +75,19 @@ public class LimeLightSubsystem extends SubsystemBase {
     public void getTelemetry(Telemetry telemetry) {
         LLStatus status = limelight.getStatus();
         LLResult result = limelight.getLatestResult();
-        if (result != null && result.isValid()) {
-            Pose3D botpose = result.getBotpose();
-            telemetry.addData("tx", result.getTx());
-            telemetry.addData("ty", result.getTy());
-            telemetry.addData("Botpose", botpose.toString());
-            telemetry.addData("tags", result.getFiducialResults());
-            telemetry.addData("distance", getDistance());
-            telemetry.addData("LL", "Temp: %.1fC, CPU: %.1f%%, FPS: %d",
-                    status.getTemp(), status.getCpu(), (int) status.getFps());
-            List<LLResultTypes.FiducialResult> fiducialResults = result.getFiducialResults();
-            for (LLResultTypes.FiducialResult fr : fiducialResults) {
-                telemetry.addData("Fiducial", "ID: %d, Family: %s, X: %.2f, Y: %.2f", fr.getFiducialId(), fr.getFamily(), fr.getTargetXDegrees(), fr.getTargetYDegrees());
+        Pose3D botpose = result.getBotpose();
+        telemetry.addData("tx", result.getTx());
+        telemetry.addData("ty", result.getTy());
+        telemetry.addData("Botpose", botpose.toString());
+        telemetry.addData("tags", result.getFiducialResults());
+        telemetry.addData("distance", getDistance());
+        telemetry.addData("LL", "Temp: %.1fC, CPU: %.1f%%, FPS: %d",
+                status.getTemp(), status.getCpu(), (int) status.getFps());
+
+
             }
         }
 
-    }
-}
+
+
+

@@ -39,7 +39,7 @@ public class testOpMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         turnServo = hardwareMap.get(Servo.class, "turnServo");
-        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+//        limelight = hardwareMap.get(Limelight3A.class, "limelight");
         frontIntake = hardwareMap.get(CRServo.class, "frontIntake");
         backIntake = hardwareMap.get(CRServo.class, "backIntake");
         frontPass = hardwareMap.get(CRServo.class, "frontPass");
@@ -80,17 +80,17 @@ public class testOpMode extends LinearOpMode {
 
 //            CommandScheduler.getInstance().run();
 
-            LLResult result = limelight.getLatestResult();
-            if (result.getTx() != 0) {
-                servoPos -= 0.00006 * result.getTx();
-            }
-        }
-        if (servoPos > 0.75) {
-            servoPos = 0.75;
-        } else if (servoPos < 0.35) {
-            servoPos = 0.35;
-        }
-        turnServo.setPosition(servoPos);
+//            LLResult result = limelight.getLatestResult();
+//            if (result.getTx() != 0) {
+//                servoPos -= 0.00006 * result.getTx();
+//            }
+//        }
+//        if (servoPos > 0.75) {
+//            servoPos = 0.75;
+//        } else if (servoPos < 0.35) {
+//            servoPos = 0.35;
+//        }
+//        turnServo.setPosition(servoPos);
 
             if (gamepad1.a) {
                 frontIntake.setPower(-1);
@@ -100,22 +100,21 @@ public class testOpMode extends LinearOpMode {
                 frontIntake.setPower(-1);
                 frontPass.setPower(1);
             } else if (gamepad1.b) {
-                    frontPass.setPower(1);
-                    backPass.setPower(-1);
+                frontPass.setPower(1);
+                backPass.setPower(-1);
             } else if (gamepad1.dpad_left) {
-                    frontPass.setPower(1);
+                frontPass.setPower(1);
             } else if (gamepad1.dpad_right) {
-                    backPass.setPower(-1);
+                backPass.setPower(-1);
             } else if (gamepad1.dpad_down) {
-                    frontPass.setPower(-1);
-                    backPass.setPower(1);
+                frontPass.setPower(-1);
+                backPass.setPower(1);
             } else {
                 frontIntake.setPower(0);
                 frontPass.setPower(0);
                 backIntake.setPower(0);
                 backPass.setPower(0);
             }
-
 
 
             if (gamepad1.x) {
@@ -194,4 +193,5 @@ public class testOpMode extends LinearOpMode {
 
         }
     }
+}
 
