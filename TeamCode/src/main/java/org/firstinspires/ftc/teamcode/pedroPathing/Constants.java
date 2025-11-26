@@ -28,48 +28,48 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Constants extends FollowerConstants {
     private OTOSLocalizer sparkfun;
     public static FollowerConstants followerConstants = new FollowerConstants()
-            .mass(16.2)
-            .forwardZeroPowerAcceleration(-54.97466489724176)
-            .lateralZeroPowerAcceleration(-40.24052679589998)
+            .mass(20.0)
+            .forwardZeroPowerAcceleration(0)
+            .lateralZeroPowerAcceleration(0)
             .useSecondaryDrivePIDF(false)
             .translationalPIDFCoefficients(new PIDFCoefficients(
-                    0.2,
+                    0.0,
                     0,
-                    0.02,
-                    0.015
+                    0.0,
+                    0.0
             ))
             .translationalPIDFSwitch(4)
             .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(
-                    0.4,
+                    0.0,
                     0,
-                    0.005,
-                    0.0006
+                    0.0,
+                    0.0
             ))
             .headingPIDFCoefficients(new PIDFCoefficients(
-                    0.7,
+                    0.0,
                     0,
-                    0.05,
-                    0.025
+                    0.0,
+                    0.0
             ))
             .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(
-                    2.5,
+                    0.0,
                     0,
-                    0.1,
-                    0.0005
+                    0.0,
+                    0.0
             ))
             .drivePIDFCoefficients(new FilteredPIDFCoefficients(
-                    0.075,
                     0,
                     0,
-                    0.6,
-                    0.1
+                    0,
+                    0,
+                    0
             ))
             .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(
-                    0.02,
                     0,
-                    0.000005,
-                    0.6,
-                    0.01
+                    0,
+                    0,
+                    0,
+                    0
             ))
             .drivePIDFSwitch(15)
             .centripetalScaling(0.0005);
@@ -83,8 +83,8 @@ public class Constants extends FollowerConstants {
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
             .useBrakeModeInTeleOp(true)
-            .xVelocity(62.0852492925689)
-            .yVelocity(54.100817582738685);
+            .xVelocity(0)
+            .yVelocity(0);
 
     /**
      These are the PathConstraints in order:
@@ -104,8 +104,8 @@ public class Constants extends FollowerConstants {
     );
     public static OTOSConstants sparkConstants = new OTOSConstants()
             .hardwareMapName("otos")
+            .offset(new SparkFunOTOS.Pose2D(0,0,-PI/2))
             .linearUnit(DistanceUnit.INCH)
-            .offset(new SparkFunOTOS.Pose2D(0,0,0))
             .angleUnit(AngleUnit.RADIANS)
             .linearScalar(1.0577373997)
             .angularScalar(0.97758);
