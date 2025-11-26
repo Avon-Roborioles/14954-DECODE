@@ -107,8 +107,8 @@ public class Constants extends FollowerConstants {
             .linearUnit(DistanceUnit.INCH)
             .offset(new SparkFunOTOS.Pose2D(0,0,0))
             .angleUnit(AngleUnit.RADIANS)
-            .linearScalar(1.07519939733)
-            .angularScalar(0.9787);
+            .linearScalar(1.0577373997)
+            .angularScalar(0.97758);
 
 
     //Add custom localizers or drivetrains here
