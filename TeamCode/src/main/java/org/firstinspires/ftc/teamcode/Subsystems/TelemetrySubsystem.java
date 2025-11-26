@@ -30,9 +30,9 @@ public class TelemetrySubsystem extends SubsystemBase {
 
 //        pedroDriveSubsystem.telemetryDebug(telemetry);
         launchSubsystem.getTelemetry(telemetry);
-        intakeSubsystem.getTelemetry(telemetry);
-        distanceSubsystem.getTelemetry(telemetry);
-        limelight.getTelemetry(telemetry);
+//        intakeSubsystem.getTelemetry(telemetry);
+//        distanceSubsystem.getTelemetry(telemetry);
+//        limelight.getTelemetry(telemetry);
         updateTelemetry();
     }
         public void updateTelemetry(){

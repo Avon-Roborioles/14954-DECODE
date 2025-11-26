@@ -56,7 +56,7 @@ public class ProtypeShooterControl extends LinearOpMode {
         double newShooterPower = 0.0;
         shooterV = 0.0;
         double launchServoAngle = 0.0;
-        final double servoAngleChange = 0.002;
+        final double servoAngleChange = 0.01;
         double newServoAngle = 0.0;
 
         double turnAngle = 0.6;

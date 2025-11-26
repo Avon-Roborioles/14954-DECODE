@@ -161,11 +161,11 @@ public class TeleOpBlue extends CommandOpMode {
         TurnSubsystem.setDefaultCommand(new limelightTurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem, false));
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
                 .toggleWhenPressed(new ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new limelightTurnCommand(limelightSubsystem, TurnSubsystem,launchSubsystem, false));
-        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(new InstantCommand(() -> launchSubsystem.adjustLaunchPower(50)));
-
-        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(new InstantCommand(() -> launchSubsystem.adjustLaunchPower(-50)));
+//        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+//                .whenPressed(new InstantCommand(() -> launchSubsystem.adjustLaunchPower(50)));
+//
+//        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+//                .whenPressed(new InstantCommand(() -> launchSubsystem.adjustLaunchPower(-50)));
 
         // launch
 

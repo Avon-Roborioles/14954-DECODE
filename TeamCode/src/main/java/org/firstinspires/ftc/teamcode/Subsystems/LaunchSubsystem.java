@@ -1,15 +1,11 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
-import static java.lang.Math.E;
-
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class LaunchSubsystem extends SubsystemBase {
@@ -17,69 +13,92 @@ public class LaunchSubsystem extends SubsystemBase {
     private Servo launchAngle;
     private Servo turnServo;
     private CRServo launchServo;
-    private double launchPower;
-    private double Anglepos = 0.05;
-    private double angleAngle;
+
+    // Default starting value
+    private double TargetRPM = 1900;
+
+    // Telemetry variables
+    private double Angle;
+
+    private double newManControl;
+    private boolean isRunning = false; // Track if motor is toggled on
 
     public LaunchSubsystem(DcMotorEx launchMotor, Servo launchAngle, Servo turnServo, CRServo launchServo){
         this.launchMotor = launchMotor;
         this.launchAngle = launchAngle;
         this.turnServo = turnServo;
         this.launchServo = launchServo;
-        launchPower = 1;
+
+        // Essential for setVelocity to work correctly
+        this.launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
     public LaunchSubsystem(DcMotorEx launchMotor, Servo launchAngle){
         this.launchMotor = launchMotor;
         this.launchAngle = launchAngle;
-        launchPower = 1;
+        this.launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void adjustLaunchPower(double value){
-        launchPower = launchPower + value;
+    // --- MATH FROM NewLauncher ---
 
-    }
-    public void setLaunchPower(double power){
-        launchPower = power;
-    }
-
-
-
-
-
-    public double getAnglepos(){
-        return launchAngle.getPosition();
-    }
-    public void setLaunchAngle(double pos){
-        launchAngle.setPosition(pos);
-    }
-
-    public void runMotor(){
-        launchMotor.setPower(launchPower);
-        launchServo.setPower(1);
-    }
-    public void stopMotor(){
-        launchMotor.setPower(0);
-        launchServo.setPower(0);
-    }
-    public void setTurnServo(double pos){
-        turnServo.setPosition(pos);
-    }
-    public double getPower(){
-        return launchPower;
-    }
-    public void getTelemetry(Telemetry telemetry){
-        telemetry.addData("launchPower", launchMotor.getVelocity());
-        telemetry.addData("launchEncoder", launchMotor.getCurrentPosition());
-        telemetry.addData("launchAngle", launchAngle.getPosition());
-        telemetry.addData("angle", angleAngle);
-    }
-    public double distanceToSpeed(double distance){
-        return  ((distance * 1.6109) + 1395.5);
+    public void setTargetRPM(double distance){
+        TargetRPM = ((distance * 6) + 775);
     }
 
     public double distanceToHoodAngle(double distance){
-        angleAngle = (-0.0034 * distance * distance + 0.0005 * distance - 0.501);
-        return angleAngle;
+        return (-0.0001 * distance * distance + 0.1361 * distance - 0.1845);
     }
 
+
+
+    private double angleToServo(double angle){
+        if(angle > 50) angle = 50;
+        if(angle < 0) angle = 0;
+        return (angle / 55.0) * 0.187;
+    }
+
+    public void adjustAngleM(double controller){
+        newManControl = newManControl + controller;
+        launchAngle.setPosition(newManControl);
+    }
+
+    // --- CONTROL METHODS ---
+
+    public void setLaunchAngle(double angleDegrees){
+        Angle = angleDegrees;
+        launchAngle.setPosition(angleToServo(Angle));
+
+    }
+
+    public void runMotor(){
+        isRunning = true;
+        launchMotor.setVelocity(TargetRPM);
+        // If you need your intake/feeder servo to run, uncomment this:
+        // if(launchServo != null) launchServo.setPower(1);
+    }
+
+    // UPDATED: Now correctly updates the boolean flag
+    public void stopMotor(){
+        isRunning = false;
+        launchMotor.setPower(0);
+        if(launchServo != null) launchServo.setPower(0);
+    }
+
+    public void setTurnServo(double pos){
+        turnServo.setPosition(pos);
+    }
+
+    // UPDATED: Only checks the boolean flag to prevent auto-restart during spin down
+    public boolean isMotorRunning(){
+        return isRunning;
+    }
+
+    public void getTelemetry(Telemetry telemetry){
+        telemetry.addData("Actual Velocity", launchMotor.getVelocity());
+        telemetry.addData("Target RPM", TargetRPM);
+        telemetry.addData("Target Angle (Deg)", Angle);
+        telemetry.addData("command pos", angleToServo(Angle));
+        telemetry.addData("Servo Pos", launchAngle.getPosition());
+
+    }
 }
