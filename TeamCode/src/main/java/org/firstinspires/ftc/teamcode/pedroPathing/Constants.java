@@ -29,8 +29,8 @@ public class Constants extends FollowerConstants {
     private OTOSLocalizer sparkfun;
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(20.0)
-            .forwardZeroPowerAcceleration(0)
-            .lateralZeroPowerAcceleration(0)
+            .forwardZeroPowerAcceleration(-38.1868184966)
+            .lateralZeroPowerAcceleration(-65.99318707)
             .useSecondaryDrivePIDF(false)
             .translationalPIDFCoefficients(new PIDFCoefficients(
                     0.0,
@@ -83,8 +83,8 @@ public class Constants extends FollowerConstants {
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
             .useBrakeModeInTeleOp(true)
-            .xVelocity(0)
-            .yVelocity(0);
+            .xVelocity(82.3219679785)
+            .yVelocity(65.799423357);
 
     /**
      These are the PathConstraints in order:
