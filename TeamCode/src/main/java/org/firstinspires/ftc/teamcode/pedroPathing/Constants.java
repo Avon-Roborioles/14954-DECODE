@@ -32,47 +32,29 @@ public class Constants extends FollowerConstants {
             .forwardZeroPowerAcceleration(-38.1868184966)
             .lateralZeroPowerAcceleration(-65.99318707)
             .useSecondaryDrivePIDF(false)
+            .useSecondaryTranslationalPIDF(false)
+            .useSecondaryHeadingPIDF(false)
             .translationalPIDFCoefficients(new PIDFCoefficients(
-                    0.0,
+                    0.07,
                     0,
-                    0.0,
-                    0.0
-            ))
-            .translationalPIDFSwitch(4)
-            .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(
-                    0.0,
-                    0,
-                    0.0,
-                    0.0
+                    0.005,
+                    0.03
             ))
             .headingPIDFCoefficients(new PIDFCoefficients(
-                    0.0,
+                    1,
                     0,
-                    0.0,
-                    0.0
-            ))
-            .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(
-                    0.0,
-                    0,
-                    0.0,
-                    0.0
+                    0.01,
+                    0.025
             ))
             .drivePIDFCoefficients(new FilteredPIDFCoefficients(
+                    0.0035,
                     0,
-                    0,
-                    0,
-                    0,
-                    0
+                    0.0001,
+                    0.6,
+                    0.3
             ))
-            .secondaryDrivePIDFCoefficients(new FilteredPIDFCoefficients(
-                    0,
-                    0,
-                    0,
-                    0,
-                    0
-            ))
-            .drivePIDFSwitch(15)
-            .centripetalScaling(0.0005);
+
+            .centripetalScaling(0);
     public static MecanumConstants driveConstants = new MecanumConstants()
             .leftFrontMotorName("frontLeft")
             .leftRearMotorName("backLeft")
@@ -97,8 +79,8 @@ public class Constants extends FollowerConstants {
             0.1,
             0.1,
             0.009,
-            50,
-            1.25,
+            100,
+            1.45,
             10,
             1
     );
