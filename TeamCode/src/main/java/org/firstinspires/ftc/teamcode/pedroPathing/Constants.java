@@ -54,7 +54,7 @@ public class Constants extends FollowerConstants {
                     0.3
             ))
 
-            .centripetalScaling(0);
+            .centripetalScaling(0.0001); // tune this more
     public static MecanumConstants driveConstants = new MecanumConstants()
             .leftFrontMotorName("frontLeft")
             .leftRearMotorName("backLeft")
