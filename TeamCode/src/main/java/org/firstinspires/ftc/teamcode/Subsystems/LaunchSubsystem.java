@@ -93,6 +93,8 @@ public class LaunchSubsystem extends SubsystemBase {
         return isRunning;
     }
 
+
+
     public void getTelemetry(Telemetry telemetry){
         telemetry.addData("Actual Velocity", launchMotor.getVelocity());
         telemetry.addData("Target RPM", TargetRPM);
@@ -101,4 +103,5 @@ public class LaunchSubsystem extends SubsystemBase {
         telemetry.addData("Servo Pos", launchAngle.getPosition());
 
     }
+
 }

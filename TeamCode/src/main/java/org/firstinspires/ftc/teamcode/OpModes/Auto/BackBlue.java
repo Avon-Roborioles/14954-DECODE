@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes.Auto;
 import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.follower;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
@@ -11,7 +12,16 @@ import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
@@ -19,6 +29,8 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 public class BackBlue extends AutoBase {
     Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;
     Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
+
+
 
     Pose startPose = new Pose(80, 7, Math.toRadians(90));
     Pose launchPreloadPose = new Pose(74, 19, Math.toRadians(115));
@@ -35,6 +47,55 @@ public class BackBlue extends AutoBase {
 
     @Override
     public void initialize() {
+        makeAuto();
+        buildPath();
+        register();
+
+        MoveLaunchPreload = new InstantCommand(() -> {
+            follower.followPath(launchPreload, true);
+        });
+
+        PrepareToGrab1 = new InstantCommand(() -> {
+            follower.followPath(prepGrab1, true);
+        });
+
+        GrabSet1 = new InstantCommand(() -> {
+            follower.followPath(grab1, true);
+        });
+
+        MoveToMidpoint = new InstantCommand(() -> {
+            follower.followPath(midpoint, true);
+        });
+
+        MoveToLaunch1 = new InstantCommand(() -> {
+            follower.followPath(Launch1, true);
+        });
+        PrepareToGrab2 = new InstantCommand(() -> {
+            follower.followPath(prepGrab2, true);
+        });
+
+
+        GrabSet2 = new InstantCommand(() -> {
+            follower.followPath(grab2, true);
+        });
+
+
+        MoveToMidPoint2 = new InstantCommand(() -> {
+            follower.followPath(midpoint2, true);
+        });
+
+
+        MoveToLaunch2 = new InstantCommand(() -> {
+            follower.followPath(launch2, true);
+        });
+
+        leave = new InstantCommand(() -> {
+            follower.followPath(Leave, true);
+        });
+
+
+
+
 
 
         // Create The Path Commands
@@ -48,6 +109,33 @@ public class BackBlue extends AutoBase {
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
         follower.setMaxPower(1);
+
+        // launcher
+        launchAngle = hardwareMap.get(Servo.class, "launchAngle");
+        launchMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
+        launchServo = hardwareMap.get(CRServo.class, "launchServo");
+        turnServo = hardwareMap.get(Servo.class, "turnServo");
+        // intake
+        frontIntakeServo = hardwareMap.get(CRServo.class, "frontIntake");
+        frontPassServo = hardwareMap.get(CRServo.class, "frontPass");
+        backIntakeServo = hardwareMap.get(CRServo.class, "backIntake");
+        backPassServo = hardwareMap.get(CRServo.class, "backPass");
+        // distance Sensors
+        fSensor = hardwareMap.get(DigitalChannel.class, "fSensor");
+        mSensor = hardwareMap.get(DigitalChannel.class, "mSensor");
+        bSensor = hardwareMap.get(DigitalChannel.class, "bSensor");
+        fSensor.setMode(DigitalChannel.Mode.INPUT);
+        mSensor.setMode(DigitalChannel.Mode.INPUT);
+        bSensor.setMode(DigitalChannel.Mode.INPUT);
+
+        //Subsystems
+        distance = new DistanceSubsystem(fSensor, mSensor, bSensor);
+        intake = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
+        launch = new LaunchSubsystem(launchMotor, launchAngle, turnServo ,launchServo);
+        limelight = new LimeLightSubsystem(Limelight);
+
+        //turntable
+        turnTableSubsystem = new TurnTableSubsystem(turnServo);
 
 
 
