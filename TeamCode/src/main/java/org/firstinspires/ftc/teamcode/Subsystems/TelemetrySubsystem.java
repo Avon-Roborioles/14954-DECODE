@@ -35,6 +35,14 @@ public class TelemetrySubsystem extends SubsystemBase {
 //        limelight.getTelemetry(telemetry);
         updateTelemetry();
     }
+
+    public void compTelemetry() {
+        clearTelemetry();
+        launchSubsystem.compTelemetry(telemetry);
+        updateTelemetry();
+    }
+
+
         public void updateTelemetry(){
             telemetry.update();
         }

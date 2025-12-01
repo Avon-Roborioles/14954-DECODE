@@ -28,9 +28,11 @@ import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 //import org.firstinspires.ftc.teamcode.commands.flipper.FlipItDown;
 //import org.firstinspires.ftc.teamcode.commands.flipper.FlipItUp;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.TelemetrySubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 //import org.firstinspires.ftc.teamcode.commands.LimelightCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.CompTelemetryCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.PukeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeBackToFront;
@@ -42,6 +44,9 @@ import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.RunMotor;
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 //import org.firstinspires.ftc.teamcode.commands.teleop.turntable.TurntableTest1;
 //import org.firstinspires.ftc.teamcode.commands.teleop.turntable.TurntableTest2;
+import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.backSetPointCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.frontSetPointCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.midSetPointCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.ManualTurntableCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.limelightTurnCommand;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
@@ -80,6 +85,8 @@ public class TeleOpRed extends CommandOpMode {
     private Limelight3A limelight;
 
     private boolean redAlliance = true;
+
+    private TelemetrySubsystem telemetrySubsystem;
 
 
     @Override
@@ -126,6 +133,8 @@ public class TeleOpRed extends CommandOpMode {
         //turntable
         TurnSubsystem = new TurnTableSubsystem(turnServo);
 
+        telemetrySubsystem = new TelemetrySubsystem(telemetry,TurnSubsystem,limelightSubsystem,launchSubsystem,intakeSubsystem,distanceSubsystem);
+
 
 
         // Driver commands
@@ -162,11 +171,16 @@ public class TeleOpRed extends CommandOpMode {
         TurnSubsystem.setDefaultCommand(new limelightTurnCommand(limelightSubsystem,TurnSubsystem,launchSubsystem,true));
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
                 .toggleWhenPressed(new ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new limelightTurnCommand(limelightSubsystem, TurnSubsystem, launchSubsystem, true));
-//        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-//                .whenPressed(new InstantCommand(() -> launchSubsystem.adjustLaunchPower(0.05)));
-//
-//        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-//                .whenPressed(new InstantCommand(() -> launchSubsystem.adjustLaunchPower(-0.05)));
+
+
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .whenPressed(new frontSetPointCommand(launchSubsystem));
+
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
+                .whenPressed(new midSetPointCommand(launchSubsystem));
+
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(new backSetPointCommand(launchSubsystem));
 
         // launch
 
@@ -193,18 +207,19 @@ public class TeleOpRed extends CommandOpMode {
         );
 
 
+        telemetrySubsystem.setDefaultCommand(new CompTelemetryCommand(telemetrySubsystem));
 
 //            limelightSubsystem.setDefaultCommand(new LimelightCommand(limelightSubsystem, limelightSubsystem.getResult(), telemetry));
 
         // print to console
-        telemetry.addData("x", follower.getPose().getX());
-        telemetry.addData("y", follower.getPose().getY());
-        telemetry.addData("heading", follower.getPose().getHeading());
-        telemetry.addData("|v|", follower.getVelocity().getMagnitude());
-        telemetry.addData("theta", follower.getVelocity().getTheta());
-        telemetry.addData("x-component", follower.getVelocity().getXComponent());
-        telemetry.addData("y-component", follower.getVelocity().getYComponent());
-        telemetry.update();
+//        telemetry.addData("x", follower.getPose().getX());
+//        telemetry.addData("y", follower.getPose().getY());
+//        telemetry.addData("heading", follower.getPose().getHeading());
+//        telemetry.addData("|v|", follower.getVelocity().getMagnitude());
+//        telemetry.addData("theta", follower.getVelocity().getTheta());
+//        telemetry.addData("x-component", follower.getVelocity().getXComponent());
+//        telemetry.addData("y-component", follower.getVelocity().getYComponent());
+//        telemetry.update();
     }
 }
 
