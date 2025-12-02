@@ -34,12 +34,12 @@ public class AutoDriveSubsystem extends SubsystemBase {
     public void setStartingPose(Pose pose){
         follower.setStartingPose(pose);
     }
+
     public void holdPoint(BezierPoint point, double heading){
         follower.holdPoint(point, heading);
     }
     public void update(){
         follower.update();
-      //  follower.drawOnDashBoard();
     }
     public boolean isBusy(){
         return follower.isBusy();

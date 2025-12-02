@@ -43,23 +43,27 @@ public class LaunchSubsystem extends SubsystemBase {
 
     public void setTargetRPM(double distance){
         TargetRPM = ((distance * 6) + 775);
+
+        if (TargetRPM < 1200) {
+            TargetRPM = 1200;
+        }
     }
 
     public double distanceToHoodAngle(double distance){
-        return (-0.0001 * distance * distance + 0.1361 * distance - 0.1845);
+        return (-0.0001 * distance * distance + 0.1361 * distance - 14.815);
     }
 
     public void backSetPoint(){
         launchMotor.setVelocity(1800);
-        launchAngle.setPosition(0.08);
+        launchAngle.setPosition(0.13);
     }
     public void midSetPoint() {
         launchMotor.setVelocity(1550);
-        launchAngle.setPosition(0.05);
+        launchAngle.setPosition(0.10);
     }
     public void frontSetPoint(){
         launchMotor.setVelocity(1300);
-        launchAngle.setPosition(0.02);
+        launchAngle.setPosition(0.07);
     }
 
 
@@ -67,7 +71,7 @@ public class LaunchSubsystem extends SubsystemBase {
     private double angleToServo(double angle){
         if(angle > 50) angle = 50;
         if(angle < 0) angle = 0;
-        return (angle / 55.0) * 0.187;
+        return (angle / 0.187) * 55.0;
     }
 
     public void adjustAngleM(double controller){
@@ -120,6 +124,8 @@ public class LaunchSubsystem extends SubsystemBase {
 
         telemetry.addData("Actual Velocity", launchMotor.getVelocity());
         telemetry.addData("Target RPM", TargetRPM);
+        telemetry.addData("Target Angle (Deg)", Angle);
+        telemetry.addData("command pos", angleToServo(Angle));
         telemetry.addData("Servo Pos", launchAngle.getPosition());
 
     }

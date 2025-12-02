@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
 import static java.lang.Math.PI;
 
+import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -32,6 +33,7 @@ import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeCo
 import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeToLauncher;
 import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.CompTelemetryCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.ManJoystickPassCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.TelemetryCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeBackToFront;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeFrontToBack;
@@ -83,6 +85,7 @@ public class TeleOpBlue extends CommandOpMode {
     private boolean redAlliance = true;
 
     private TelemetrySubsystem telemetrySubsystem;
+    public Command compTel;
 
 
     @Override
@@ -137,10 +140,8 @@ public class TeleOpBlue extends CommandOpMode {
 
 
         // Driver commands
-        driverOp.getGamepadButton(GamepadKeys.Button.A)
-                .toggleWhenPressed(new IntakeFrontToBack(intakeSubsystem, distanceSubsystem), new IntakeStopServoCommand(intakeSubsystem));
-        driverOp.getGamepadButton(GamepadKeys.Button.Y)
-                .toggleWhenPressed(new IntakeBackToFront(intakeSubsystem, distanceSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+
+
 
 
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
@@ -158,12 +159,16 @@ public class TeleOpBlue extends CommandOpMode {
 
         operatorOp.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new CancelCommand(intakeSubsystem,launchSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.A)
+                .toggleWhenPressed(new IntakeFrontToBack(intakeSubsystem, distanceSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)
-                .toggleWhenPressed(new IntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+                .toggleWhenPressed(new IntakeBackToFront(intakeSubsystem, distanceSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                        .toggleWhenPressed(new IntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenHeld(new PukeCommand(intakeSubsystem))
                 .whenReleased(new IntakeStopServoCommand(intakeSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.A)
+        operatorOp.getGamepadButton(GamepadKeys.Button.X)
                 .whenPressed(new AutoIntakeCommand(distanceSubsystem,intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
@@ -180,6 +185,9 @@ public class TeleOpBlue extends CommandOpMode {
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new backSetPointCommand(launchSubsystem));
+
+
+        intakeSubsystem.setDefaultCommand(new ManJoystickPassCommand(intakeSubsystem, operatorOp::getRightY));
 
 
 
@@ -208,6 +216,7 @@ public class TeleOpBlue extends CommandOpMode {
         );
 
         telemetrySubsystem.setDefaultCommand(new CompTelemetryCommand(telemetrySubsystem));
+
 
 
 

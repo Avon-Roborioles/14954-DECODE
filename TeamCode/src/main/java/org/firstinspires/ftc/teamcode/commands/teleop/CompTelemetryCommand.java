@@ -9,6 +9,7 @@ public class CompTelemetryCommand extends CommandBase {
 
     public CompTelemetryCommand(TelemetrySubsystem telemetrySubsystem){
         this.telemetrySubsystem = telemetrySubsystem;
+        addRequirements(telemetrySubsystem);
     }
 
     public void execute(){

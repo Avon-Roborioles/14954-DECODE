@@ -116,7 +116,7 @@ public class ProtypeShooterControl extends LinearOpMode {
 //            }
 
 
-            if ((newServoAngle > 0.0) && (newServoAngle < 1.0)) {
+            if ((newServoAngle >= 0.0) && (newServoAngle < 1.0)) {
                 launchServoAngle = newServoAngle;
                 shooterAngle.setPosition(launchServoAngle);
             }

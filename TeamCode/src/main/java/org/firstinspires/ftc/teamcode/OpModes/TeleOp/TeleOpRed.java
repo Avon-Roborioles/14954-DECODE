@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
 import static java.lang.Math.PI;
 
+import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -33,6 +34,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 //import org.firstinspires.ftc.teamcode.commands.LimelightCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.CompTelemetryCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.ManJoystickPassCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.PukeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeBackToFront;
@@ -77,8 +79,8 @@ public class TeleOpRed extends CommandOpMode {
     //Distance Sensor Variables
     private DigitalChannel fSensor, mSensor, bSensor;
     private DistanceSubsystem distanceSubsystem;
-   // Turntable Variables
-   private Servo turnServo;
+    // Turntable Variables
+    private Servo turnServo;
     private TurnTableSubsystem TurnSubsystem;
     // Limelight Variables
     private LimeLightSubsystem limelightSubsystem;
@@ -87,6 +89,7 @@ public class TeleOpRed extends CommandOpMode {
     private boolean redAlliance = true;
 
     private TelemetrySubsystem telemetrySubsystem;
+    public Command compTel;
 
 
     @Override
@@ -100,7 +103,10 @@ public class TeleOpRed extends CommandOpMode {
 
         //Follower
         follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(startingPose == null ? new Pose() : startingPose);
+
+        follower.setStartingPose(new Pose(0, 0, PI));
+        follower.setPose(new Pose(0, 0, PI));
+
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         pathChain = () -> follower.pathBuilder() //Lazy Curve Generation
                 .addPath(new Path(new BezierLine(follower::getPose, new Pose(45, 98, PI))))
@@ -138,16 +144,15 @@ public class TeleOpRed extends CommandOpMode {
 
 
         // Driver commands
-        driverOp.getGamepadButton(GamepadKeys.Button.A)
-                .toggleWhenPressed(new IntakeFrontToBack(intakeSubsystem, distanceSubsystem), new IntakeStopServoCommand(intakeSubsystem));
-        driverOp.getGamepadButton(GamepadKeys.Button.Y)
-                .toggleWhenPressed(new IntakeBackToFront(intakeSubsystem, distanceSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+
+
 
 
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                        .whenHeld(new InstantCommand(() -> {
-                            new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem).schedule();
-                        }));
+                .whenHeld(new InstantCommand(() -> {
+                    new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem).schedule();
+                }));
+
 
         driverOp.getGamepadButton(GamepadKeys.Button.X) // Heading Reset
                 .whenPressed(new InstantCommand(() -> {follower.setPose(new Pose(0, 0, PI));}));
@@ -157,21 +162,24 @@ public class TeleOpRed extends CommandOpMode {
         // Operator commands
 
         operatorOp.getGamepadButton(GamepadKeys.Button.B)
-                        .whenPressed(new CancelCommand(intakeSubsystem,launchSubsystem));
+                .whenPressed(new CancelCommand(intakeSubsystem,launchSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.A)
+                .toggleWhenPressed(new IntakeFrontToBack(intakeSubsystem, distanceSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)
+                .toggleWhenPressed(new IntakeBackToFront(intakeSubsystem, distanceSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .toggleWhenPressed(new IntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenHeld(new PukeCommand(intakeSubsystem))
-                        .whenReleased(new IntakeStopServoCommand(intakeSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.A)
+                .whenReleased(new IntakeStopServoCommand(intakeSubsystem));
+        operatorOp.getGamepadButton(GamepadKeys.Button.X)
                 .whenPressed(new AutoIntakeCommand(distanceSubsystem,intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
 
-        TurnSubsystem.setDefaultCommand(new limelightTurnCommand(limelightSubsystem,TurnSubsystem,launchSubsystem,true));
+        TurnSubsystem.setDefaultCommand(new limelightTurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem, true));
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
-                .toggleWhenPressed(new ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new limelightTurnCommand(limelightSubsystem, TurnSubsystem, launchSubsystem, true));
-
+                .toggleWhenPressed(new ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new limelightTurnCommand(limelightSubsystem, TurnSubsystem,launchSubsystem, true));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(new frontSetPointCommand(launchSubsystem));
@@ -181,6 +189,11 @@ public class TeleOpRed extends CommandOpMode {
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new backSetPointCommand(launchSubsystem));
+
+
+        intakeSubsystem.setDefaultCommand(new ManJoystickPassCommand(intakeSubsystem, operatorOp::getRightY));
+
+
 
         // launch
 
@@ -206,8 +219,10 @@ public class TeleOpRed extends CommandOpMode {
                 false // Robot Centric
         );
 
-
         telemetrySubsystem.setDefaultCommand(new CompTelemetryCommand(telemetrySubsystem));
+
+
+
 
 //            limelightSubsystem.setDefaultCommand(new LimelightCommand(limelightSubsystem, limelightSubsystem.getResult(), telemetry));
 
@@ -222,6 +237,3 @@ public class TeleOpRed extends CommandOpMode {
 //        telemetry.update();
     }
 }
-
-
-

@@ -16,7 +16,7 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
     public AutoIntakeToLauncher(DistanceSubsystem distanceSubsystem,
                                 IntakeSubsystem intakeSubsystem, LaunchSubsystem launchSubsystem) {
 
-        addRequirements(distanceSubsystem, intakeSubsystem, launchSubsystem);
+        addRequirements(distanceSubsystem, intakeSubsystem);
 
         boolean f = distanceSubsystem.checkFront();
         boolean m = distanceSubsystem.checkMiddle();
