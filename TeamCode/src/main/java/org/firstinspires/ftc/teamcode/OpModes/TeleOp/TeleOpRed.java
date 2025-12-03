@@ -18,7 +18,6 @@ import com.pedropathing.paths.PathChain;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -67,7 +66,7 @@ public class TeleOpRed extends CommandOpMode {
 
     // launcher variables
     private DcMotorEx launchMotor;
-    private Servo launchAngle;
+    private Servo launchAngleServo;
     private CRServo launchServo;
     private LaunchSubsystem launchSubsystem;
     // intake variables
@@ -113,7 +112,7 @@ public class TeleOpRed extends CommandOpMode {
                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
                 .build();
         // launcher
-        launchAngle = hardwareMap.get(Servo.class, "launchAngle");
+        launchAngleServo = hardwareMap.get(Servo.class, "launchAngle");
         launchMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
         launchServo = hardwareMap.get(CRServo.class, "launchServo");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
@@ -133,7 +132,7 @@ public class TeleOpRed extends CommandOpMode {
         //Subsystems
         distanceSubsystem = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intakeSubsystem = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
-        launchSubsystem = new LaunchSubsystem(launchMotor, launchAngle, turnServo ,launchServo);
+        launchSubsystem = new LaunchSubsystem(launchMotor, launchAngleServo, turnServo ,launchServo);
         limelightSubsystem = new LimeLightSubsystem(limelight);
 
         //turntable
@@ -156,6 +155,15 @@ public class TeleOpRed extends CommandOpMode {
 
         driverOp.getGamepadButton(GamepadKeys.Button.X) // Heading Reset
                 .whenPressed(new InstantCommand(() -> {follower.setPose(new Pose(0, 0, PI));}));
+
+        driverOp.getGamepadButton(GamepadKeys.Button.A)
+                        .whenPressed(new InstantCommand(() -> {
+                            launchAngleServo.setPosition(0);
+                        }));
+        driverOp.getGamepadButton(GamepadKeys.Button.B)
+                .whenPressed(new InstantCommand(() -> {
+                    launchAngleServo.setPosition(0.1);
+                }));
 
 
 

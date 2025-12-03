@@ -18,7 +18,6 @@ import com.pedropathing.paths.PathChain;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -34,7 +33,6 @@ import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeTo
 import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.CompTelemetryCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.ManJoystickPassCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.TelemetryCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeBackToFront;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeFrontToBack;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeStopServoCommand;
@@ -63,7 +61,7 @@ public class TeleOpBlue extends CommandOpMode {
 
     // launcher variables
     private DcMotorEx launchMotor;
-    private Servo launchAngle;
+    private Servo launchAngleServo;
     private CRServo launchServo;
     private LaunchSubsystem launchSubsystem;
     // intake variables
@@ -109,7 +107,7 @@ public class TeleOpBlue extends CommandOpMode {
                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
                 .build();
         // launcher
-        launchAngle = hardwareMap.get(Servo.class, "launchAngle");
+        launchAngleServo = hardwareMap.get(Servo.class, "launchAngle");
         launchMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
         launchServo = hardwareMap.get(CRServo.class, "launchServo");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
@@ -129,7 +127,7 @@ public class TeleOpBlue extends CommandOpMode {
         //Subsystems
         distanceSubsystem = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intakeSubsystem = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
-        launchSubsystem = new LaunchSubsystem(launchMotor, launchAngle, turnServo ,launchServo);
+        launchSubsystem = new LaunchSubsystem(launchMotor, launchAngleServo, turnServo ,launchServo);
         limelightSubsystem = new LimeLightSubsystem(limelight);
 
         //turntable

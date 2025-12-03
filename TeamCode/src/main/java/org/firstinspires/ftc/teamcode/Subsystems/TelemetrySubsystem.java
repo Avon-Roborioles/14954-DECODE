@@ -24,9 +24,13 @@ public class TelemetrySubsystem extends SubsystemBase {
         this.distanceSubsystem = distanceSubsystem;
 
     }
+    public TelemetrySubsystem(Telemetry telemetry, LaunchSubsystem launchSubsystem){
+        this.telemetry = telemetry;
+        this.launchSubsystem = launchSubsystem;
+    }
     public void getTelemetry(){
         clearTelemetry();
-        turnTable.getTelemetry(telemetry);
+//        turnTable.getTelemetry(telemetry);
 
 //        pedroDriveSubsystem.telemetryDebug(telemetry);
         launchSubsystem.getTelemetry(telemetry);
