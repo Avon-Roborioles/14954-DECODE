@@ -25,7 +25,7 @@ public class TeleDriveCommand extends CommandBase {
     }
     @Override
     public void execute(){
-        autoDriveSubsystem.setTeleOpDrive(forward.getAsDouble(), -strafe.getAsDouble(), -turn.getAsDouble(), robotCentric);
+        autoDriveSubsystem.setTeleOpDrive(-forward.getAsDouble(), -strafe.getAsDouble(), turn.getAsDouble(), robotCentric);
         autoDriveSubsystem.update();
     }
 
