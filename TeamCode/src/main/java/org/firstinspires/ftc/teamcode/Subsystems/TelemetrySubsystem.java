@@ -49,6 +49,7 @@ public class TelemetrySubsystem extends SubsystemBase {
     public void compTelemetry() {
         clearTelemetry();
         launchSubsystem.compTelemetry(telemetry);
+        turnTable.compTelemetry(telemetry);
         updateTelemetry();
     }
 

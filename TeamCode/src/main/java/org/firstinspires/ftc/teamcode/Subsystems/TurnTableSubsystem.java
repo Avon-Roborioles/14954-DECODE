@@ -30,6 +30,14 @@ public class TurnTableSubsystem extends SubsystemBase {
     }
 
 
+    public void BackSetPoints(boolean redAlliance){
+        if (redAlliance){
+
+        } else if (!redAlliance){
+
+        }
+    }
+
     public void moveManual(double inputSpeed) {
         // Get the current position
         double currentPos = turntable.getPosition();
@@ -79,7 +87,14 @@ public class TurnTableSubsystem extends SubsystemBase {
 
     public void getTelemetry(Telemetry telemetry){
         double currentPos = turntable.getPosition();
+        telemetry.addData("Commanded Turntable Position", newPos);
         telemetry.addData("turntable position", currentPos);
+    }
+
+    public void compTelemetry(Telemetry telemetry){
+        double currentPos = turntable.getPosition();
+        telemetry.addData("turntable position", currentPos);
+
     }
 }
 

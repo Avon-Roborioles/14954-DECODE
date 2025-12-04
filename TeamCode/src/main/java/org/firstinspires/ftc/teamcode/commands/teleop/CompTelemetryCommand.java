@@ -14,6 +14,7 @@ public class CompTelemetryCommand extends CommandBase {
 
     public void execute(){
         telemetrySubsystem.compTelemetry();
+
     }
 
 }
