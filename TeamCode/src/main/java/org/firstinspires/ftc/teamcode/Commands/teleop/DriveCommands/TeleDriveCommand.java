@@ -12,20 +12,20 @@ public class TeleDriveCommand extends CommandBase {
     private Telemetry telemetry;
     private double speed1 = 0;
     private DoubleSupplier strafe, forward, turn;
-    private boolean fieldCentric;
+    private boolean robotCentric;
 
-    public TeleDriveCommand(AutoDriveSubsystem autoDriveSubsystem, Telemetry telemetry, DoubleSupplier forward, DoubleSupplier strafe, DoubleSupplier turn, boolean fieldCentric){
+    public TeleDriveCommand(AutoDriveSubsystem autoDriveSubsystem, Telemetry telemetry, DoubleSupplier forward, DoubleSupplier strafe, DoubleSupplier turn, boolean robotCentric){
         this.autoDriveSubsystem = autoDriveSubsystem;
         this.telemetry = telemetry;
         this.strafe = strafe;
         this.forward = forward;
         this.turn = turn;
-        this.fieldCentric = fieldCentric;
+        this.robotCentric = robotCentric;
         addRequirements(autoDriveSubsystem);
     }
     @Override
     public void execute(){
-        autoDriveSubsystem.setTeleOpDrive(forward.getAsDouble(), -strafe.getAsDouble(), -turn.getAsDouble(), fieldCentric);
+        autoDriveSubsystem.setTeleOpDrive(forward.getAsDouble(), -strafe.getAsDouble(), -turn.getAsDouble(), robotCentric);
         autoDriveSubsystem.update();
     }
 

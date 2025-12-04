@@ -22,6 +22,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
@@ -32,6 +33,8 @@ import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeCo
 import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeToLauncher;
 import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.CompTelemetryCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.DriveCommands.TeleDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.DriveCommands.TeleSlowDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.ManJoystickPassCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeBackToFront;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeFrontToBack;
@@ -84,6 +87,8 @@ public class TeleOpBlue extends CommandOpMode {
     private boolean redAlliance = true;
 
     private TelemetrySubsystem telemetrySubsystem;
+
+    private AutoDriveSubsystem autoDriveSubsystem;
     public Command compTel;
 
 
@@ -107,6 +112,9 @@ public class TeleOpBlue extends CommandOpMode {
                 .addPath(new Path(new BezierLine(follower::getPose, new Pose(45, 98, PI))))
                 .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
                 .build();
+
+
+
         // launcher
         launchAngleServo = hardwareMap.get(Servo.class, "launchAngle");
         launchMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
@@ -137,6 +145,9 @@ public class TeleOpBlue extends CommandOpMode {
         telemetrySubsystem = new TelemetrySubsystem(telemetry,TurnSubsystem,limelightSubsystem,launchSubsystem,intakeSubsystem,distanceSubsystem);
 
 
+        //Drive Subsystem
+        autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry, new Pose(0, 0, PI));
+
 
         // Driver commands
 
@@ -147,6 +158,8 @@ public class TeleOpBlue extends CommandOpMode {
                 .whenHeld(new InstantCommand(() -> {
                     new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem,telemetry).schedule();
                 }));
+
+
 
 
         driverOp.getGamepadButton(GamepadKeys.Button.X) // Heading Reset
@@ -218,12 +231,16 @@ public class TeleOpBlue extends CommandOpMode {
             follower.update();
             telemetryM.update();
 
-            follower.setTeleOpDrive(
-                    -gamepad1.left_stick_y,
-                    -gamepad1.left_stick_x,
-                    gamepad1.right_stick_x,
-                    false // Robot Centric
-            );
+            autoDriveSubsystem.setDefaultCommand(new TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false));
+            driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                    .whenHeld(new TeleSlowDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false))
+                    .whenInactive(new TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false));
+//            follower.setTeleOpDrive(
+//                    -gamepad1.left_stick_y,
+//                    -gamepad1.left_stick_x,
+//                    gamepad1.right_stick_x,
+//                    false // Robot Centric
+//            );
 
             run();
             telemetrySubsystem.setDefaultCommand(new CompTelemetryCommand(telemetrySubsystem));
