@@ -77,7 +77,7 @@ public class ProtypeShooterControl extends LinearOpMode {
         limelight.start();
         waitForStart();
 
-        shooterAngle.setDirection(Servo.Direction.REVERSE);
+        shooterAngle.setDirection(Servo.Direction.FORWARD);
 //        shooterAngle.setPosition(0.0);
         launchServoAngle = shooterAngle.getPosition();
         turnAngle = turn.getPosition();
@@ -116,10 +116,9 @@ public class ProtypeShooterControl extends LinearOpMode {
 //            }
 
 
-            if ((newServoAngle >= 0.0) && (newServoAngle < 1.0)) {
-                launchServoAngle = newServoAngle;
-                shooterAngle.setPosition(launchServoAngle);
-            }
+
+            launchServoAngle = newServoAngle;
+            shooterAngle.setPosition(launchServoAngle);
             if ((newTurnAngle > 0.0) && (newTurnAngle < 1.0)) {
                 turnAngle = newTurnAngle;
                 turn.setPosition(turnAngle);

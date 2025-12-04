@@ -1,10 +1,14 @@
 package org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups;
 
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.TelemetrySubsystem;
+import org.firstinspires.ftc.teamcode.commands.teleop.autoStateMachineTelmetry;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeBackToCenter;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeFrontToCenter;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeFrontToCenterAndUp;
@@ -14,7 +18,7 @@ import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeToLau
 public class AutoIntakeToLauncher extends SequentialCommandGroup {
 //public class DistanceIntakeCommand extends SequentialCommandGroup {
     public AutoIntakeToLauncher(DistanceSubsystem distanceSubsystem,
-                                IntakeSubsystem intakeSubsystem, LaunchSubsystem launchSubsystem) {
+                                IntakeSubsystem intakeSubsystem, LaunchSubsystem launchSubsystem, Telemetry telemetry) {
 
         addRequirements(distanceSubsystem, intakeSubsystem);
 
@@ -27,6 +31,7 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
         // FRONT ONLY
         if (f && !m && !b) {
             addCommands(
+                    new autoStateMachineTelmetry( "Front Only"),
                     new IntakeFrontToCenter(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem)
             );
@@ -34,13 +39,15 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
             // MIDDLE ONLY
         } else if (!f && m && !b) {
             addCommands(
-                   new IntakeStopServoCommand(intakeSubsystem),
+                    new autoStateMachineTelmetry("Middle Only"),
+                    new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem)
             );
 
             // BACK ONLY
         } else if (!f && !m && b) {
             addCommands(
+                    new autoStateMachineTelmetry("Back Only"),
                     new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeBackToCenter(intakeSubsystem, distanceSubsystem),
                     new IntakeToLauncher(intakeSubsystem)
@@ -49,6 +56,7 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
             // FRONT + MIDDLE
         } else if (f && m && !b) {
             addCommands(
+                    new autoStateMachineTelmetry("Front + Middle"),
                     new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem),
                     new IntakeFrontToCenter(intakeSubsystem),
@@ -58,6 +66,7 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
             // MIDDLE + BACK
         } else if (!f && m && b) {
             addCommands(
+                    new autoStateMachineTelmetry("Middle and Back "),
                     new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem),
                     new IntakeBackToCenter(intakeSubsystem, distanceSubsystem),
@@ -67,6 +76,7 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
             // FRONT + BACK
         } else if (f && !m && b) {
             addCommands(
+                    new autoStateMachineTelmetry("Front and Back"),
                     new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeBackToCenter(intakeSubsystem, distanceSubsystem),
                     new IntakeFrontToCenterAndUp(intakeSubsystem),
@@ -76,6 +86,7 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
             // ALL 3
         } else if (f && m && b) {
             addCommands(
+                    new autoStateMachineTelmetry("All 3"),
                     new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem),
                     new IntakeBackToCenter(intakeSubsystem, distanceSubsystem),

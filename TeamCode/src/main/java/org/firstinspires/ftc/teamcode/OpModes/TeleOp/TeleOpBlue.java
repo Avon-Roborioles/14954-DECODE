@@ -37,6 +37,7 @@ import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeBackT
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeFrontToBack;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeToLauncher;
+import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.ManIntakeToLauncher;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.PukeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.RunMotor;
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
@@ -144,12 +145,21 @@ public class TeleOpBlue extends CommandOpMode {
 
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenHeld(new InstantCommand(() -> {
-                    new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem).schedule();
+                    new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem,telemetry).schedule();
                 }));
 
 
         driverOp.getGamepadButton(GamepadKeys.Button.X) // Heading Reset
                 .whenPressed(new InstantCommand(() -> {follower.setPose(new Pose(0, 0, PI));}));
+
+        driverOp.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(new InstantCommand(() -> {
+                    launchAngleServo.setPosition(0.13);
+                }));
+        driverOp.getGamepadButton(GamepadKeys.Button.B)
+                .whenPressed(new InstantCommand(() -> {
+                    launchAngleServo.setPosition(0.10);
+                }));
 
 
 
@@ -162,14 +172,12 @@ public class TeleOpBlue extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)
                 .toggleWhenPressed(new IntakeBackToFront(intakeSubsystem, distanceSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                        .toggleWhenPressed(new IntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+                .toggleWhenPressed(new ManIntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenHeld(new PukeCommand(intakeSubsystem))
                 .whenReleased(new IntakeStopServoCommand(intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
                 .whenPressed(new AutoIntakeCommand(distanceSubsystem,intakeSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
 
         TurnSubsystem.setDefaultCommand(new limelightTurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem, false));
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
@@ -179,7 +187,7 @@ public class TeleOpBlue extends CommandOpMode {
                 .whenPressed(new frontSetPointCommand(launchSubsystem));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                        .whenPressed(new midSetPointCommand(launchSubsystem));
+                .whenPressed(new midSetPointCommand(launchSubsystem));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new backSetPointCommand(launchSubsystem));
@@ -199,21 +207,44 @@ public class TeleOpBlue extends CommandOpMode {
     }
 
     @Override
-    public void run() {
-        super.run(); // This is important to run the command scheduler
+    public void runOpMode() {
 
-        //Call this once per loop
-        follower.update();
-        telemetryM.update();
+        initialize();
 
-        follower.setTeleOpDrive(
-                -gamepad1.left_stick_y,
-                -gamepad1.left_stick_x,
-                gamepad1.right_stick_x,
-                false // Robot Centric
-        );
+        waitForStart();
 
-        telemetrySubsystem.setDefaultCommand(new CompTelemetryCommand(telemetrySubsystem));
+        // run the scheduler
+        while (!isStopRequested() && opModeIsActive()) {
+            follower.update();
+            telemetryM.update();
+
+            follower.setTeleOpDrive(
+                    -gamepad1.left_stick_y,
+                    -gamepad1.left_stick_x,
+                    gamepad1.right_stick_x,
+                    false // Robot Centric
+            );
+
+            run();
+            telemetrySubsystem.setDefaultCommand(new CompTelemetryCommand(telemetrySubsystem));
+        }
+        reset();
+    }
+//    public void run() {
+//        super.run(); // This is important to run the command scheduler
+//
+//        //Call this once per loop
+//        follower.update();
+//        telemetryM.update();
+//
+//        follower.setTeleOpDrive(
+//                -gamepad1.left_stick_y,
+//                -gamepad1.left_stick_x,
+//                gamepad1.right_stick_x,
+//                false // Robot Centric
+//        );
+//
+//        telemetrySubsystem.setDefaultCommand(new CompTelemetryCommand(telemetrySubsystem));
 
 
 
@@ -230,7 +261,7 @@ public class TeleOpBlue extends CommandOpMode {
 //        telemetry.addData("y-component", follower.getVelocity().getYComponent());
 //        telemetry.update();
     }
-}
+
 
 
 

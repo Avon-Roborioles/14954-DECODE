@@ -34,6 +34,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.CompTelemetryCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.ManJoystickPassCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.ManIntakeToLauncher;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.PukeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeBackToFront;
@@ -149,7 +150,7 @@ public class TeleOpRed extends CommandOpMode {
 
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenHeld(new InstantCommand(() -> {
-                    new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem).schedule();
+                    new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem, telemetry).schedule();
                 }));
 
 
@@ -176,14 +177,12 @@ public class TeleOpRed extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)
                 .toggleWhenPressed(new IntakeBackToFront(intakeSubsystem, distanceSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .toggleWhenPressed(new IntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+                .toggleWhenPressed(new ManIntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenHeld(new PukeCommand(intakeSubsystem))
                 .whenReleased(new IntakeStopServoCommand(intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
                 .whenPressed(new AutoIntakeCommand(distanceSubsystem,intakeSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
 
         TurnSubsystem.setDefaultCommand(new limelightTurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem, true));
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)

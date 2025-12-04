@@ -29,7 +29,6 @@ public class LaunchSubsystem extends SubsystemBase {
         this.launchAngleServo = launchAngleServo;
         this.turnServo = turnServo;
         this.launchServo = launchServo;
-        this.launchAngleServo.setDirection(Servo.Direction.FORWARD);
 
         // Essential for setVelocity to work correctly
         this.launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -52,15 +51,15 @@ public class LaunchSubsystem extends SubsystemBase {
 
     public void backSetPoint(){
         launchMotor.setVelocity(1800);
-        launchAngleServo.setPosition(0.13);
+        launchAngleServo.setPosition(0.0); //0.0 //0.13 // correct
     }
     public void midSetPoint() {
         launchMotor.setVelocity(1550);
-        launchAngleServo.setPosition(0.10);
+        launchAngleServo.setPosition(0.03); //0.03 //0.10 //correct 1500: 0.03
     }
     public void frontSetPoint(){
         launchMotor.setVelocity(1300);
-        launchAngleServo.setPosition(0.07);
+        launchAngleServo.setPosition(0.06); //0.06 //0.07 // correct 1300: 0.06
     }
 
 

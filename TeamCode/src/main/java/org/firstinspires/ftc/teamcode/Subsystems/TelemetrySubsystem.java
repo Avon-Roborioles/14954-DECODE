@@ -40,6 +40,12 @@ public class TelemetrySubsystem extends SubsystemBase {
         updateTelemetry();
     }
 
+    public void autoTestTelemetry(String state){
+        clearTelemetry();
+        telemetry.addData("State", state);
+        updateTelemetry();
+    }
+
     public void compTelemetry() {
         clearTelemetry();
         launchSubsystem.compTelemetry(telemetry);

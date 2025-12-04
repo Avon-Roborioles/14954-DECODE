@@ -141,7 +141,7 @@ public class NewTestOpMode extends CommandOpMode {
 
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenHeld(new InstantCommand(() -> {
-                    new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem).schedule();
+                    new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem, telemetry).schedule();
                 }));
 
         driverOp.getGamepadButton(GamepadKeys.Button.X) // Heading Reset

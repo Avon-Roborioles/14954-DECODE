@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class IntakeToLauncher extends CommandBase{
     private IntakeSubsystem intakeServoSubsystem;
-    private Timing.Timer timer = new Timing.Timer(5000, TimeUnit.MILLISECONDS);
+    private Timing.Timer timer = new Timing.Timer(1000, TimeUnit.MILLISECONDS);
 
     public IntakeToLauncher(IntakeSubsystem intakeServoSubsystem){
         this.intakeServoSubsystem = intakeServoSubsystem;

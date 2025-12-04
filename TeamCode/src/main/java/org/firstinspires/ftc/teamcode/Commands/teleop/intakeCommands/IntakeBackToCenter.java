@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class IntakeBackToCenter extends CommandBase{
     private IntakeSubsystem intakeServoSubsystem;
     private DistanceSubsystem distanceSubsystem;
-    private Timing.Timer timer = new Timing.Timer(500, TimeUnit.MILLISECONDS);
+    private Timing.Timer timer = new Timing.Timer(1000, TimeUnit.MILLISECONDS);
 
     public IntakeBackToCenter(IntakeSubsystem intakeServoSubsystem, DistanceSubsystem distanceSubsystem){
         this.intakeServoSubsystem = intakeServoSubsystem;

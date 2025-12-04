@@ -20,7 +20,7 @@ public class PassToCenter extends CommandBase {
     }
     public void initialize(){
         isFront = distanceSubsystem.isIntakingFromFront();
-        timer = new Timing.Timer(400, TimeUnit.MILLISECONDS);
+        timer = new Timing.Timer(200, TimeUnit.MILLISECONDS);
 
     }
 @Override

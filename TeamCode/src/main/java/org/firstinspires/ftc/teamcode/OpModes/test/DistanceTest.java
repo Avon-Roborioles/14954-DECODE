@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @TeleOp
+@Disabled
 public class DistanceTest extends LinearOpMode {
     private DigitalChannel fSensor, mSensor, bSensor;
     private Servo test;
