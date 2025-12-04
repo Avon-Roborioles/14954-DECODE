@@ -212,23 +212,29 @@ public class TeleOpRed extends CommandOpMode {
     }
 
     @Override
-    public void run() {
-        super.run(); // This is important to run the command scheduler
+    public void runOpMode() {
 
-        //Call this once per loop
-        follower.update();
-        telemetryM.update();
+        initialize();
 
-        follower.setTeleOpDrive(
-                -gamepad1.left_stick_y,
-                -gamepad1.left_stick_x,
-                gamepad1.right_stick_x,
-                false // Robot Centric
-        );
+        waitForStart();
 
-        telemetrySubsystem.setDefaultCommand(new CompTelemetryCommand(telemetrySubsystem));
+        // run the scheduler
+        while (!isStopRequested() && opModeIsActive()) {
+            follower.update();
+            telemetryM.update();
 
+            follower.setTeleOpDrive(
+                    -gamepad1.left_stick_y,
+                    -gamepad1.left_stick_x,
+                    gamepad1.right_stick_x,
+                    false // Robot Centric
+            );
 
+            run();
+            telemetrySubsystem.setDefaultCommand(new CompTelemetryCommand(telemetrySubsystem));
+        }
+        reset();
+    }
 
 
 //            limelightSubsystem.setDefaultCommand(new LimelightCommand(limelightSubsystem, limelightSubsystem.getResult(), telemetry));
@@ -243,4 +249,3 @@ public class TeleOpRed extends CommandOpMode {
 //        telemetry.addData("y-component", follower.getVelocity().getYComponent());
 //        telemetry.update();
     }
-}
