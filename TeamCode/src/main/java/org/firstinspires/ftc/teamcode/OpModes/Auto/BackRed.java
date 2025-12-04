@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
-import org.firstinspires.ftc.teamcode.commands.teleop.AutoDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.Auto.AutoDriveCommand;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous

@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.commands.teleop;
+package org.firstinspires.ftc.teamcode.commands.teleop.Auto;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
