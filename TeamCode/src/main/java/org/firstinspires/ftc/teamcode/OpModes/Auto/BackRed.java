@@ -126,7 +126,7 @@ public class BackRed extends AutoBase{
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry, startPose);
-        follower.setMaxPower(1);
+        follower.setMaxPower(0.6);
 
         // launcher
         launchAngle = hardwareMap.get(Servo.class, "launchAngle");

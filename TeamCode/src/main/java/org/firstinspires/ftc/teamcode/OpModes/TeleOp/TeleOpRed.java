@@ -22,6 +22,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
@@ -33,6 +34,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 //import org.firstinspires.ftc.teamcode.commands.LimelightCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.CompTelemetryCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.DriveCommands.TeleDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.DriveCommands.TeleSlowDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.ManJoystickPassCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.ManIntakeToLauncher;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.PukeCommand;
@@ -89,6 +92,7 @@ public class TeleOpRed extends CommandOpMode {
     private boolean redAlliance = true;
 
     private TelemetrySubsystem telemetrySubsystem;
+    private AutoDriveSubsystem autoDriveSubsystem;
     public Command compTel;
 
 
@@ -140,6 +144,7 @@ public class TeleOpRed extends CommandOpMode {
         TurnSubsystem = new TurnTableSubsystem(turnServo);
 
         telemetrySubsystem = new TelemetrySubsystem(telemetry,TurnSubsystem,limelightSubsystem,launchSubsystem,intakeSubsystem,distanceSubsystem);
+        autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry, new Pose(0, 0, PI));
 
 
 
@@ -185,6 +190,7 @@ public class TeleOpRed extends CommandOpMode {
                 .whenPressed(new AutoIntakeCommand(distanceSubsystem,intakeSubsystem));
 
         TurnSubsystem.setDefaultCommand(new limelightTurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem, true));
+
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
                 .toggleWhenPressed(new ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new limelightTurnCommand(limelightSubsystem, TurnSubsystem,launchSubsystem, true));
 
@@ -223,12 +229,16 @@ public class TeleOpRed extends CommandOpMode {
             follower.update();
             telemetryM.update();
 
-            follower.setTeleOpDrive(
-                    -gamepad1.left_stick_y,
-                    -gamepad1.left_stick_x,
-                    gamepad1.right_stick_x,
-                    false // Robot Centric
-            );
+            autoDriveSubsystem.setDefaultCommand(new TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false));
+            driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                    .whenHeld(new TeleSlowDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false))
+                    .whenInactive(new TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false));
+//            follower.setTeleOpDrive(
+//                    -gamepad1.left_stick_y,
+//                    -gamepad1.left_stick_x,
+//                    gamepad1.right_stick_x,
+//                    false // Robot Centric
+//            );
 
             run();
             telemetrySubsystem.setDefaultCommand(new CompTelemetryCommand(telemetrySubsystem));
