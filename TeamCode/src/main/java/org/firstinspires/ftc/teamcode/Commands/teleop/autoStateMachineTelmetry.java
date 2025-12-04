@@ -7,14 +7,15 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class autoStateMachineTelmetry extends CommandBase {
     private Telemetry telemetry;
-    private String string;
+    private String State;
 
 
     public autoStateMachineTelmetry(String State){
-
+        this.telemetry = telemetry;
+        this.State = State;
     }
     public void execute(){
-        telemetry.addData("State", string);
+        telemetry.addData("State", State);
         telemetry.update();
     }
 
