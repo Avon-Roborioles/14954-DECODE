@@ -28,12 +28,12 @@ public class FrontBlue extends AutoBase{
     Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;
     Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
 
-    Pose startPose = new Pose(15, 122, Math.toRadians(135));
-    Pose launchPreloadPose = new Pose(98, 98, Math.toRadians(130));
+    Pose startPose = new Pose(15, 122, Math.toRadians(-40));
+    Pose launchPreloadPose = new Pose(98, 98, Math.toRadians(-45));
     Pose prepGrab1Pose = new Pose(102, 84, Math.toRadians(0));
     Pose grab1Pose = new Pose(129, 84, Math.toRadians(0));
     Pose launch1Pose = new Pose(98, 98, Math.toRadians(45));
-    Pose leavePose = new Pose(98, 75, Math.toRadians(45));
+    Pose leavePose = new Pose(98, 75, Math.toRadians(-180));
 
 
     @Override
