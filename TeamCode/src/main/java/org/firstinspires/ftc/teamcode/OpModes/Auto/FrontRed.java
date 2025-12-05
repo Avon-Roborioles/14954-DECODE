@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.Pose;
@@ -19,12 +18,10 @@ import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
-import org.firstinspires.ftc.teamcode.commands.teleop.Auto.AutoDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.Auto.AutoFrontSetPoint;
-import org.firstinspires.ftc.teamcode.commands.teleop.Auto.AutoLaunch;
-import org.firstinspires.ftc.teamcode.commands.teleop.Auto.AutoPlanBCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeToLauncher;
-import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand;
+import org.firstinspires.ftc.teamcode.commands.Auto.AutoLaunch;
+import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoFrontSetPoint;
+import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous
@@ -37,7 +34,7 @@ public class FrontRed extends AutoBase {
     Pose prepGrab1Pose = new Pose(102, 84, Math.toRadians(0));
     Pose grab1Pose = new Pose(129, 84, Math.toRadians(0));
     Pose launch1Pose = new Pose(98, 98, Math.toRadians(45));
-    Pose leavePose = new Pose(98, 75, Math.toRadians(45));
+    Pose leavePose = new Pose(98, 75, Math.toRadians(-180));
 
 
     @Override
@@ -68,16 +65,7 @@ public class FrontRed extends AutoBase {
         });
 
 
-        SequentialCommandGroup PlanB = new SequentialCommandGroup(
-                new AutoPlanBCommand(),
-                new CancelCommand(intake, launch)
-        );
 
-        SequentialCommandGroup launchAuto = new SequentialCommandGroup(
-
-                new AutoFrontSetPoint(launch),
-                new AutoIntakeToLauncher(distance, intake, launch, telemetry)
-        );
 
 
 
@@ -86,11 +74,25 @@ public class FrontRed extends AutoBase {
                 MoveLaunchPreload,
                 new AutoDriveCommand(autoDriveSubsystem, telemetry),
                 new SequentialCommandGroup(
-                        new AutoFrontSetPoint(launch),
-                        new AutoIntakeToLauncher(distance, intake, launch, telemetry)
-                        )),
-                leave;
+                        new AutoFrontSetPoint(launch, turnTableSubsystem,true),
+                        new AutoLaunch(distance, intake, launch, telemetry),
+                        new StopMotor(launch),
+                        leave,
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
 
+                ));
+
+
+        // test this
+//        SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
+//                MoveLaunchPreload,
+//                new AutoDriveCommand(autoDriveSubsystem, telemetry),
+//                new SequentialCommandGroup(
+//                        new AutoFrontSetPoint(launch),
+//                        new AutoLaunch(distance, intake, launch, telemetry)
+//                )),
+//                leave;
+//
 
 
 
@@ -184,20 +186,6 @@ public class FrontRed extends AutoBase {
         Leave = new Path(new BezierCurve(launchPreloadPose, leavePose));
         Leave.setLinearHeadingInterpolation(launchPreloadPose.getHeading(), leavePose.getHeading());
         Leave.setTimeoutConstraint(250);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
 }
