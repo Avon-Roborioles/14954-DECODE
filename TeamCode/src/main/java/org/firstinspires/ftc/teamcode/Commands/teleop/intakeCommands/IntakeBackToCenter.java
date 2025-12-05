@@ -16,7 +16,7 @@ public class IntakeBackToCenter extends CommandBase{
     public IntakeBackToCenter(IntakeSubsystem intakeServoSubsystem, DistanceSubsystem distanceSubsystem){
         this.intakeServoSubsystem = intakeServoSubsystem;
         this.distanceSubsystem = distanceSubsystem;
-        addRequirements(intakeServoSubsystem, distanceSubsystem);
+        addRequirements(intakeServoSubsystem);
         timer.start();
     }
     @Override
@@ -25,5 +25,8 @@ public class IntakeBackToCenter extends CommandBase{
     }
     public boolean isFinished(){
         return timer.done();
+    }
+    public void end(boolean interrupted){
+        intakeServoSubsystem.stopAll();
     }
 }

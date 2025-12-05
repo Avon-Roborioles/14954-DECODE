@@ -125,7 +125,7 @@ public class BackRed extends AutoBase{
         //hardware map init
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
-        autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry, startPose);
+        autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry);
         follower.setMaxPower(0.6);
 
         // launcher

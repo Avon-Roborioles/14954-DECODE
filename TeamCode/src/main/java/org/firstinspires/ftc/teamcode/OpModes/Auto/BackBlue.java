@@ -127,8 +127,9 @@ public class BackBlue extends AutoBase {
     public void makeAuto(){
         //hardware map init
         follower = Constants.createFollower(hardwareMap);
+
+        autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry);
         follower.setStartingPose(startPose);
-        autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry, startPose);
         follower.setMaxPower(0.6);
 
         // launcher

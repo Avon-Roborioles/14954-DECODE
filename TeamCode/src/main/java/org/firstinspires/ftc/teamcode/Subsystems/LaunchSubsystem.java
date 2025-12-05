@@ -50,11 +50,11 @@ public class LaunchSubsystem extends SubsystemBase {
 //    }
 
     public void backSetPoint(){
-        launchMotor.setVelocity(1800);
+        launchMotor.setVelocity(1850);
         launchAngleServo.setPosition(0.0); //0.0 //0.13 // correct
     }
     public void midSetPoint() {
-        launchMotor.setVelocity(1550);
+        launchMotor.setVelocity(1500);
         launchAngleServo.setPosition(0.03); //0.03 //0.10 //correct 1500: 0.03
     }
     public void frontSetPoint(){

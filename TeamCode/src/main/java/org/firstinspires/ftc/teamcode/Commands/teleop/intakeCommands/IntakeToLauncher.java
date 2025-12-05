@@ -9,12 +9,15 @@ import java.util.concurrent.TimeUnit;
 
 public class IntakeToLauncher extends CommandBase{
     private IntakeSubsystem intakeServoSubsystem;
-    private Timing.Timer timer = new Timing.Timer(1000, TimeUnit.MILLISECONDS);
+    private Timing.Timer timer = new Timing.Timer(3000, TimeUnit.MILLISECONDS);
 
     public IntakeToLauncher(IntakeSubsystem intakeServoSubsystem){
         this.intakeServoSubsystem = intakeServoSubsystem;
         addRequirements(intakeServoSubsystem);
         timer.start();
+    }
+    public void initialize(){
+
     }
     @Override
     public void execute() {
@@ -22,6 +25,9 @@ public class IntakeToLauncher extends CommandBase{
     }
     public boolean isFinished(){
         return timer.done();
+    }
+    public void end(boolean interrupted){
+        intakeServoSubsystem.stopAll();
     }
 }
 

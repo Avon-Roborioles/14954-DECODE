@@ -17,4 +17,8 @@ public class IntakeStopServoCommand extends CommandBase {
     public boolean isFinished(){
         return true;
     }
+    public void end(boolean interrupted){
+        subsystem.stopAll();
+
+    }
 }

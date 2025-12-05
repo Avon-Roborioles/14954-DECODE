@@ -142,10 +142,10 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void TransferToLauncher() {
-        frontIntake.setPower(0);
+       frontIntake.setPower(0);
         frontPass.setPower(-1);
-        backIntake.setPower(0);
-        backPass.setPower(1);
+       backIntake.setPower(0);
+       backPass.setPower(1);
     }
 
     public void TransferToLauncher(long ms) {

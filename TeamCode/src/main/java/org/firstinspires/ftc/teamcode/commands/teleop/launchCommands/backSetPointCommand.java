@@ -15,5 +15,6 @@ public class backSetPointCommand extends CommandBase {
 
     public void initialize(){
         launchSubsystem.backSetPoint();
+
     }
 }

@@ -146,7 +146,7 @@ public class TeleOpBlue extends CommandOpMode {
 
 
         //Drive Subsystem
-        autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry, new Pose(0, 0, PI));
+        autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry);
 
 
         // Driver commands
@@ -231,16 +231,16 @@ public class TeleOpBlue extends CommandOpMode {
             follower.update();
             telemetryM.update();
 
-            autoDriveSubsystem.setDefaultCommand(new TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false));
-            driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                    .whenHeld(new TeleSlowDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false))
-                    .whenInactive(new TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false));
-//            follower.setTeleOpDrive(
-//                    -gamepad1.left_stick_y,
-//                    -gamepad1.left_stick_x,
-//                    gamepad1.right_stick_x,
-//                    false // Robot Centric
-//            );
+//            autoDriveSubsystem.setDefaultCommand(new TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false));
+//            driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+//                    .whenHeld(new TeleSlowDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false))
+//                    .whenInactive(new TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false));
+            follower.setTeleOpDrive(
+                    -gamepad1.left_stick_y,
+                    -gamepad1.left_stick_x,
+                    gamepad1.right_stick_x,
+                    false // Robot Centric
+            );
 
             run();
             telemetrySubsystem.setDefaultCommand(new CompTelemetryCommand(telemetrySubsystem));

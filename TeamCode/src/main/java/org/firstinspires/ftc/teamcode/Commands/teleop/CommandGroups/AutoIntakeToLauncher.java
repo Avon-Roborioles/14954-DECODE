@@ -29,7 +29,7 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
         // FRONT ONLY
         if (f && !m && !b) {
             addCommands(
-                    new autoStateMachineTelmetry( "Front Only"),
+//                    new autoStateMachineTelmetry(telemetry,"Front Only"),
                     new IntakeFrontToCenter(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem)
             );
@@ -37,7 +37,7 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
             // MIDDLE ONLY
         } else if (!f && m && !b) {
             addCommands(
-                    new autoStateMachineTelmetry("Middle Only"),
+//                    new autoStateMachineTelmetry(telemetry,"Middle Only"),
                     new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem)
             );
@@ -45,7 +45,7 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
             // BACK ONLY
         } else if (!f && !m && b) {
             addCommands(
-                    new autoStateMachineTelmetry("Back Only"),
+//                    new autoStateMachineTelmetry(telemetry,"Back Only"),
                     new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeBackToCenter(intakeSubsystem, distanceSubsystem),
                     new IntakeToLauncher(intakeSubsystem)
@@ -54,7 +54,7 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
             // FRONT + MIDDLE
         } else if (f && m && !b) {
             addCommands(
-                    new autoStateMachineTelmetry("Front + Middle"),
+//                    new autoStateMachineTelmetry(telemetry,"Front + Middle"),
                     new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem),
                     new IntakeFrontToCenter(intakeSubsystem),
@@ -64,7 +64,7 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
             // MIDDLE + BACK
         } else if (!f && m && b) {
             addCommands(
-                    new autoStateMachineTelmetry("Middle and Back "),
+//                    new autoStateMachineTelmetry(telemetry,"Middle and Back "),
                     new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem),
                     new IntakeBackToCenter(intakeSubsystem, distanceSubsystem),
@@ -74,7 +74,7 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
             // FRONT + BACK
         } else if (f && !m && b) {
             addCommands(
-                    new autoStateMachineTelmetry("Front and Back"),
+//                    new autoStateMachineTelmetry(telemetry,"Front and Back"),
                     new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeBackToCenter(intakeSubsystem, distanceSubsystem),
                     new IntakeFrontToCenterAndUp(intakeSubsystem),
@@ -84,12 +84,13 @@ public class AutoIntakeToLauncher extends SequentialCommandGroup {
             // ALL 3
         } else if (f && m && b) {
             addCommands(
-                    new autoStateMachineTelmetry("All 3"),
+//                    new autoStateMachineTelmetry(telemetry,"All 3"),
                     new IntakeStopServoCommand(intakeSubsystem),
                     new IntakeToLauncher(intakeSubsystem),
-                    new IntakeBackToCenter(intakeSubsystem, distanceSubsystem),
+//
                     new IntakeFrontToCenterAndUp(intakeSubsystem),
-                    new IntakeToLauncher(intakeSubsystem)
+                    new IntakeBackToCenter(intakeSubsystem, distanceSubsystem)//,
+//                    new IntakeToLauncher(intakeSubsystem)
             );
         } else if (!f && !m && !b) {
             addCommands(

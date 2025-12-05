@@ -13,10 +13,9 @@ public class AutoDriveSubsystem extends SubsystemBase {
     private Follower follower;
     private Telemetry telemetry;
 
-    public AutoDriveSubsystem(Follower follower, Telemetry telemetry, Pose startPose){
+    public AutoDriveSubsystem(Follower follower, Telemetry telemetry){
         this.follower = follower;
         this.telemetry = telemetry;
-        setPose(startPose);
     }
 
     public void followPath(Path path, boolean holdEnd){

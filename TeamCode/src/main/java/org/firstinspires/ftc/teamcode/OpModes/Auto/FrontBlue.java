@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.Pose;
@@ -21,19 +20,16 @@ import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 import org.firstinspires.ftc.teamcode.commands.teleop.Auto.AutoDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.Auto.AutoFrontSetPoint;
-import org.firstinspires.ftc.teamcode.commands.teleop.Auto.AutoLaunch;
-import org.firstinspires.ftc.teamcode.commands.teleop.Auto.AutoPlanBCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeToLauncher;
-import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.limelightTurnCommand;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
-
 @Autonomous
-public class FrontRed extends AutoBase {
+public class FrontBlue extends AutoBase{
     Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;
     Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
 
-    Pose startPose = new Pose(126, 122, Math.toRadians(40));
-    Pose launchPreloadPose = new Pose(98, 98, Math.toRadians(45));
+    Pose startPose = new Pose(15, 122, Math.toRadians(135));
+    Pose launchPreloadPose = new Pose(98, 98, Math.toRadians(130));
     Pose prepGrab1Pose = new Pose(102, 84, Math.toRadians(0));
     Pose grab1Pose = new Pose(129, 84, Math.toRadians(0));
     Pose launch1Pose = new Pose(98, 98, Math.toRadians(45));
@@ -68,28 +64,13 @@ public class FrontRed extends AutoBase {
         });
 
 
-        SequentialCommandGroup PlanB = new SequentialCommandGroup(
-                new AutoPlanBCommand(),
-                new CancelCommand(intake, launch)
-        );
-
-        SequentialCommandGroup launchAuto = new SequentialCommandGroup(
-
-                new AutoFrontSetPoint(launch),
-                new AutoIntakeToLauncher(distance, intake, launch, telemetry)
-        );
-
-
-
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
                 MoveLaunchPreload,
                 new AutoDriveCommand(autoDriveSubsystem, telemetry),
                 new SequentialCommandGroup(
                         new AutoFrontSetPoint(launch),
-                        new AutoIntakeToLauncher(distance, intake, launch, telemetry)
-                        )),
-                leave;
+                        new AutoIntakeToLauncher(distance, intake, launch, telemetry)));
 
 
 
@@ -125,7 +106,7 @@ public class FrontRed extends AutoBase {
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry);
-        follower.setMaxPower(0.35);
+        follower.setMaxPower(0.6);
 
         // launcher
         launchAngle = hardwareMap.get(Servo.class, "launchAngle");
@@ -181,8 +162,8 @@ public class FrontRed extends AutoBase {
 
 
         //leave
-        Leave = new Path(new BezierCurve(launchPreloadPose, leavePose));
-        Leave.setLinearHeadingInterpolation(launchPreloadPose.getHeading(), leavePose.getHeading());
+        Leave = new Path(new BezierCurve(launch1Pose, leavePose));
+        Leave.setLinearHeadingInterpolation(launch1Pose.getHeading(), leavePose.getHeading());
         Leave.setTimeoutConstraint(250);
 
 
@@ -201,3 +182,4 @@ public class FrontRed extends AutoBase {
     }
 
 }
+

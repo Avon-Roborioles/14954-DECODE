@@ -25,6 +25,8 @@ public class TurnTableSubsystem extends SubsystemBase {
 
     private static final double MANUAL_SPEED_MULTIPLIER = 0.003;
 
+    //0.0
+
     public TurnTableSubsystem(Servo turntable) {
         this.turntable = turntable;
     }

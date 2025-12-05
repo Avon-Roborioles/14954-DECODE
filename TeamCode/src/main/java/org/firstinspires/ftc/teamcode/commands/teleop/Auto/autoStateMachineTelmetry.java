@@ -9,7 +9,7 @@ public class autoStateMachineTelmetry extends CommandBase {
     private String State;
 
 
-    public autoStateMachineTelmetry(String State){
+    public autoStateMachineTelmetry(Telemetry telemetry, String State){
         this.telemetry = telemetry;
         this.State = State;
     }
