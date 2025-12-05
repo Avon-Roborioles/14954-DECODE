@@ -203,7 +203,7 @@ public class TeleOpBlue extends CommandOpMode {
                 .whenPressed(new midSetPointCommand(launchSubsystem));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(new backSetPointCommand(launchSubsystem));
+                .whenPressed(new backSetPointCommand(launchSubsystem, TurnSubsystem, false));
 
 
         intakeSubsystem.setDefaultCommand(new ManJoystickPassCommand(intakeSubsystem, operatorOp::getRightY));
@@ -241,6 +241,7 @@ public class TeleOpBlue extends CommandOpMode {
                     gamepad1.right_stick_x,
                     false // Robot Centric
             );
+            TurnSubsystem.setDefaultCommand(new limelightTurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem, false));
 
             run();
             telemetrySubsystem.setDefaultCommand(new CompTelemetryCommand(telemetrySubsystem));

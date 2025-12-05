@@ -201,7 +201,7 @@ public class TeleOpRed extends CommandOpMode {
                 .whenPressed(new midSetPointCommand(launchSubsystem));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(new backSetPointCommand(launchSubsystem));
+                .whenPressed(new backSetPointCommand(launchSubsystem, TurnSubsystem, true));
 
 
         intakeSubsystem.setDefaultCommand(new ManJoystickPassCommand(intakeSubsystem, operatorOp::getRightY));

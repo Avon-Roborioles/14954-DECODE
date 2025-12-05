@@ -34,10 +34,19 @@ public class TurnTableSubsystem extends SubsystemBase {
 
     public void BackSetPoints(boolean redAlliance){
         if (redAlliance){
-
+turntable.setPosition(0.7525);
         } else if (!redAlliance){
+            turntable.setPosition(0.8525);
 
         }
+    }
+    public void FrontSetPoints(boolean redAlliance){
+//        if (redAlliance){
+//
+//            turntable.setPosition(0.65);
+//        } else if (!redAlliance){
+//            turntable.setPosition(1);
+//        }
     }
 
     public void moveManual(double inputSpeed) {

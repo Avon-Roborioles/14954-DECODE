@@ -6,7 +6,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
-import org.firstinspires.ftc.teamcode.commands.teleop.Auto.autoStateMachineTelmetry;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeBackToCenter;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeFrontToCenter;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeFrontToCenterAndUp;
