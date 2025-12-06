@@ -19,7 +19,10 @@ import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
+import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint;
 import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.Auto.AutoLaunch;
+import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
@@ -40,7 +43,7 @@ public class BackBlue extends AutoBase {
     Pose grab2Pose = new Pose(126, 60, Math.toRadians(0));
     Pose midpoint2Pose = new Pose(73, 36, Math.toRadians(90));
     Pose launch2Pose = new Pose(66, 80, Math.toRadians(125));
-    Pose leavePose = new Pose(72, 48, Math.toRadians(90));
+    Pose leavePose = new Pose(86, 48, Math.toRadians(0));
 
 
     @Override
@@ -94,14 +97,16 @@ public class BackBlue extends AutoBase {
 
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
-                MoveLaunchPreload,
-        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                PrepareToGrab1,
-                new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                GrabSet1,
-                new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                MoveToLaunch1,
+
+                leave,
                 new AutoDriveCommand(autoDriveSubsystem, telemetry)
+//                new SequentialCommandGroup(
+//                        new AutoBackSetPoint(launch,turnTableSubsystem,false),
+//                        new AutoLaunch(distance, intake, launch, telemetry),
+//                        new StopMotor(launch),
+//                        leave,
+//                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
+
 
 
                 );
@@ -208,8 +213,8 @@ public class BackBlue extends AutoBase {
         launch2.setTimeoutConstraint(250);
 
         //leave
-        Leave = new Path(new BezierCurve(launch2Pose, leavePose));
-        Leave.setLinearHeadingInterpolation(launch2Pose.getHeading(), leavePose.getHeading());
+        Leave = new Path(new BezierCurve(startPose, leavePose));
+        Leave.setLinearHeadingInterpolation(startPose.getHeading(), leavePose.getHeading());
         Leave.setTimeoutConstraint(250);
 
 

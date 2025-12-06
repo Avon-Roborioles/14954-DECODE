@@ -19,7 +19,11 @@ import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
+import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint;
 import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoFrontSetPoint;
+import org.firstinspires.ftc.teamcode.commands.Auto.AutoLaunch;
+import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous
@@ -91,17 +95,16 @@ public class BackRed extends AutoBase{
 
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
-                MoveLaunchPreload,
-                new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                PrepareToGrab1,
-                new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                GrabSet1,
-                new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                MoveToLaunch1,
-                new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                new SequentialCommandGroup(
+                        new AutoBackSetPoint(launch,turnTableSubsystem,true),
+                        new AutoLaunch(distance, intake, launch, telemetry),
+                        new StopMotor(launch),
+                        leave,
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
 
 
-        );
+
+                ));
 
 
 
@@ -205,8 +208,8 @@ public class BackRed extends AutoBase{
         launch2.setTimeoutConstraint(250);
 
         //leave
-        Leave = new Path(new BezierCurve(launch2Pose, leavePose));
-        Leave.setLinearHeadingInterpolation(launch2Pose.getHeading(), leavePose.getHeading());
+        Leave = new Path(new BezierCurve(startPose, leavePose));
+        Leave.setLinearHeadingInterpolation(startPose.getHeading(), leavePose.getHeading());
         Leave.setTimeoutConstraint(250);
 
 
