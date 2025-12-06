@@ -25,9 +25,8 @@ import org.firstinspires.ftc.teamcode.commands.Auto.AutoLaunch;
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-
 @Autonomous
-public class BackBlue extends AutoBase {
+public class BackBlueLeave extends AutoBase{
     Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;
     Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
 
@@ -43,7 +42,7 @@ public class BackBlue extends AutoBase {
     Pose grab2Pose = new Pose(126, 60, Math.toRadians(0));
     Pose midpoint2Pose = new Pose(73, 36, Math.toRadians(90));
     Pose launch2Pose = new Pose(66, 80, Math.toRadians(125));
-    Pose leavePose = new Pose(83, 48, Math.toRadians(0));
+    Pose leavePose = new Pose(86, 48, Math.toRadians(0));
 
 
     @Override
@@ -99,17 +98,18 @@ public class BackBlue extends AutoBase {
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
 
 
-                new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                new SequentialCommandGroup(
-                        new AutoBackSetPoint(launch,turnTableSubsystem,false),
-                        new AutoLaunch(distance, intake, launch, telemetry),
-                        new StopMotor(launch),
-                        leave,
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                leave,
+                new AutoDriveCommand(autoDriveSubsystem, telemetry)
+//                new SequentialCommandGroup(
+//                        new AutoBackSetPoint(launch,turnTableSubsystem,false),
+//                        new AutoLaunch(distance, intake, launch, telemetry),
+//                        new StopMotor(launch),
+//                        leave,
+//                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
 
 
 
-                ));
+                );
 
 
 
@@ -123,7 +123,7 @@ public class BackBlue extends AutoBase {
 
                 number5IsAlive
 
-                ));
+        ));
     }
 
 
@@ -231,5 +231,6 @@ public class BackBlue extends AutoBase {
 
 
     }
+
 
 }
