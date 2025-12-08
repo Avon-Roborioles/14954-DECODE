@@ -43,7 +43,7 @@ public class BackBlue extends AutoBase {
     Pose grab2Pose = new Pose(126, 60, Math.toRadians(0));
     Pose midpoint2Pose = new Pose(73, 36, Math.toRadians(90));
     Pose launch2Pose = new Pose(66, 80, Math.toRadians(125));
-    Pose leavePose = new Pose(83, 48, Math.toRadians(0));
+    Pose leavePose = new Pose(83, 44, Math.toRadians(0));
 
 
     @Override
