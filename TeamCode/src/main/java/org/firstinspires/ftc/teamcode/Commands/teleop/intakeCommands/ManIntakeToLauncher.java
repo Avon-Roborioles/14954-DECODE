@@ -17,6 +17,6 @@ public class ManIntakeToLauncher extends CommandBase {
     }
     @Override
     public void execute() {
-        intakeServoSubsystem.TransferToLauncher();
+        intakeServoSubsystem.manLaunch();
     }
 }

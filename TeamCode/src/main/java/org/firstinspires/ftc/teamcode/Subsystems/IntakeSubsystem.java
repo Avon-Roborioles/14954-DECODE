@@ -179,6 +179,13 @@ public class IntakeSubsystem extends SubsystemBase {
         backPass.setPower(0);
     }
 
+    public void manLaunch(){
+        frontIntake.setPower(-1);
+        frontPass.setPower(-1);
+        backIntake.setPower(1);
+        backPass.setPower(1);
+    }
+
 
     public void getTelemetry(Telemetry telemetry) {
         telemetry.addData("frontIntakePower", frontIntake.getPower());
