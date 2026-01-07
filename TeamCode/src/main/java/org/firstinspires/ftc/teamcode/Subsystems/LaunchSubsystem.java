@@ -18,6 +18,8 @@ public class LaunchSubsystem extends SubsystemBase {
     // Default starting value
     private double TargetRPM = 1900;
 
+    
+
     // Telemetry variables
     private double Angle;
 
@@ -37,17 +39,17 @@ public class LaunchSubsystem extends SubsystemBase {
 
     // --- MATH FROM NewLauncher ---
 
-//    public void setTargetRPM(double distance){
-//        TargetRPM = ((distance * 6) + 775);
-//
-//        if (TargetRPM < 1200) {
-//            TargetRPM = 1200;
-//        }
-//    }
+    public void setTargetRPM(double distance){
+        TargetRPM = ((distance * 6) + 775);
 
-//    public double distanceToHoodAngle(double distance){
-//        return (-0.00000004 * distance * distance + 0.0005 * distance +0.0494);
-//    }
+        if (TargetRPM < 1200) {
+            TargetRPM = 1200;
+        }
+    }
+
+    public double distanceToHoodAngle(double distance){
+        return (-0.00000004 * distance * distance + 0.0005 * distance +0.0494);
+    }
 
     public void backSetPoint(){
         launchMotor.setVelocity(1850);
@@ -64,23 +66,23 @@ public class LaunchSubsystem extends SubsystemBase {
 
 
 
-//    private double angleToServo(double angle){
-//        if(angle > 90) angle = 90;
-//        if(angle < 0) angle = 0;
-//        return ((90-angle)*0.300/90);
-//    }
+    private double angleToServo(double angle){
+        if(angle > 90) angle = 90;
+        if(angle < 0) angle = 0;
+        return ((90-angle)*0.300/90);
+    }
 
 
 
     // --- CONTROL METHODS ---
 
-//    public void setLaunchAngleServo(double angleDegrees){
-//        Angle = angleDegrees;
-//        //90=0.0
-//        //0=0.290
-//        launchAngleServo.setPosition(angleToServo(90));
+    public void setLaunchAngleServo(double angleDegrees){
+        Angle = angleDegrees;
+        //90=0.0
+        //0=0.290
+        launchAngleServo.setPosition(angleToServo(90));
 
-//    }
+    }
 
     public void runMotor(){
         isRunning = true;
