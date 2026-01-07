@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
@@ -13,10 +12,10 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Commands.IntakeMotorCommand;
+import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Commands.IntakeServoCommand;
 import org.firstinspires.ftc.teamcode.Commands.IntakeStopServoCommand;
-import org.firstinspires.ftc.teamcode.Subsystems.IntakeMotorSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
 @TeleOp
 
@@ -26,9 +25,9 @@ public class BotOpMode extends LinearOpMode {
     private double shooterPower;
     public Servo shooterAngle = null;
 
-    private IntakeMotorSubsystem motorSubsystem;
+    private DriveSubsystem motorSubsystem;
     private IntakeServoSubsystem servoSubsystem;
-    private IntakeMotorCommand motorCommand;
+    private DriveCommand motorCommand;
     private IntakeServoCommand servoCommand;
     private IntakeStopServoCommand stopServoCommand;
     GamepadEx driverop = new GamepadEx(gamepad1);
@@ -52,11 +51,11 @@ public class BotOpMode extends LinearOpMode {
         Motor frontRight = new Motor(hardwareMap,"frontRight");
         Motor backLeft = new Motor(hardwareMap, "backLeft");
         Motor backRight = new Motor(hardwareMap, "backRight");
-        motorSubsystem = new IntakeMotorSubsystem(frontLeft,frontRight,backLeft,backRight);
+        motorSubsystem = new DriveSubsystem(frontLeft,frontRight,backLeft,backRight);
 
         servoSubsystem = new IntakeServoSubsystem(hardwareMap.get(CRServo.class, "servo"), hardwareMap.get(CRServo.class, "servo2"));
 
-        motorCommand = new IntakeMotorCommand(
+        motorCommand = new DriveCommand(
                 motorSubsystem,
                 () -> gamepad1.left_stick_x,
                 () -> gamepad1.left_stick_y,

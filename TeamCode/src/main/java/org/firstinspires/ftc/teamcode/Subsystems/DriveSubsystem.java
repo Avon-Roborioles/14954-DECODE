@@ -6,11 +6,11 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class IntakeMotorSubsystem extends SubsystemBase {
+public class DriveSubsystem extends SubsystemBase {
     private MecanumDrive drive;
     private Motor frontLeft, frontRight, backLeft, backRight;
     private Telemetry telemetry;
-    public IntakeMotorSubsystem(Motor frontLeft, Motor frontRight, Motor backLeft, Motor backRight){
+    public DriveSubsystem(Motor frontLeft, Motor frontRight, Motor backLeft, Motor backRight){
           backLeft.setInverted(true);
           backRight.setInverted(true);
         this.frontLeft = frontLeft;

@@ -4,19 +4,26 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 public class IntakeServoSubsystem extends SubsystemBase{
-        private CRServo servo;
-    private CRServo servo2;
+        private CRServo IntakeServo1;
+        private CRServo IntakeServo2;
 
-        public IntakeServoSubsystem(CRServo servo, CRServo servo2){
-            this.servo = servo;
-            this.servo2 = servo2;
+        private CRServo PassthroughServo1;
+        private CRServo PassthroughServo2;
+
+
+        public IntakeServoSubsystem(CRServo IntakeServo1, CRServo IntakeServo2, CRServo PassthroughServo1, CRServo PassthoughServo2){
+            this.IntakeServo1 = IntakeServo1;
+            this.IntakeServo2 = IntakeServo2;
         }
         public void runServo(){
-            servo.setPower(-1);
-            servo2.setPower(1);
+            IntakeServo1.setPower(-1);
+            IntakeServo2.setPower(1);
         }
         public void stopServo(){
-            servo.setPower(0);
-            servo2.setPower(0);
+            IntakeServo1.setPower(0);
+            IntakeServo2.setPower(0);
         }
+
+
+
 }

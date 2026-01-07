@@ -7,15 +7,15 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 
-import org.firstinspires.ftc.teamcode.Commands.IntakeMotorCommand;
+import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.Commands.IntakeServoCommand;
 import org.firstinspires.ftc.teamcode.Commands.IntakeStopServoCommand;
-import org.firstinspires.ftc.teamcode.Subsystems.IntakeMotorSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeServoSubsystem;
 
 @TeleOp
 public class IntakeMotorOpMode extends CommandOpMode {
-    private IntakeMotorSubsystem motor;
+    private DriveSubsystem motor;
     private IntakeServoSubsystem servo;
     private GamepadEx control1, control2;
     @Override
@@ -28,11 +28,11 @@ public class IntakeMotorOpMode extends CommandOpMode {
         Motor frontRight = new Motor(hardwareMap,"motor2");
         Motor backLeft = new Motor(hardwareMap, "motor3");
         Motor backRight = new Motor(hardwareMap, "motor4");
-        motor = new IntakeMotorSubsystem(frontLeft,frontRight,backLeft,backRight);
+        motor = new DriveSubsystem(frontLeft,frontRight,backLeft,backRight);
         control1.getGamepadButton(GamepadKeys.Button.A)
                         .whenHeld(new IntakeServoCommand(servo))
                                 .whenReleased(new IntakeStopServoCommand(servo));
-        motor.setDefaultCommand(new IntakeMotorCommand(motor, control1::getLeftX, control1::getLeftY, control1::getRightX));
+        motor.setDefaultCommand(new DriveCommand(motor, control1::getLeftX, control1::getLeftY, control1::getRightX));
 
 
     }
