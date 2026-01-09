@@ -52,7 +52,7 @@ public class LaunchSubsystem extends SubsystemBase {
     }
 
     public void backSetPoint(){
-        launchMotor.setVelocity(1850);
+        launchMotor.setVelocity(1825);
         launchAngleServo.setPosition(0.03); //0.0 //0.13 // correct
     }
     public void midSetPoint() {

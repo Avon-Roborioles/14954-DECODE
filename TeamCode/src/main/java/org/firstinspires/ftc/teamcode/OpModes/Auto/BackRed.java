@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
@@ -23,6 +24,7 @@ import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoin
 import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoFrontSetPoint;
 import org.firstinspires.ftc.teamcode.commands.Auto.AutoLaunch;
+import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
@@ -33,9 +35,9 @@ public class BackRed extends AutoBase{
 
     Pose startPose = new Pose(64, 7, Math.toRadians(0));
     Pose launchPreloadPose = new Pose(60, 10, Math.toRadians(-25));
-    Pose prepGrab1Pose = new Pose(46, 30, Math.toRadians(0));
-    Pose grab1Pose = new Pose(14, 32, Math.toRadians(0));
-    Pose midpointPose = new Pose(71, 60, Math.toRadians(90));
+    Pose prepGrab1Pose = new Pose(70, 30, Math.toRadians(0));
+    Pose grab1Pose = new Pose(120, 30, Math.toRadians(0));
+    Pose midpointPose = new Pose(64, 30, Math.toRadians(0));
     Pose launch1Pose = new Pose(55, 10, Math.toRadians(-35));
     Pose prepGrab2Pose = new Pose(45, 60, Math.toRadians(180));
     Pose grab2Pose = new Pose(16, 60, Math.toRadians(180));
@@ -100,8 +102,17 @@ public class BackRed extends AutoBase{
                         new AutoBackSetPoint(launch,turnTableSubsystem,true),
                         new AutoLaunch(distance, intake, launch, telemetry),
                         new StopMotor(launch),
-                        leave,
+                        PrepareToGrab1,
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+
+                        new ParallelCommandGroup(
+                                new AutoIntakeCommand(distance,intake),
+                                GrabSet1,
+                                new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                        ),
+                        MoveToMidpoint,
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)
+
 
 
 
@@ -168,8 +179,8 @@ public class BackRed extends AutoBase{
         launchPreload.setTimeoutConstraint(250);
 
         //prepGrab1
-        prepGrab1 = new Path(new BezierCurve(launchPreloadPose, prepGrab1Pose));
-        prepGrab1.setLinearHeadingInterpolation(launchPreloadPose.getHeading(), prepGrab1Pose.getHeading());
+        prepGrab1 = new Path(new BezierCurve(startPose, prepGrab1Pose));
+        prepGrab1.setLinearHeadingInterpolation(startPose.getHeading(), prepGrab1Pose.getHeading());
         prepGrab1.setTimeoutConstraint(250);
 
         //grab1
