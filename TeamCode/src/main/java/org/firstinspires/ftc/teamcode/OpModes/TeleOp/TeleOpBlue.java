@@ -48,7 +48,6 @@ import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.backSetPoin
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.frontSetPointCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.midSetPointCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.ManualTurntableCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.limelightTurnCommand;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 import java.util.function.Supplier;
@@ -66,7 +65,6 @@ public class TeleOpBlue extends CommandOpMode {
     // launcher variables
     private DcMotorEx launchMotor;
     private Servo launchAngleServo;
-    private CRServo launchServo;
     private LaunchSubsystem launchSubsystem;
     // intake variables
     private CRServo frontIntakeServo;
@@ -80,9 +78,6 @@ public class TeleOpBlue extends CommandOpMode {
     // Turntable Variables
     private Servo turnServo;
     private TurnTableSubsystem TurnSubsystem;
-    // Limelight Variables
-    private LimeLightSubsystem limelightSubsystem;
-    private Limelight3A limelight;
 
     private boolean redAlliance = true;
 
@@ -97,9 +92,6 @@ public class TeleOpBlue extends CommandOpMode {
         // controlAssignments
         driverOp = new GamepadEx(gamepad1);
         operatorOp = new GamepadEx(gamepad2);
-
-        //limelight
-        limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
         //Follower
         follower = Constants.createFollower(hardwareMap);
@@ -118,7 +110,6 @@ public class TeleOpBlue extends CommandOpMode {
         // launcher
         launchAngleServo = hardwareMap.get(Servo.class, "launchAngle");
         launchMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
-        launchServo = hardwareMap.get(CRServo.class, "launchServo");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
         frontIntakeServo = hardwareMap.get(CRServo.class, "frontIntake");
@@ -136,13 +127,12 @@ public class TeleOpBlue extends CommandOpMode {
         //Subsystems
         distanceSubsystem = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intakeSubsystem = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
-        launchSubsystem = new LaunchSubsystem(launchMotor, launchAngleServo, turnServo ,launchServo);
-        limelightSubsystem = new LimeLightSubsystem(limelight);
+        launchSubsystem = new LaunchSubsystem(launchMotor, launchAngleServo, turnServo);
 
         //turntable
         TurnSubsystem = new TurnTableSubsystem(turnServo);
 
-        telemetrySubsystem = new TelemetrySubsystem(telemetry,TurnSubsystem,limelightSubsystem,launchSubsystem,intakeSubsystem,distanceSubsystem);
+        telemetrySubsystem = new TelemetrySubsystem(telemetry,TurnSubsystem,launchSubsystem,intakeSubsystem,distanceSubsystem);
 
 
         //Drive Subsystem
@@ -192,9 +182,7 @@ public class TeleOpBlue extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
                 .whenPressed(new AutoIntakeCommand(distanceSubsystem,intakeSubsystem));
 
-        TurnSubsystem.setDefaultCommand(new limelightTurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem, false));
-        operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
-                .toggleWhenPressed(new ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new limelightTurnCommand(limelightSubsystem, TurnSubsystem,launchSubsystem, false));
+        TurnSubsystem.setDefaultCommand(new ManualTurntableCommand(TurnSubsystem, operatorOp::getLeftX));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(new frontSetPointCommand(launchSubsystem));
@@ -241,7 +229,6 @@ public class TeleOpBlue extends CommandOpMode {
                     gamepad1.right_stick_x,
                     false // Robot Centric
             );
-            TurnSubsystem.setDefaultCommand(new limelightTurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem, false));
 
             run();
             telemetrySubsystem.setDefaultCommand(new CompTelemetryCommand(telemetrySubsystem));

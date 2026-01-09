@@ -35,6 +35,14 @@ public class LaunchSubsystem extends SubsystemBase {
         // Essential for setVelocity to work correctly
         this.launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+    public LaunchSubsystem(DcMotorEx launchMotor, Servo launchAngleServo, Servo turnServo){
+        this.launchMotor = launchMotor;
+        this.launchAngleServo = launchAngleServo;
+        this.turnServo = turnServo;
+
+        // Essential for setVelocity to work correctly
+        this.launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
 
 
     // --- MATH FROM NewLauncher ---

@@ -14,7 +14,6 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
-import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -41,7 +40,6 @@ import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.PukeCommand
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.RunMotor;
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.ManualTurntableCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.limelightTurnCommand;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 import java.util.function.Supplier;
@@ -59,7 +57,6 @@ public class NewTestOpMode extends CommandOpMode {
     // launcher variables
     private DcMotorEx launchMotor;
     private Servo launchAngle;
-    private CRServo launchServo;
     private LaunchSubsystem launchSubsystem;
     // intake variables
     private CRServo frontIntakeServo;
@@ -73,9 +70,6 @@ public class NewTestOpMode extends CommandOpMode {
     // Turntable Variables
     private Servo turnServo;
     private TurnTableSubsystem TurnSubsystem;
-    // Limelight Variables
-    private LimeLightSubsystem limelightSubsystem;
-    private Limelight3A limelight;
 
     private TelemetrySubsystem telemetrySubsystem;
 
@@ -89,8 +83,6 @@ public class NewTestOpMode extends CommandOpMode {
         driverOp = new GamepadEx(gamepad1);
         operatorOp = new GamepadEx(gamepad2);
 
-        //limelight
-        limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
         //Follower
         follower = Constants.createFollower(hardwareMap);
@@ -103,7 +95,6 @@ public class NewTestOpMode extends CommandOpMode {
         // launcher
         launchAngle = hardwareMap.get(Servo.class, "launchAngle");
         launchMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
-        launchServo = hardwareMap.get(CRServo.class, "launchServo");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
         frontIntakeServo = hardwareMap.get(CRServo.class, "frontIntake");
@@ -121,14 +112,13 @@ public class NewTestOpMode extends CommandOpMode {
         //Subsystems
         distanceSubsystem = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intakeSubsystem = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
-        launchSubsystem = new LaunchSubsystem(launchMotor, launchAngle, turnServo ,launchServo);
-        limelightSubsystem = new LimeLightSubsystem(limelight);
+        launchSubsystem = new LaunchSubsystem(launchMotor, launchAngle, turnServo);
 
         //turntable
         TurnSubsystem = new TurnTableSubsystem(turnServo);
 
 
-        telemetrySubsystem = new TelemetrySubsystem(telemetry,TurnSubsystem,limelightSubsystem,launchSubsystem,intakeSubsystem,distanceSubsystem);
+        telemetrySubsystem = new TelemetrySubsystem(telemetry,TurnSubsystem,launchSubsystem,intakeSubsystem,distanceSubsystem);
 
 
 
@@ -163,11 +153,9 @@ public class NewTestOpMode extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
 
-        TurnSubsystem.setDefaultCommand(new limelightTurnCommand(limelightSubsystem,TurnSubsystem,launchSubsystem,true));
-        operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
-                .toggleWhenPressed(new ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new limelightTurnCommand(limelightSubsystem, TurnSubsystem, launchSubsystem, true));
+        TurnSubsystem.setDefaultCommand(new ManualTurntableCommand(TurnSubsystem, operatorOp::getLeftX));
 
-//        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+//        operatorOp.getGamepadButton(GamepadKeys.Button.DPxAD_UP)
 //                .whenPressed(new InstantCommand(() -> launchSubsystem.adjustLaunchPower(0.05)));
 //
 //        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
@@ -199,19 +187,6 @@ public class NewTestOpMode extends CommandOpMode {
 
         telemetrySubsystem.setDefaultCommand(new TelemetryCommand(telemetrySubsystem));
 
-
-
-//            limelightSubsystem.setDefaultCommand(new LimelightCommand(limelightSubsystem, limelightSubsystem.getResult(), telemetry));
-
-        // print to console
-//        telemetry.addData("x", follower.getPose().getX());
-//        telemetry.addData("y", follower.getPose().getY());
-//        telemetry.addData("heading", follower.getPose().getHeading());
-//        telemetry.addData("|v|", follower.getVelocity().getMagnitude());
-//        telemetry.addData("theta", follower.getVelocity().getTheta());
-//        telemetry.addData("x-component", follower.getVelocity().getXComponent());
-//        telemetry.addData("y-component", follower.getVelocity().getYComponent());
-//        telemetry.update();
     }
 }
 

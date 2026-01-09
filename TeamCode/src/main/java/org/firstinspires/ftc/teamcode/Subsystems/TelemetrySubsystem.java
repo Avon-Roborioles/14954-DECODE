@@ -22,7 +22,13 @@ public class TelemetrySubsystem extends SubsystemBase {
         this.launchSubsystem = launchSubsystem;
         this.intakeSubsystem = intakeSubsystem;
         this.distanceSubsystem = distanceSubsystem;
-
+    }
+    public TelemetrySubsystem(Telemetry telemetry, TurnTableSubsystem turnTable,LaunchSubsystem launchSubsystem, IntakeSubsystem intakeSubsystem, DistanceSubsystem distanceSubsystem){
+        this.telemetry = telemetry;
+        this.turnTable = turnTable;
+        this.launchSubsystem = launchSubsystem;
+        this.intakeSubsystem = intakeSubsystem;
+        this.distanceSubsystem = distanceSubsystem;
     }
     public TelemetrySubsystem(Telemetry telemetry, LaunchSubsystem launchSubsystem){
         this.telemetry = telemetry;

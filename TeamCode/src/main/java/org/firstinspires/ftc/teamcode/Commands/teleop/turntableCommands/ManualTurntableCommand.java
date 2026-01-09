@@ -9,19 +9,15 @@ import java.util.function.DoubleSupplier;
 
 public class ManualTurntableCommand extends CommandBase {
     private TurnTableSubsystem turntableSubsystem;
-    private LimeLightSubsystem limelightSubsystem;
     private DoubleSupplier doubleSupplier;
-    public ManualTurntableCommand(TurnTableSubsystem turntableSubsystem, LimeLightSubsystem limelightSubsystem,DoubleSupplier doubleSupplier){
+    public ManualTurntableCommand(TurnTableSubsystem turntableSubsystem, DoubleSupplier doubleSupplier){
         this.turntableSubsystem = turntableSubsystem;
-        this.limelightSubsystem = limelightSubsystem;
         this.doubleSupplier = doubleSupplier;
         addRequirements(turntableSubsystem);
 
     }
-    public void initialize(){
-        limelightSubsystem.stop();
-    }
+
     public void execute(){
         turntableSubsystem.moveManual(doubleSupplier.getAsDouble());
     }
-}
+    }

@@ -4,7 +4,6 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.paths.Path;
-import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -15,7 +14,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
-import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 
 public abstract class AutoBase extends CommandOpMode {
@@ -24,7 +22,6 @@ public abstract class AutoBase extends CommandOpMode {
     protected IntakeSubsystem intake;
     protected LaunchSubsystem launch;
     protected DistanceSubsystem distance;
-    protected LimeLightSubsystem limelight;
     protected TurnTableSubsystem turnTableSubsystem;
     protected AutoDriveSubsystem autoDriveSubsystem;
     protected Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;
@@ -42,8 +39,6 @@ public abstract class AutoBase extends CommandOpMode {
     protected DigitalChannel fSensor, mSensor, bSensor;
     // Turntable Variables
     protected Servo turnServo;
-    // Limelight Variables
-    protected Limelight3A Limelight;
 
     public abstract void makeAuto();
     public abstract void buildPath();

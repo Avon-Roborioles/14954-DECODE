@@ -151,7 +151,6 @@ public class FrontRed extends AutoBase {
         distance = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intake = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launch = new LaunchSubsystem(launchMotor, launchAngle, turnServo ,launchServo);
-        limelight = new LimeLightSubsystem(Limelight);
 
         //turntable
         turnTableSubsystem = new TurnTableSubsystem(turnServo);
