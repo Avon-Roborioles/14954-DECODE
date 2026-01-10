@@ -171,14 +171,14 @@ public class ManualOpMode extends LinearOpMode {
 
         // intake
             intakeSubsystem.proportionalLaunch(gamepad2.left_stick_y);
-            if (gamepad1.a) {
+            if (gamepad1.aWasPressed()) {
                 if (frontIntakeServo.getPower() == 0){
                     intakeSubsystem.manLaunch();
                 } else {
                     intakeSubsystem.stopAll();
                 }
             }
-            if (gamepad1.b) {
+            if (gamepad1.bWasPressed()) {
                 if (frontIntakeServo.getPower() == 0){
                     intakeSubsystem.Puke();
                 } else {
