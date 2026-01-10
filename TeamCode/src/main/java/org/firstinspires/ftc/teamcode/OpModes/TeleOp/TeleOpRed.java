@@ -5,6 +5,7 @@ import static java.lang.Math.PI;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.PerpetualCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.bylazar.telemetry.PanelsTelemetry;
@@ -189,7 +190,7 @@ public class TeleOpRed extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
                 .whenPressed(new AutoIntakeCommand(distanceSubsystem,intakeSubsystem));
 
-        TurnSubsystem.setDefaultCommand(new limelightTurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem, true));
+        TurnSubsystem.setDefaultCommand(new PerpetualCommand(new limelightTurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem, true)));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
                 .toggleWhenPressed(new ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new limelightTurnCommand(limelightSubsystem, TurnSubsystem,launchSubsystem, true));

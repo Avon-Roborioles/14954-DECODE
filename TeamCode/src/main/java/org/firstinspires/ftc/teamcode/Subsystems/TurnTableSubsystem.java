@@ -21,7 +21,7 @@ public class TurnTableSubsystem extends SubsystemBase {
     private static final double MAX_POS = 1;
     private double pos = 0.8;
     // Proportional gain for turning. Tune this value.
-    private static final double Kp = -0.0025;
+    private static final double Kp = -0.002;
 
     private static final double MANUAL_SPEED_MULTIPLIER = 0.003;
 

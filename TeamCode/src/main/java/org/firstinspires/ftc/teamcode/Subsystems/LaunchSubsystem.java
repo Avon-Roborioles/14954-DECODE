@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class LaunchSubsystem extends SubsystemBase {
     private DcMotorEx launchMotor;
+    private DcMotorEx launchMotor2;
     private Servo launchAngleServo;
     private Servo turnServo;
     private CRServo launchServo;
@@ -36,7 +37,18 @@ public class LaunchSubsystem extends SubsystemBase {
         this.launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    public LaunchSubsystem(DcMotorEx launchMotor, DcMotorEx launchMotor2, Servo launchAngleServo, Servo turnServo, CRServo launchServo){
+        this.launchMotor = launchMotor;
+        this.launchMotor2 = launchMotor2;
+        this.launchAngleServo = launchAngleServo;
+        this.turnServo = turnServo;
+        this.launchServo = launchServo;
 
+        // Essential for setVelocity to work correctly
+        this.launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.launchMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+    }
     // --- MATH FROM NewLauncher ---
 
     public void setTargetRPM(double distance){
@@ -53,14 +65,17 @@ public class LaunchSubsystem extends SubsystemBase {
 
     public void backSetPoint(){
         launchMotor.setVelocity(1825);
+        launchMotor2.setVelocity(-1825);
         launchAngleServo.setPosition(0.03); //0.0 //0.13 // correct
     }
     public void midSetPoint() {
         launchMotor.setVelocity(1500);
+        launchMotor2.setVelocity(-1500);
         launchAngleServo.setPosition(0.06); //0.03 //0.10 //correct 1500: 0.03
     }
     public void frontSetPoint(){
         launchMotor.setVelocity(1300);
+        launchMotor2.setVelocity(-1300);
         launchAngleServo.setPosition(0.10); //0.06 //0.07 // correct 1300: 0.06 // 1.2
     }
 
