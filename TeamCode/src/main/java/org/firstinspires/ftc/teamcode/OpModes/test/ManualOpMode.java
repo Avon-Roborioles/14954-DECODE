@@ -171,6 +171,20 @@ public class ManualOpMode extends LinearOpMode {
 
         // intake
             intakeSubsystem.proportionalLaunch(gamepad2.left_stick_y);
+            if (gamepad1.a) {
+                if (frontIntakeServo.getPower() == 0){
+                    intakeSubsystem.manLaunch();
+                } else {
+                    intakeSubsystem.stopAll();
+                }
+            }
+            if (gamepad1.b) {
+                if (frontIntakeServo.getPower() == 0){
+                    intakeSubsystem.Puke();
+                } else {
+                    intakeSubsystem.stopAll();
+                }
+            }
 
         // telemetry messages
             telemetry.addData("LauncherSpeed", "%.2f", shooterV);
