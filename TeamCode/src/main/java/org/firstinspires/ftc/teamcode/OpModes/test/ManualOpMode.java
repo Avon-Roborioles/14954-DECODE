@@ -111,7 +111,13 @@ public class ManualOpMode extends LinearOpMode {
 
         shooterAngle.setDirection(Servo.Direction.FORWARD);
         turnAngle = turn.getPosition();
-
+        // distance Sensors
+        fSensor = hardwareMap.get(DigitalChannel.class, "fSensor");
+        mSensor = hardwareMap.get(DigitalChannel.class, "mSensor");
+        bSensor = hardwareMap.get(DigitalChannel.class, "bSensor");
+        fSensor.setMode(DigitalChannel.Mode.INPUT);
+        mSensor.setMode(DigitalChannel.Mode.INPUT);
+        bSensor.setMode(DigitalChannel.Mode.INPUT);
     // drive system
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(new Pose(0, 0, PI));

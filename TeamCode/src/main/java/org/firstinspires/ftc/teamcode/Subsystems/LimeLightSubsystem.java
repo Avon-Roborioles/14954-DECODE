@@ -46,6 +46,14 @@ public class LimeLightSubsystem extends SubsystemBase {
         // Return 0 if there's no valid result to prevent errors
         return 0;
     }
+    public double getTy(){
+        LLResult result = limelight.getLatestResult();
+        if (result != null && result.isValid()) {
+            return result.getTy();
+        }
+        // Return 0 if there's no valid result to prevent errors
+        return 0;
+    }
 
     /**
      * Gets the full latest result from the Limelight.
