@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -35,6 +36,7 @@ public class LaunchSubsystem extends SubsystemBase {
 
         // Essential for setVelocity to work correctly
         this.launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        PIDController pid = new PIDController(0,0,0);
     }
 
 
@@ -62,13 +64,13 @@ public class LaunchSubsystem extends SubsystemBase {
     public void midSetPoint() {
         double Position;
         launchMotor.setVelocity(1500);
-        Position = ANGLE_SERVO_ZERO - 0.03;
+        Position = ANGLE_SERVO_ZERO - 0.04;
         launchAngleServo.setPosition(Position); //0.03 //0.10 //correct 1500: 0.03
     }
     public void frontSetPoint(){
         double Position;
-        launchMotor.setVelocity(1300);
-        Position = ANGLE_SERVO_ZERO - 0.01;
+        launchMotor.setVelocity(1350);
+        Position = ANGLE_SERVO_ZERO - 0.02;
         launchAngleServo.setPosition(Position); //0.06 //0.07 // correct 1300: 0.06 // 1.2
     }
 
