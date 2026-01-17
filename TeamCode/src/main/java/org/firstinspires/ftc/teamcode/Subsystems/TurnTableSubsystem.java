@@ -19,6 +19,7 @@ public class TurnTableSubsystem extends SubsystemBase {
     // Define the limits for your servo
     private static final double MIN_POS = 0.58;
     private static final double MAX_POS = 1;
+    private double angleOffset = 201.72+3.78;
     private double pos = 0.8;
     // Proportional gain for turning. Tune this value.
     private static final double Kp = -0.002;

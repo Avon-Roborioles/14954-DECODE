@@ -125,7 +125,9 @@ public class LaunchSubsystem extends SubsystemBase {
 
 
     public void getTelemetry(Telemetry telemetry){
-        telemetry.addData("Actual Velocity", launchMotor.getVelocity());
+        telemetry.addData("V1 ", launchMotor.getVelocity());
+        telemetry.addData("V2 ", launchMotor2.getVelocity());
+        telemetry.addData("Vavg ",(launchMotor.getVelocity() + launchMotor2.getVelocity())/2);
         telemetry.addData("Target RPM", TargetRPM);
         telemetry.addData("Target Angle (Deg)", Angle);
         telemetry.addData("Servo Pos", launchAngleServo.getPosition());
@@ -133,7 +135,9 @@ public class LaunchSubsystem extends SubsystemBase {
     }
     public void compTelemetry(Telemetry telemetry) {
 
-        telemetry.addData("Actual Velocity", launchMotor.getVelocity());
+        telemetry.addData("V1", launchMotor.getVelocity());
+        telemetry.addData("V2 ", launchMotor2.getVelocity());
+        telemetry.addData("Vavg ",(launchMotor.getVelocity() + launchMotor2.getVelocity())/2);
         telemetry.addData("Target RPM", TargetRPM);
         telemetry.addData("Target Angle (Deg)", Angle);
         telemetry.addData("Servo Pos", launchAngleServo.getPosition());

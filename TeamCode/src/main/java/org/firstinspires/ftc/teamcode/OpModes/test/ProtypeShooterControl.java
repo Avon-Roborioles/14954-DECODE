@@ -35,6 +35,7 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -49,6 +50,15 @@ public class ProtypeShooterControl extends LinearOpMode {
     private Servo turn;
     private Limelight3A limelight;
     private LLResult result;
+    private CRServo frontIntake;
+    private CRServo.Direction frontIntakeDirection;
+    private CRServo frontPass;
+    private CRServo.Direction frontPassDirection;
+    private CRServo backIntake;
+    private CRServo.Direction backIntakeDirection;
+    private CRServo backPass;
+    private CRServo.Direction backPassDirection;
+
 
     @Override
     public void runOpMode() {
@@ -64,6 +74,12 @@ public class ProtypeShooterControl extends LinearOpMode {
         double turnAngleChange = 0.01;
 
 
+
+        frontIntake = hardwareMap.get(CRServo.class, "frontIntake");
+        frontPass = hardwareMap.get(CRServo.class, "frontPass");
+        backIntake = hardwareMap.get(CRServo.class, "backIntake");
+        backPass = hardwareMap.get(CRServo.class, "backPass");
+
         shooterMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
 
 
@@ -76,6 +92,10 @@ public class ProtypeShooterControl extends LinearOpMode {
         limelight.pipelineSwitch(2);
         limelight.start();
         waitForStart();
+        frontIntake.setPower(-1);
+        frontPass.setPower(-1);
+        backIntake.setPower(1);
+        backPass.setPower(1);
 
         shooterAngle.setDirection(Servo.Direction.FORWARD);
 //        shooterAngle.setPosition(0.0);

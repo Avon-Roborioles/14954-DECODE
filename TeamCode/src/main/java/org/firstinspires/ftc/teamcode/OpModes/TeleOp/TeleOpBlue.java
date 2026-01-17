@@ -150,17 +150,10 @@ public class TeleOpBlue extends CommandOpMode {
 
 
         // Driver commands
-
-
-
-
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenHeld(new InstantCommand(() -> {
                     new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem,telemetry).schedule();
                 }));
-
-
-
 
         driverOp.getGamepadButton(GamepadKeys.Button.X) // Heading Reset
                 .whenPressed(new InstantCommand(() -> {follower.setPose(new Pose(0, 0, PI));}));
@@ -173,8 +166,6 @@ public class TeleOpBlue extends CommandOpMode {
                 .whenPressed(new InstantCommand(() -> {
                     launchAngleServo.setPosition(0.10);
                 }));
-
-
 
         // Operator commands
 
@@ -205,14 +196,9 @@ public class TeleOpBlue extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new backSetPointCommand(launchSubsystem, TurnSubsystem, false));
 
-
         intakeSubsystem.setDefaultCommand(new ManJoystickPassCommand(intakeSubsystem, operatorOp::getRightY));
 
-
-
         // launch
-
-
         telemetry.addData("init complete", "init done");
         telemetry.update();
 
