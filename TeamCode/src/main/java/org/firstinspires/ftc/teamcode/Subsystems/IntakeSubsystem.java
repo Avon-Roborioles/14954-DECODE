@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.concurrent.TimeUnit;
+import java.util.function.DoubleSupplier;
 
 public class IntakeSubsystem extends SubsystemBase {
     public enum SubSystemServoId {
@@ -184,6 +185,12 @@ public class IntakeSubsystem extends SubsystemBase {
         frontPass.setPower(-1);
         backIntake.setPower(1);
         backPass.setPower(1);
+    }
+    public void proportionalLaunch(float input){
+        frontIntake.setPower(-input);
+        frontPass.setPower(-input);
+        backIntake.setPower(input);
+        backPass.setPower(input);
     }
 
 
