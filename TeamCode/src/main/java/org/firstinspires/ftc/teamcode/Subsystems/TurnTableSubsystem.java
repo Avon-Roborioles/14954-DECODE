@@ -6,13 +6,15 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.tel
 import android.util.Log;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 public class TurnTableSubsystem extends SubsystemBase {
     private Servo turntable;
-    private double newPos;
+    private double  newPos;
     // It's better to manage the servo position within the follow method.
     // private double servoPos = 0.08;
 
@@ -23,7 +25,7 @@ public class TurnTableSubsystem extends SubsystemBase {
     private double pos = 0.3;
     // Proportional gain for turning. Tune this value.
     private static final double Kp = 0.002;
-
+    private Follower follower;
     private static final double MANUAL_SPEED_MULTIPLIER = 0.003;
 
     //0.0
@@ -35,10 +37,9 @@ public class TurnTableSubsystem extends SubsystemBase {
 
     public void BackSetPoints(boolean redAlliance){
         if (redAlliance){
-turntable.setPosition(0.7525);
+            turntable.setPosition(0.7525);
         } else if (!redAlliance){
             turntable.setPosition(0.8525);
-
         }
     }
     public void FrontSetPoints(boolean redAlliance){
@@ -76,11 +77,8 @@ turntable.setPosition(0.7525);
         if (tx != 0) {
             // Read the current servo position
             double currentPos = turntable.getPosition();
-            
-            // Calculate the adjustment. The sign depends on your servo's orientation.
-            // You may need to change '-' to '+'
-             newPos = currentPos + (Kp * tx);
-
+            double targetPos = follower.getHeading() + currentPos + tx;
+            newPos = targetPos - follower.getHeading();
 
             // Clamp the new position to stay within the servo's safe range
             if (newPos > MAX_POS) {
