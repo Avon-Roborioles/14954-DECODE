@@ -8,6 +8,7 @@ import android.util.Log;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.pedropathing.follower.Follower;
 import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -16,9 +17,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
+import java.util.List;
+
 public class TurnTableSubsystem extends SubsystemBase {
     private Servo turntable;
     private Limelight3A limelight3A;
+    private List<LLResultTypes.FiducialResult> fiducialResultList;
     private IMU imu;
     private LLResult result;
     private double  newPos;
@@ -90,9 +94,7 @@ public class TurnTableSubsystem extends SubsystemBase {
 
             if(botpose != null){
                 double x = botpose.getPosition().x;
-                double currentPos = turntable.getPosition();
-                double targetPos = x + currentPos + tx;
-                newPos = targetPos - x;
+                newPos = getTargetPos().getPosition().x - x;
             }
 
             // Clamp the new position to stay within the servo's safe range
@@ -108,7 +110,15 @@ public class TurnTableSubsystem extends SubsystemBase {
         }
         // If tx is 0 (no target), the servo will hold its last position.
     }
-
+    public Pose3D getTargetPos(){
+        Pose3D targetPos = null;
+        fiducialResultList = result.getFiducialResults();
+        for (LLResultTypes.FiducialResult fiducial: fiducialResultList){
+            int id = fiducial.getFiducialId(); // The ID number of the fiducial
+            targetPos = fiducial.getRobotPoseTargetSpace(); // Where it is (left-right)
+        }
+        return targetPos;
+    }
 
     public void getTelemetry(Telemetry telemetry){
         double currentPos = turntable.getPosition();
