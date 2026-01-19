@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -15,6 +16,7 @@ public class LaunchSubsystem extends SubsystemBase {
     private Servo launchAngleServo;
     private Servo turnServo;
     private CRServo launchServo;
+    private final double ANGLE_SERVO_ZERO = 0.24;
 
     // Default starting value
     private double TargetRPM = 1900;
@@ -35,20 +37,21 @@ public class LaunchSubsystem extends SubsystemBase {
 
         // Essential for setVelocity to work correctly
         this.launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        PIDController pid = new PIDController(0,0,0);
     }
-
-    public LaunchSubsystem(DcMotorEx launchMotor, DcMotorEx launchMotor2, Servo launchAngleServo, Servo turnServo, CRServo launchServo){
+    public LaunchSubsystem(DcMotorEx launchMotor, DcMotorEx launchMotor2, Servo launchAngleServo, Servo turnServo, CRServo launchServo) {
         this.launchMotor = launchMotor;
         this.launchMotor2 = launchMotor2;
         this.launchAngleServo = launchAngleServo;
         this.turnServo = turnServo;
         this.launchServo = launchServo;
-
-        // Essential for setVelocity to work correctly
         this.launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.launchMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+
     }
+
+
     // --- MATH FROM NewLauncher ---
 
     public void setTargetRPM(double distance){
@@ -64,19 +67,26 @@ public class LaunchSubsystem extends SubsystemBase {
     }
 
     public void backSetPoint(){
+        double Position;
+
         launchMotor.setVelocity(1825);
         launchMotor2.setVelocity(-1825);
-        launchAngleServo.setPosition(0.03); //0.0 //0.13 // correct
+        Position = ANGLE_SERVO_ZERO - 0.1;
+        launchAngleServo.setPosition(Position); //0.0 //0.13 // correct
     }
     public void midSetPoint() {
+        double Position;
         launchMotor.setVelocity(1500);
         launchMotor2.setVelocity(-1500);
-        launchAngleServo.setPosition(0.06); //0.03 //0.10 //correct 1500: 0.03
+        Position = ANGLE_SERVO_ZERO - 0.04;
+        launchAngleServo.setPosition(Position); //0.03 //0.10 //correct 1500: 0.03
     }
     public void frontSetPoint(){
-        launchMotor.setVelocity(1300);
+        double Position;
+        launchMotor.setVelocity(1350);
         launchMotor2.setVelocity(-1300);
-        launchAngleServo.setPosition(0.10); //0.06 //0.07 // correct 1300: 0.06 // 1.2
+        Position = ANGLE_SERVO_ZERO - 0.02;
+        launchAngleServo.setPosition(Position); //0.06 //0.07 // correct 1300: 0.06 // 1.2
     }
 
 
@@ -110,6 +120,7 @@ public class LaunchSubsystem extends SubsystemBase {
     public void stopMotor(){
         isRunning = false;
         launchMotor.setPower(0);
+        launchMotor2.setPower(0);
         if(launchServo != null) launchServo.setPower(0);
     }
 
@@ -125,7 +136,7 @@ public class LaunchSubsystem extends SubsystemBase {
 
 
     public void getTelemetry(Telemetry telemetry){
-        telemetry.addData("V1 ", launchMotor.getVelocity());
+        telemetry.addData("V1", launchMotor.getVelocity());
         telemetry.addData("V2 ", launchMotor2.getVelocity());
         telemetry.addData("Vavg ",(launchMotor.getVelocity() + launchMotor2.getVelocity())/2);
         telemetry.addData("Target RPM", TargetRPM);

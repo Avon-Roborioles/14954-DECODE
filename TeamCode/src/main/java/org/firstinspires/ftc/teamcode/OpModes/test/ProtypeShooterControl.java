@@ -38,6 +38,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
@@ -45,6 +46,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ProtypeShooterControl extends LinearOpMode {
 
     public DcMotorEx shooterMotor = null;
+    public DcMotorEx shooterMotor2 =  null;
     private double shooterV;
     public Servo shooterAngle = null;
     private Servo turn;
@@ -81,6 +83,7 @@ public class ProtypeShooterControl extends LinearOpMode {
         backPass = hardwareMap.get(CRServo.class, "backPass");
 
         shooterMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
+        shooterMotor2 = hardwareMap.get(DcMotorEx.class, "launchMotor");
 
 
         shooterAngle = hardwareMap.get(Servo.class, "launchAngle");
@@ -89,7 +92,7 @@ public class ProtypeShooterControl extends LinearOpMode {
 
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
-        limelight.pipelineSwitch(2);
+        limelight.pipelineSwitch(1);
         limelight.start();
         waitForStart();
         frontIntake.setPower(-1);
@@ -98,6 +101,7 @@ public class ProtypeShooterControl extends LinearOpMode {
         backPass.setPower(1);
 
         shooterAngle.setDirection(Servo.Direction.FORWARD);
+
 //        shooterAngle.setPosition(0.0);
         launchServoAngle = shooterAngle.getPosition();
         turnAngle = turn.getPosition();
@@ -114,6 +118,7 @@ public class ProtypeShooterControl extends LinearOpMode {
 
             shooterV = newShooterPower;
             shooterMotor.setVelocity(shooterV);
+            shooterMotor2.setVelocity(shooterV);
 
             if (gamepad1.dpadRightWasPressed()) {
                 newServoAngle += servoAngleChange;
@@ -146,6 +151,8 @@ public class ProtypeShooterControl extends LinearOpMode {
 
 
             telemetry.addData("shooterMotorSpeed", "%.2f", shooterV);
+            telemetry.addData("V1", shooterMotor.getVelocity());
+            telemetry.addData("V2", shooterMotor2.getVelocity());
             telemetry.addData("shooterLaunchPosition", "%.3f", launchServoAngle);
             telemetry.addData("turnAngle", "%.3f", turnAngle);
             telemetry.addData("getDistance", getDistance());

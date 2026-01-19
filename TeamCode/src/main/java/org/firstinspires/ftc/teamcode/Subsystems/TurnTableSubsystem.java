@@ -17,12 +17,12 @@ public class TurnTableSubsystem extends SubsystemBase {
     // private double servoPos = 0.08;
 
     // Define the limits for your servo
-    private static final double MIN_POS = 0.58;
-    private static final double MAX_POS = 1;
+    private static final double MIN_POS = 0.13;
+    private static final double MAX_POS = 0.55;
     private double angleOffset = 201.72+3.78;
-    private double pos = 0.8;
+    private double pos = 0.3;
     // Proportional gain for turning. Tune this value.
-    private static final double Kp = -0.002;
+    private static final double Kp = 0.002;
 
     private static final double MANUAL_SPEED_MULTIPLIER = 0.003;
 
@@ -56,7 +56,7 @@ turntable.setPosition(0.7525);
 
         // Calculate new position: current + (joystick_value * speed_factor)
         // If inputSpeed is 0, the position won't change.
-        double targetPos = currentPos + (inputSpeed * MANUAL_SPEED_MULTIPLIER);
+        double targetPos = pos + (inputSpeed * MANUAL_SPEED_MULTIPLIER);
 
         // Ensure we don't go past the physical limits (0.0 to 1.0 are standard servo limits)
         // If you have specific limits like 0.2 to 0.8, change the numbers below.
@@ -79,7 +79,7 @@ turntable.setPosition(0.7525);
             
             // Calculate the adjustment. The sign depends on your servo's orientation.
             // You may need to change '-' to '+'
-             newPos = pos + (Kp * tx);
+             newPos = currentPos + (Kp * tx);
 
 
             // Clamp the new position to stay within the servo's safe range
