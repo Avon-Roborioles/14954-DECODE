@@ -7,14 +7,18 @@ import android.util.Log;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.pedropathing.follower.Follower;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 public class TurnTableSubsystem extends SubsystemBase {
     private Servo turntable;
+    private Limelight3A limelight3A;
     private double  newPos;
+    private Pose3D botpose;
     // It's better to manage the servo position within the follow method.
     // private double servoPos = 0.08;
 
@@ -25,7 +29,6 @@ public class TurnTableSubsystem extends SubsystemBase {
     private double pos = 0.3;
     // Proportional gain for turning. Tune this value.
     private static final double Kp = 0.002;
-    private Follower follower;
     private static final double MANUAL_SPEED_MULTIPLIER = 0.003;
 
     //0.0
@@ -76,9 +79,13 @@ public class TurnTableSubsystem extends SubsystemBase {
         // Only adjust if a target is visible (tx is non-zero)
         if (tx != 0) {
             // Read the current servo position
-            double currentPos = turntable.getPosition();
-            double targetPos = follower.getHeading() + currentPos + tx;
-            newPos = targetPos - follower.getHeading();
+            botpose = limelight3A.getLatestResult().getBotpose();
+            if (botpose != null) {
+                double x = botpose.getPosition().x;
+                double currentPos = turntable.getPosition();
+                double targetPos = x + currentPos + tx;
+                newPos = targetPos - x;
+            }
 
             // Clamp the new position to stay within the servo's safe range
             if (newPos > MAX_POS) {
