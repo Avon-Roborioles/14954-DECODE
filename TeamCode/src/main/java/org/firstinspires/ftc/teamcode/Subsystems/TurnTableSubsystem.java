@@ -7,7 +7,9 @@ import android.util.Log;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.pedropathing.follower.Follower;
+import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -17,6 +19,8 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 public class TurnTableSubsystem extends SubsystemBase {
     private Servo turntable;
     private Limelight3A limelight3A;
+    private IMU imu;
+    private LLResult result;
     private double  newPos;
     private Pose3D botpose;
     // It's better to manage the servo position within the follow method.
@@ -76,11 +80,15 @@ public class TurnTableSubsystem extends SubsystemBase {
         pos = targetPos;
     }
     public void limelightFollow(double tx) {
-        // Only adjust if a target is visible (tx is non-zero)
-        if (tx != 0) {
-            // Read the current servo position
-            botpose = limelight3A.getLatestResult().getBotpose();
-            if (botpose != null) {
+
+        double robotYaw = imu.getRobotOrientationAsQuaternion().x;
+        limelight3A.updateRobotOrientation(robotYaw);
+
+        result = limelight3A.getLatestResult();
+        if (result != null && result.isValid()) {
+            botpose = result.getBotpose_MT2();
+
+            if(botpose != null){
                 double x = botpose.getPosition().x;
                 double currentPos = turntable.getPosition();
                 double targetPos = x + currentPos + tx;
