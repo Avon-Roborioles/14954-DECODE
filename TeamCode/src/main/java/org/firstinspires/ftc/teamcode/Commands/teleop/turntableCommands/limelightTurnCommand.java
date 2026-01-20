@@ -32,6 +32,8 @@ public class limelightTurnCommand extends CommandBase {
     public void execute(){
         double tx = limelightSubsystem.getTx();
 
+        double result = Math.toRadians(tx);
+
 
         // 1. Aim Turret
         turnTableSubsystem.limelightFollow(tx);

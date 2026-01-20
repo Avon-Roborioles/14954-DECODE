@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -47,7 +48,10 @@ public class LaunchSubsystem extends SubsystemBase {
         this.launchServo = launchServo;
         this.launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.launchMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(15,0,0,13.29);
+        this.launchMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+        this.launchMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+        //13.29, 15
 
     }
 
@@ -84,7 +88,7 @@ public class LaunchSubsystem extends SubsystemBase {
     public void frontSetPoint(){
         double Position;
         launchMotor.setVelocity(1350);
-        launchMotor2.setVelocity(-1300);
+        launchMotor2.setVelocity(-1350);
         Position = ANGLE_SERVO_ZERO - 0.02;
         launchAngleServo.setPosition(Position); //0.06 //0.07 // correct 1300: 0.06 // 1.2
     }
