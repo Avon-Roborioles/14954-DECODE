@@ -80,20 +80,15 @@ public class TurnTableSubsystem extends SubsystemBase {
         pos = targetPos;
     }
     public void limelightFollow(double tx) {
+        // Only adjust if a target is visible (tx is non-zero)
+        if (tx != 0) {
+            // Read the current servo position
+            double currentPos = turntable.getPosition();
 
-        double robotYaw = imu.getRobotOrientationAsQuaternion().x;
-        limelight3A.updateRobotOrientation(robotYaw);
+            // Calculate the adjustment. The sign depends on your servo's orientation.
+            // You may need to change '-' to '+'
+            newPos = currentPos + (Kp * tx);
 
-        result = limelight3A.getLatestResult();
-        if (result != null && result.isValid()) {
-            botpose = result.getBotpose_MT2();
-
-            if(botpose != null){
-                double x = botpose.getPosition().x;
-                double currentPos = turntable.getPosition();
-                double targetPos = x + currentPos + tx;
-                newPos = targetPos - x;
-            }
 
             // Clamp the new position to stay within the servo's safe range
             if (newPos > MAX_POS) {

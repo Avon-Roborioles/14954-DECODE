@@ -70,7 +70,7 @@ public class TeleOpRed extends CommandOpMode {
     private GamepadEx operatorOp;
 
     // launcher variables
-    private DcMotorEx launchMotor;
+    private DcMotorEx launchMotor, launchMotor2;
     private Servo launchAngleServo;
     private CRServo launchServo;
     private LaunchSubsystem launchSubsystem;
@@ -120,6 +120,7 @@ public class TeleOpRed extends CommandOpMode {
         // launcher
         launchAngleServo = hardwareMap.get(Servo.class, "launchAngle");
         launchMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
+        launchMotor2 = hardwareMap.get(DcMotorEx.class, "launchMotor2");
         launchServo = hardwareMap.get(CRServo.class, "launchServo");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
@@ -138,7 +139,7 @@ public class TeleOpRed extends CommandOpMode {
         //Subsystems
         distanceSubsystem = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intakeSubsystem = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
-        launchSubsystem = new LaunchSubsystem(launchMotor, launchAngleServo, turnServo ,launchServo);
+        launchSubsystem = new LaunchSubsystem(launchMotor, launchMotor2, launchAngleServo, turnServo ,launchServo);
         limelightSubsystem = new LimeLightSubsystem(limelight);
 
         //turntable

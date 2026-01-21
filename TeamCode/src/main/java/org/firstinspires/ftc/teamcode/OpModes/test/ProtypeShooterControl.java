@@ -39,6 +39,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
@@ -85,6 +86,11 @@ public class ProtypeShooterControl extends LinearOpMode {
         shooterMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
         shooterMotor2 = hardwareMap.get(DcMotorEx.class, "launchMotor");
 
+        shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooterMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(15, 0, 0, 13.29);
+        shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+        shooterMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
 
         shooterAngle = hardwareMap.get(Servo.class, "launchAngle");
 
@@ -115,7 +121,9 @@ public class ProtypeShooterControl extends LinearOpMode {
             } else if (gamepad1.dpadDownWasPressed()) {
                 newShooterPower -= motorIncrement;
             }
-
+            PIDFCoefficients pidfCoefficientsop = new PIDFCoefficients(15,0,0,13.29);
+            shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficientsop);
+            shooterMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficientsop);
             shooterV = newShooterPower;
             shooterMotor.setVelocity(shooterV);
             shooterMotor2.setVelocity(shooterV);
