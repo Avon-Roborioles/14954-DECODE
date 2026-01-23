@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Commands.Auto.AutoCommands.AutoPlanBCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
@@ -37,8 +38,8 @@ public class BackRed extends AutoBase{
     Pose launchPreloadPose = new Pose(60, 10, Math.toRadians(-25));
     Pose prepGrab1Pose = new Pose(70, 30, Math.toRadians(0));
     Pose grab1Pose = new Pose(120, 30, Math.toRadians(0));
-    Pose midpointPose = new Pose(64, 30, Math.toRadians(0));
-    Pose launch1Pose = new Pose(55, 10, Math.toRadians(-35));
+    Pose midpointPose = new Pose(67, 30, Math.toRadians(0));
+    Pose launch1Pose = new Pose(64, 7, Math.toRadians(0));
     Pose prepGrab2Pose = new Pose(45, 60, Math.toRadians(180));
     Pose grab2Pose = new Pose(16, 60, Math.toRadians(180));
     Pose midpoint2Pose = new Pose(71, 60, Math.toRadians(90));
@@ -100,7 +101,7 @@ public class BackRed extends AutoBase{
                 new AutoDriveCommand(autoDriveSubsystem, telemetry),
                 new SequentialCommandGroup(
                         new AutoBackSetPoint(launch,turnTableSubsystem,true),
-                        new AutoLaunch(distance, intake, launch, telemetry),
+                        new AutoPlanBCommand(intake),
                         new StopMotor(launch),
                         PrepareToGrab1,
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),
@@ -111,7 +112,15 @@ public class BackRed extends AutoBase{
                                 new AutoDriveCommand(autoDriveSubsystem, telemetry)
                         ),
                         MoveToMidpoint,
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        MoveToLaunch1,
+                        new AutoDriveCommand(autoDriveSubsystem,telemetry),
+                        new AutoBackSetPoint(launch,turnTableSubsystem,true),
+                        new AutoPlanBCommand(intake),
+                        new StopMotor(launch),
+                        leave,
+                        new AutoDriveCommand(autoDriveSubsystem,telemetry)
+
 
 
 
@@ -144,6 +153,7 @@ public class BackRed extends AutoBase{
         // launcher
         launchAngle = hardwareMap.get(Servo.class, "launchAngle");
         launchMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
+        launchMotor2 = hardwareMap.get(DcMotorEx.class, "launchMotor2");
         launchServo = hardwareMap.get(CRServo.class, "launchServo");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
@@ -162,7 +172,7 @@ public class BackRed extends AutoBase{
         //Subsystems
         distance = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intake = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
-        launch = new LaunchSubsystem(launchMotor, launchAngle, turnServo ,launchServo);
+        launch = new LaunchSubsystem(launchMotor, launchMotor2, launchAngle, turnServo ,launchServo);
         limelight = new LimeLightSubsystem(Limelight);
 
         //turntable
@@ -195,8 +205,8 @@ public class BackRed extends AutoBase{
 
 
         //launch1
-        Launch1 = new Path(new BezierCurve(grab1Pose, launch1Pose));
-        Launch1.setLinearHeadingInterpolation(grab1Pose.getHeading(), launch1Pose.getHeading());
+        Launch1 = new Path(new BezierCurve(midpointPose, launch1Pose));
+        Launch1.setLinearHeadingInterpolation(midpointPose.getHeading(), launch1Pose.getHeading());
         Launch1.setTimeoutConstraint(250);
 
         //prepGrab2
@@ -220,8 +230,8 @@ public class BackRed extends AutoBase{
         launch2.setTimeoutConstraint(250);
 
         //leave
-        Leave = new Path(new BezierCurve(startPose, leavePose));
-        Leave.setLinearHeadingInterpolation(startPose.getHeading(), leavePose.getHeading());
+        Leave = new Path(new BezierCurve(launch1Pose, leavePose));
+        Leave.setLinearHeadingInterpolation(leavePose.getHeading(), leavePose.getHeading());
         Leave.setTimeoutConstraint(250);
 
 

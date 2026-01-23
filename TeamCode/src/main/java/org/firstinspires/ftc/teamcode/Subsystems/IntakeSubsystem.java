@@ -183,8 +183,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public void manLaunch(){
         frontIntake.setPower(-1);
         frontPass.setPower(-1);
-        backIntake.setPower(1);
-        backPass.setPower(1);
+        backIntake.setPower(.7);
+        backPass.setPower(.7);
     }
     public void proportionalLaunch(float input){
         frontIntake.setPower(-input);

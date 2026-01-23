@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups;
+package org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 

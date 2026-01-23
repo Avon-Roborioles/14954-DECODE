@@ -17,7 +17,7 @@ public class LaunchSubsystem extends SubsystemBase {
     private Servo launchAngleServo;
     private Servo turnServo;
     private CRServo launchServo;
-    private final double ANGLE_SERVO_ZERO = 0.24;
+    private final double ANGLE_SERVO_ZERO = 0.6;
 
     // Default starting value
     private double TargetRPM = 1900;
@@ -48,7 +48,7 @@ public class LaunchSubsystem extends SubsystemBase {
         this.launchServo = launchServo;
         this.launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.launchMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(15,0,0,13.29);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(10,0,0,13);
         this.launchMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         this.launchMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         //13.29, 15
@@ -70,13 +70,26 @@ public class LaunchSubsystem extends SubsystemBase {
         return (-0.00000004 * distance * distance + 0.0005 * distance +0.0494);
     }
 
-    public void backSetPoint(){
+   public void backMiddleSetPoint(){
+       double Position;
+
+   }
+    public void backSetPoint(boolean auto){
         double Position;
 
-        launchMotor.setVelocity(1825);
-        launchMotor2.setVelocity(-1825);
-        Position = ANGLE_SERVO_ZERO - 0.1;
-        launchAngleServo.setPosition(Position); //0.0 //0.13 // correct
+        if (auto){
+            launchMotor.setVelocity(1825);
+            launchMotor2.setVelocity(-1825);
+            Position = ANGLE_SERVO_ZERO - 0.1;
+            launchAngleServo.setPosition(Position);
+        } else {
+            launchMotor.setVelocity(1825);
+            launchMotor2.setVelocity(-1825);
+            Position = ANGLE_SERVO_ZERO - 0.13;
+            launchAngleServo.setPosition(Position);
+        }
+
+        //0.0 //0.13 // correct
     }
     public void midSetPoint() {
         double Position;
@@ -125,7 +138,7 @@ public class LaunchSubsystem extends SubsystemBase {
         isRunning = false;
         launchMotor.setPower(0);
         launchMotor2.setPower(0);
-        if(launchServo != null) launchServo.setPower(0);
+        launchAngleServo.setPosition(ANGLE_SERVO_ZERO);
     }
 
     public void setTurnServo(double pos){

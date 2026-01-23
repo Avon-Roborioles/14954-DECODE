@@ -68,13 +68,13 @@ public class ProtypeShooterControl extends LinearOpMode {
         final double motorIncrement = 50;
         double newShooterPower = 0.0;
         shooterV = 0.0;
-        double launchServoAngle = 0.0;
+        double launchServoAngle = 0.6;
         final double servoAngleChange = 0.01;
-        double newServoAngle = 0.0;
+        double newServoAngle = 0.6;
 
-        double turnAngle = 0.6;
-        double newTurnAngle = 0.0;
-        double turnAngleChange = 0.01;
+        double turnAngle = 0.8;
+        double newTurnAngle = 0.8;
+        double turnAngleChange = 0.005;
 
 
 
@@ -88,7 +88,7 @@ public class ProtypeShooterControl extends LinearOpMode {
 
         shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooterMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(15, 0, 0, 13.29);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(6,0,0,11.873);
         shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         shooterMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
 
@@ -133,10 +133,10 @@ public class ProtypeShooterControl extends LinearOpMode {
             } else if (gamepad1.dpadLeftWasPressed()) {
                 newServoAngle -= servoAngleChange;
             }
-            if (gamepad2.dpadRightWasPressed()) {
-                newTurnAngle += turnAngleChange;
-            } else if (gamepad2.dpadLeftWasPressed()) {
+            if (gamepad1.xWasPressed()) {
                 newTurnAngle -= turnAngleChange;
+            } else if (gamepad1.bWasPressed()) {
+                newTurnAngle += turnAngleChange;
             }
 
 

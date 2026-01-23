@@ -45,12 +45,12 @@ import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeBackT
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeFrontToBack;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeToLauncher;
-import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeToLauncher;
+import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoIntakeToLauncher;
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.RunMotor;
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 //import org.firstinspires.ftc.teamcode.commands.teleop.turntable.TurntableTest1;
 //import org.firstinspires.ftc.teamcode.commands.teleop.turntable.TurntableTest2;
-import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.backSetPointCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.backSetPointCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.frontSetPointCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.midSetPointCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.ManualTurntableCommand;
@@ -172,6 +172,8 @@ public class TeleOpRed extends CommandOpMode {
                 .whenPressed(new InstantCommand(() -> {
                     launchAngleServo.setPosition(0.1);
                 }));
+        operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                .toggleWhenPressed(new ManIntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
 
 
 
@@ -183,8 +185,7 @@ public class TeleOpRed extends CommandOpMode {
                 .toggleWhenPressed(new IntakeFrontToBack(intakeSubsystem, distanceSubsystem), new IntakeStopServoCommand(intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.Y)
                 .toggleWhenPressed(new IntakeBackToFront(intakeSubsystem, distanceSubsystem), new IntakeStopServoCommand(intakeSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .toggleWhenPressed(new ManIntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+
         operatorOp.getGamepadButton(GamepadKeys.Button.BACK)
                 .whenHeld(new PukeCommand(intakeSubsystem))
                 .whenReleased(new IntakeStopServoCommand(intakeSubsystem));

@@ -24,8 +24,8 @@ public class AutoBackSetPoint extends CommandBase {
     public void initialize(){
         timer = new Timing.Timer(2000, TimeUnit.MILLISECONDS);
         timer.start();
-        launchSubsystem.backSetPoint();
-        turnTableSubsystem.BackSetPoints(redAlliance);
+        launchSubsystem.backSetPoint(true);
+        turnTableSubsystem.AutoBackSetPoints(redAlliance);
     }
     public boolean isFinished(){
         return timer.done();

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.commands.teleop.launchCommands;
+package org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
@@ -19,7 +19,7 @@ public class backSetPointCommand extends CommandBase {
     }
 
     public void initialize(){
-        launchSubsystem.backSetPoint();
+        launchSubsystem.backSetPoint(false);
         turnTableSubsystem.BackSetPoints(redAlliance);
 
     }

@@ -31,6 +31,7 @@ public abstract class AutoBase extends CommandOpMode {
     protected Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
 
     protected DcMotorEx launchMotor;
+    protected DcMotorEx launchMotor2;
     protected Servo launchAngle;
     protected CRServo launchServo;
     // intake variables
