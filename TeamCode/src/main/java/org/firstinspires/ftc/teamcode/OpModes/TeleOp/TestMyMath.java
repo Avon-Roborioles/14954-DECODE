@@ -16,7 +16,6 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.HeadingInterpolator;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
-import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -26,26 +25,13 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
-import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TelemetrySubsystem;
-import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
-import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeCommand;
-import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoIntakeToLauncher;
-import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand;
+import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;;
 import org.firstinspires.ftc.teamcode.commands.teleop.CompTelemetryCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.ManJoystickPassCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeBackToFront;
-import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeFrontToBack;
-import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.ManIntakeToLauncher;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.PukeCommand;
-import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.backSetPointCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.frontSetPointCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.midSetPointCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.ManualTurntableCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.SmartLaunchSequence;
 import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.OTOsSmartLaunch;
-import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.limelightTurnCommand;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 import java.util.function.Supplier;
@@ -54,11 +40,10 @@ import java.util.function.Supplier;
 public class TestMyMath extends CommandOpMode {
     // drive variables
     private Follower follower;
-    public static Pose startingPose; //See ExampleAuto to understand how to use this
+    public static Pose startingPose;
     private Supplier<PathChain> pathChain;
     private TelemetryManager telemetryM;
     private GamepadEx driverOp;
-    private GamepadEx operatorOp;
 
     // launcher variables
     private DcMotorEx launchMotor;
@@ -71,24 +56,16 @@ public class TestMyMath extends CommandOpMode {
     private CRServo backIntakeServo;
     private CRServo backPassServo;
     private IntakeSubsystem intakeSubsystem;
-    //Distance Sensor Variables
-    private DigitalChannel fSensor, mSensor, bSensor;
-    private DistanceSubsystem distanceSubsystem;
+
     // Turntable Variables
     private Servo turnServo;
-    private TurnTableSubsystem TurnSubsystem;
 
-
-    private TelemetrySubsystem telemetrySubsystem;
-    private AutoDriveSubsystem autoDriveSubsystem;
-    public Command compTel;
 
 
     @Override
     public void initialize() {
         // controlAssignments
         driverOp = new GamepadEx(gamepad1);
-        operatorOp = new GamepadEx(gamepad2);
 
         //Follower
         follower = Constants.createFollower(hardwareMap);
@@ -111,37 +88,22 @@ public class TestMyMath extends CommandOpMode {
         frontPassServo = hardwareMap.get(CRServo.class, "frontPass");
         backIntakeServo = hardwareMap.get(CRServo.class, "backIntake");
         backPassServo = hardwareMap.get(CRServo.class, "backPass");
-        // distance Sensors
-        fSensor = hardwareMap.get(DigitalChannel.class, "fSensor");
-        mSensor = hardwareMap.get(DigitalChannel.class, "mSensor");
-        bSensor = hardwareMap.get(DigitalChannel.class, "bSensor");
-        fSensor.setMode(DigitalChannel.Mode.INPUT);
-        mSensor.setMode(DigitalChannel.Mode.INPUT);
-        bSensor.setMode(DigitalChannel.Mode.INPUT);
 
         //Subsystems
-        distanceSubsystem = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intakeSubsystem = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
-        launchSubsystem = new OTOsSmartLaunch(turnServo, follower, launchMotor, launchMotor2, true); // boolean is isRed
+        launchSubsystem = new OTOsSmartLaunch(turnServo, follower, launchMotor, launchMotor2, launchAngleServo, true); // boolean is isRed
 
-        // Driver commands
-        driverOp.getGamepadButton(GamepadKeys.Button.X) // Heading Reset
-                .whenPressed(new InstantCommand(() -> {follower.setPose(new Pose(0, 0, PI));}));
+        driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                        .whenPressed(new ManIntakeToLauncher(intakeSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                        .whenPressed(new PukeCommand(intakeSubsystem));
 
-        driverOp.getGamepadButton(GamepadKeys.Button.A)
-                        .whenPressed(new InstantCommand(() -> {
-                            launchAngleServo.setPosition(0);
-                        }));
+        driverOp.getGamepadButton(GamepadKeys.Button.Y)
+                .whenPressed(new SmartLaunchSequence(launchSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new InstantCommand(() -> {
-                    launchAngleServo.setPosition(0.1);
+                    launchSubsystem.changeMode();
                 }));
-
-        intakeSubsystem.setDefaultCommand(new ManJoystickPassCommand(intakeSubsystem, operatorOp::getRightY));
-        // launch
-
-
-        telemetry.addData("init complete", "init done");
         telemetry.update();
 
         follower.startTeleopDrive();
@@ -159,10 +121,6 @@ public class TestMyMath extends CommandOpMode {
             follower.update();
             telemetryM.update();
 
-//            autoDriveSubsystem.setDefaultCommand(new TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false));
-//            driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-//                    .whenHeld(new TeleSlowDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false))
-//                    .whenInactive(new TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false));
             follower.setTeleOpDrive(
                     -gamepad1.left_stick_y,
                     -gamepad1.left_stick_x,
@@ -171,21 +129,13 @@ public class TestMyMath extends CommandOpMode {
             );
 
             run();
-            telemetrySubsystem.setDefaultCommand(new CompTelemetryCommand(telemetrySubsystem));
+            telemetryM.addData("robot heading = ", follower.getHeading());
+            telemetryM.addData("launch power = ", launchMotor.getPower() + "/" + launchMotor2.getPower());
+            telemetryM.addData("table pos = ", turnServo.getPosition());
+            telemetryM.addData("carrot pos = ", launchAngleServo.getPosition());
+            telemetryM.addData("red = ", launchSubsystem.getMode());
+
         }
         reset();
     }
-
-
-//            limelightSubsystem.setDefaultCommand(new LimelightCommand(limelightSubsystem, limelightSubsystem.getResult(), telemetry));
-
-        // print to console
-//        telemetry.addData("x", follower.getPose().getX());
-//        telemetry.addData("y", follower.getPose().getY());
-//        telemetry.addData("heading", follower.getPose().getHeading());
-//        telemetry.addData("|v|", follower.getVelocity().getMagnitude());
-//        telemetry.addData("theta", follower.getVelocity().getTheta());
-//        telemetry.addData("x-component", follower.getVelocity().getXComponent());
-//        telemetry.addData("y-component", follower.getVelocity().getYComponent());
-//        telemetry.update();
-    }
+}

@@ -20,8 +20,6 @@ public class IntakeOnlyCommand extends CommandBase {
     }
 
     public void execute() {
-
-
         intakeSubsystem.intakeOnly();
     }
 

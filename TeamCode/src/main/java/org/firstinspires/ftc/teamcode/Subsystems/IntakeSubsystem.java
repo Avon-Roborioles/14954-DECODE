@@ -122,11 +122,6 @@ public class IntakeSubsystem extends SubsystemBase {
         backPass.setPower(0);
     }
 
-
-
-
-
-
     public void IntakeBackToCenter() {
         frontIntake.setPower(0);
         frontPass.setPower(0);
