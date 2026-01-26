@@ -70,8 +70,23 @@ public class LaunchSubsystem extends SubsystemBase {
         return (-0.00000004 * distance * distance + 0.0005 * distance +0.0494);
     }
 
+    public void closeBackSetPoint(){
+        double Position;
+        launchMotor.setVelocity(1800);
+        launchMotor2.setVelocity(-1800);
+        Position = ANGLE_SERVO_ZERO - 0.08;
+        launchAngleServo.setPosition(Position);
+
+
+    }
+
    public void backMiddleSetPoint(){
        double Position;
+       launchMotor.setVelocity(1850);
+       launchMotor2.setVelocity(-1850);
+       Position = ANGLE_SERVO_ZERO - 0.08;
+       launchAngleServo.setPosition(Position);
+
 
    }
     public void backSetPoint(boolean auto){
@@ -83,9 +98,9 @@ public class LaunchSubsystem extends SubsystemBase {
             Position = ANGLE_SERVO_ZERO - 0.1;
             launchAngleServo.setPosition(Position);
         } else {
-            launchMotor.setVelocity(1825);
-            launchMotor2.setVelocity(-1825);
-            Position = ANGLE_SERVO_ZERO - 0.13;
+            launchMotor.setVelocity(1850);
+            launchMotor2.setVelocity(-1850);
+            Position = ANGLE_SERVO_ZERO - 0.08;
             launchAngleServo.setPosition(Position);
         }
 

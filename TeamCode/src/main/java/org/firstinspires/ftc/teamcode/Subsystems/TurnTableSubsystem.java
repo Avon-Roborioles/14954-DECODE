@@ -51,9 +51,23 @@ public class TurnTableSubsystem extends SubsystemBase {
     }
     public void BackSetPoints(boolean redAlliance){
         if (redAlliance){
-            turntable.setPosition(0.77);
+            turntable.setPosition(0.795);
         } else if (!redAlliance){
-            turntable.setPosition(0.905);
+            turntable.setPosition(0.93);
+        }
+    }
+    public void BackMiddleSetPoints(boolean redAlliance){
+        if (redAlliance){
+            turntable.setPosition(0.81);
+        } else if (!redAlliance){
+            turntable.setPosition(0.915);
+        }
+    }
+    public void closeBackSetPoints(boolean redAlliance){
+        if (redAlliance){
+            turntable.setPosition(0.82);
+        } else if (!redAlliance){
+            turntable.setPosition(0.895);
         }
     }
     public void FrontSetPoints(boolean redAlliance){

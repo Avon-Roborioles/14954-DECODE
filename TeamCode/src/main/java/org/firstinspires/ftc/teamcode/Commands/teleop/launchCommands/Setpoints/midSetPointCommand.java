@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.commands.teleop.launchCommands;
+package org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 

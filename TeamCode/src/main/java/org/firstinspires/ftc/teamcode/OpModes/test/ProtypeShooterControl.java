@@ -34,6 +34,7 @@ import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -44,7 +45,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 
 @TeleOp(name = "Shooter control code", group = "prototype")
-public class ProtypeShooterControl extends LinearOpMode {
+public class ProtypeShooterControl extends OpMode {
 
     public DcMotorEx shooterMotor = null;
     public DcMotorEx shooterMotor2 =  null;
@@ -63,19 +64,27 @@ public class ProtypeShooterControl extends LinearOpMode {
     private CRServo.Direction backPassDirection;
 
 
+    private double motorIncrement = 50;
+    private double newShooterPower = 0.0;
+    private double launchServoAngle = 0.6;
+    private double servoAngleChange = 0.01;
+    private double newServoAngle = 0.6;
+
+    private double turnAngle = 0.8;
+    private double newTurnAngle = 0.8;
+    private double turnAngleChange = 0.005;
+
     @Override
-    public void runOpMode() {
-        final double motorIncrement = 50;
-        double newShooterPower = 0.0;
-        shooterV = 0.0;
-        double launchServoAngle = 0.6;
-        final double servoAngleChange = 0.01;
-        double newServoAngle = 0.6;
+    public void init() {
+         motorIncrement = 25;
+         newShooterPower = 0.0;
+        launchServoAngle = 0.6;
+         servoAngleChange = 0.01;
+         newServoAngle = 0.6;
 
-        double turnAngle = 0.8;
-        double newTurnAngle = 0.8;
-        double turnAngleChange = 0.005;
-
+         turnAngle = 0.8;
+ newTurnAngle = 0.8;
+        turnAngleChange = 0.005;
 
 
         frontIntake = hardwareMap.get(CRServo.class, "frontIntake");
@@ -86,11 +95,7 @@ public class ProtypeShooterControl extends LinearOpMode {
         shooterMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
         shooterMotor2 = hardwareMap.get(DcMotorEx.class, "launchMotor");
 
-        shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        shooterMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(6,0,0,11.873);
-        shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
-        shooterMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+
 
         shooterAngle = hardwareMap.get(Servo.class, "launchAngle");
 
@@ -100,7 +105,7 @@ public class ProtypeShooterControl extends LinearOpMode {
 
         limelight.pipelineSwitch(1);
         limelight.start();
-        waitForStart();
+
         frontIntake.setPower(-1);
         frontPass.setPower(-1);
         backIntake.setPower(1);
@@ -112,8 +117,8 @@ public class ProtypeShooterControl extends LinearOpMode {
         launchServoAngle = shooterAngle.getPosition();
         turnAngle = turn.getPosition();
 
-
-        while (opModeIsActive()) {
+    }
+        public void loop() {
 
 
             if (gamepad1.dpadUpWasPressed()) {
@@ -121,9 +126,7 @@ public class ProtypeShooterControl extends LinearOpMode {
             } else if (gamepad1.dpadDownWasPressed()) {
                 newShooterPower -= motorIncrement;
             }
-            PIDFCoefficients pidfCoefficientsop = new PIDFCoefficients(15,0,0,13.29);
-            shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficientsop);
-            shooterMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficientsop);
+
             shooterV = newShooterPower;
             shooterMotor.setVelocity(shooterV);
             shooterMotor2.setVelocity(shooterV);
@@ -163,7 +166,7 @@ public class ProtypeShooterControl extends LinearOpMode {
             telemetry.addData("V2", shooterMotor2.getVelocity());
             telemetry.addData("shooterLaunchPosition", "%.3f", launchServoAngle);
             telemetry.addData("turnAngle", "%.3f", turnAngle);
-            telemetry.addData("getDistance", getDistance());
+//            telemetry.addData("getDistance", getDistance());
             telemetry.update();
 
             LLResult result = limelight.getLatestResult();
@@ -171,18 +174,18 @@ public class ProtypeShooterControl extends LinearOpMode {
         }
     }
 
-    double getDistance() {
-        LLResult result = limelight.getLatestResult();
-        double targetOffsetAngle_Vertical = result.getTy();
+//    double getDistance() {
+//        LLResult result = limelight.getLatestResult();
+//        double targetOffsetAngle_Vertical = result.getTy();
+//
+//        double limelightMountAngleDegrees = 20.0;
+//        double limelightLensHeightInches = 14.5;
+//        double goalHeightInches = 28.5;
+//
+//        double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
+//        double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+//
+//        return (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
+//
+//    }
 
-        double limelightMountAngleDegrees = 20.0;
-        double limelightLensHeightInches = 14.5;
-        double goalHeightInches = 28.5;
-
-        double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
-        double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
-
-        return (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
-
-    }
-}

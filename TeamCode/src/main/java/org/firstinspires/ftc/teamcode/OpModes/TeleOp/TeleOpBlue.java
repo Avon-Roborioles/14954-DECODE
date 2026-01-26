@@ -22,6 +22,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.closeBackSetPointCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.backMiddleSetPointCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
@@ -33,20 +35,13 @@ import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.AutoIntakeCo
 import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoIntakeToLauncher;
 import org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.CompTelemetryCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.DriveCommands.TeleDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.DriveCommands.TeleSlowDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.ManJoystickPassCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeBackToFront;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeFrontToBack;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeStopServoCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeToLauncher;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.ManIntakeToLauncher;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.PukeCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.RunMotor;
-import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
-import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.backSetPointCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.frontSetPointCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.midSetPointCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.backSetPointCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.ManualTurntableCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.limelightTurnCommand;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
@@ -160,15 +155,17 @@ public class TeleOpBlue extends CommandOpMode {
 
         driverOp.getGamepadButton(GamepadKeys.Button.X) // Heading Reset
                 .whenPressed(new InstantCommand(() -> {follower.setPose(new Pose(0, 0, PI));}));
-
-        driverOp.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(new InstantCommand(() -> {
-                    launchAngleServo.setPosition(0);
-                }));
+//
+//        driverOp.getGamepadButton(GamepadKeys.Button.A)
+//                .whenPressed(new InstantCommand(() -> {
+//                    launchAngleServo.setPosition(0);
+//                }));
+//        driverOp.getGamepadButton(GamepadKeys.Button.B)
+//                .whenPressed(new InstantCommand(() -> {
+//                    launchAngleServo.setPosition(0.1);
+//                }));
         driverOp.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(new InstantCommand(() -> {
-                    launchAngleServo.setPosition(0.1);
-                }));
+                .whenPressed(new CancelCommand(intakeSubsystem,launchSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .toggleWhenPressed(new ManIntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
 
@@ -194,10 +191,10 @@ public class TeleOpBlue extends CommandOpMode {
                 .toggleWhenPressed(new ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new limelightTurnCommand(limelightSubsystem, TurnSubsystem,launchSubsystem, false));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
-                .whenPressed(new frontSetPointCommand(launchSubsystem));
+                .whenPressed(new closeBackSetPointCommand(launchSubsystem, TurnSubsystem , false));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(new midSetPointCommand(launchSubsystem));
+                .whenPressed(new backMiddleSetPointCommand(launchSubsystem, TurnSubsystem, false));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new backSetPointCommand(launchSubsystem, TurnSubsystem, false));
