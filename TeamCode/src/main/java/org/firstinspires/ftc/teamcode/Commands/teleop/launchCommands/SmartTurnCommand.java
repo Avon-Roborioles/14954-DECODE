@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class SmartTurnCommand extends CommandBase {
     private OTOsSmartLaunch launchSubsystem;
-    private Timing.Timer timer = new Timing.Timer(500, TimeUnit.MILLISECONDS);
+    private Timing.Timer timer = new Timing.Timer(200, TimeUnit.MILLISECONDS);
 
     public SmartTurnCommand(OTOsSmartLaunch launchSubsystem){
         this.launchSubsystem = launchSubsystem;
