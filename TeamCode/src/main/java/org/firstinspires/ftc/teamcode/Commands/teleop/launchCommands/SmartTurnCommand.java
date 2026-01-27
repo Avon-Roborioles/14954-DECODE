@@ -9,17 +9,13 @@ import java.util.concurrent.TimeUnit;
 
 public class SmartTurnCommand extends CommandBase {
     private OTOsSmartLaunch launchSubsystem;
-    private Timing.Timer timer = new Timing.Timer(200, TimeUnit.MILLISECONDS);
 
-    public SmartTurnCommand(OTOsSmartLaunch launchSubsystem){
+    public SmartTurnCommand(OTOsSmartLaunch launchSubsystem) {
         this.launchSubsystem = launchSubsystem;
         addRequirements(launchSubsystem);
     }
-    public void execute(){
-        timer.start();
+
+    public void initialize() {
         launchSubsystem.turnToGoal();
-    }
-    public boolean isFinished(){
-        return timer.done();
     }
 }

@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.OpModes.TeleOp;
 
 import static java.lang.Math.PI;
 
+import android.widget.ToggleButton;
+
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -94,12 +96,13 @@ public class TestMyMath extends CommandOpMode {
         launchSubsystem = new OTOsSmartLaunch(turnServo, follower, launchMotor, launchMotor2, launchAngleServo, true); // boolean is isRed
 
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                        .whenPressed(new ManIntakeToLauncher(intakeSubsystem));
+                        .toggleWhenPressed(new ManIntakeToLauncher(intakeSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                        .whenPressed(new PukeCommand(intakeSubsystem));
+                        .toggleWhenPressed(new PukeCommand(intakeSubsystem));
 
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new SmartLaunchSequence(launchSubsystem));
+
         driverOp.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new InstantCommand(() -> {
                     launchSubsystem.changeMode();

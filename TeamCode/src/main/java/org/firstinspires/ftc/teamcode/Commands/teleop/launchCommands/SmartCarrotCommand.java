@@ -9,17 +9,12 @@ import java.util.concurrent.TimeUnit;
 
 public class SmartCarrotCommand extends CommandBase {
     private OTOsSmartLaunch launchSubsystem;
-    private Timing.Timer timer = new Timing.Timer(100, TimeUnit.MILLISECONDS);
 
     public SmartCarrotCommand(OTOsSmartLaunch launchSubsystem){
         this.launchSubsystem = launchSubsystem;
         addRequirements(launchSubsystem);
     }
-    public void execute(){
-        timer.start();
+    public void initialize(){
         launchSubsystem.setCarrot();
-    }
-    public boolean isFinished(){
-        return timer.done();
     }
 }
