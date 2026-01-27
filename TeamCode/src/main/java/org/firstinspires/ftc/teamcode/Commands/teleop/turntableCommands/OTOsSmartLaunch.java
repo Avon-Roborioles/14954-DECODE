@@ -39,13 +39,12 @@ public class OTOsSmartLaunch extends SubsystemBase {
         double y = currentPos.getY();
         double xd = goal.getX() - x;
         double yd = goal.getY() - y;
+        double chassisAngle = currentPos.getHeading();
         //vectors by components
         double angleFromChassisToGoal = Math.tan(yd/xd);
-        //resets heading
-//        follower.setPose(new Pose(x, y, PI/2));
         // 5 rotations = 1800 degrees = 10pi radians
         // .832 is when the servo faces pi/2 on the coordinate field
-        double angleToTurn = PI/2 - angleFromChassisToGoal;
+        double angleToTurn = chassisAngle - angleFromChassisToGoal;
         if(isRed) {
             turnservo.setPosition(0.832 - (angleToTurn / (10 * PI)));
         } else {
