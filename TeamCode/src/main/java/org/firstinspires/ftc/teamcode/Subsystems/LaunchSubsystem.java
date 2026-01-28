@@ -17,6 +17,7 @@ public class LaunchSubsystem extends SubsystemBase {
     private Servo launchAngleServo;
     private Servo turnServo;
     private CRServo launchServo;
+    private double motorBoostSpeed = 0;
     private final double ANGLE_SERVO_ZERO = 0.6;
 
     // Default starting value
@@ -48,7 +49,7 @@ public class LaunchSubsystem extends SubsystemBase {
         this.launchServo = launchServo;
         this.launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.launchMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(10,0,0,13);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(10,0,0,12.2);
         this.launchMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         this.launchMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         //13.29, 15
@@ -58,6 +59,9 @@ public class LaunchSubsystem extends SubsystemBase {
 
     // --- MATH FROM NewLauncher ---
 
+    public double getTargetRPM(){
+        return TargetRPM;
+    }
     public void setTargetRPM(double distance){
         TargetRPM = ((distance * 6) + 775);
 
@@ -69,11 +73,19 @@ public class LaunchSubsystem extends SubsystemBase {
     public double distanceToHoodAngle(double distance){
         return (-0.00000004 * distance * distance + 0.0005 * distance +0.0494);
     }
+    public void correctSpeed(){
+        double currentSpeed = (launchMotor.getVelocity() + -launchMotor2.getVelocity()) /2;
+        motorBoostSpeed = TargetRPM - currentSpeed;
+    }
 
     public void closeBackSetPoint(){
         double Position;
-        launchMotor.setVelocity(1800);
-        launchMotor2.setVelocity(-1800);
+        TargetRPM = 1800;
+        double correctedSpeed = TargetRPM + motorBoostSpeed;
+
+
+        launchMotor.setVelocity(correctedSpeed);
+        launchMotor2.setVelocity(-correctedSpeed);
         Position = ANGLE_SERVO_ZERO - 0.08;
         launchAngleServo.setPosition(Position);
 
@@ -82,24 +94,36 @@ public class LaunchSubsystem extends SubsystemBase {
 
    public void backMiddleSetPoint(){
        double Position;
-       launchMotor.setVelocity(1850);
-       launchMotor2.setVelocity(-1850);
+       TargetRPM = 1850;
+       double correctedSpeed = TargetRPM + motorBoostSpeed;
+
+
+       launchMotor.setVelocity(correctedSpeed);
+       launchMotor2.setVelocity(-correctedSpeed);
        Position = ANGLE_SERVO_ZERO - 0.08;
        launchAngleServo.setPosition(Position);
 
+
+   }
+   public void updateSpeed(){
 
    }
     public void backSetPoint(boolean auto){
         double Position;
 
         if (auto){
-            launchMotor.setVelocity(1825);
-            launchMotor2.setVelocity(-1825);
+            TargetRPM = 1825;
+            launchMotor.setVelocity(1850);
+            launchMotor2.setVelocity(-1850);
             Position = ANGLE_SERVO_ZERO - 0.1;
             launchAngleServo.setPosition(Position);
         } else {
-            launchMotor.setVelocity(1850);
-            launchMotor2.setVelocity(-1850);
+            TargetRPM = 1850;
+            double correctedSpeed = TargetRPM + motorBoostSpeed;
+
+
+            launchMotor.setVelocity(correctedSpeed);
+            launchMotor2.setVelocity(-correctedSpeed);
             Position = ANGLE_SERVO_ZERO - 0.08;
             launchAngleServo.setPosition(Position);
         }
@@ -108,15 +132,23 @@ public class LaunchSubsystem extends SubsystemBase {
     }
     public void midSetPoint() {
         double Position;
-        launchMotor.setVelocity(1500);
-        launchMotor2.setVelocity(-1500);
+        TargetRPM = 1500;
+        double correctedSpeed = TargetRPM + motorBoostSpeed;
+
+
+        launchMotor.setVelocity(correctedSpeed);
+        launchMotor2.setVelocity(-correctedSpeed);
         Position = ANGLE_SERVO_ZERO - 0.04;
         launchAngleServo.setPosition(Position); //0.03 //0.10 //correct 1500: 0.03
     }
     public void frontSetPoint(){
         double Position;
-        launchMotor.setVelocity(1350);
-        launchMotor2.setVelocity(-1350);
+        TargetRPM = 1850;
+        double correctedSpeed = TargetRPM + motorBoostSpeed;
+
+
+        launchMotor.setVelocity(correctedSpeed);
+        launchMotor2.setVelocity(-correctedSpeed);
         Position = ANGLE_SERVO_ZERO - 0.02;
         launchAngleServo.setPosition(Position); //0.06 //0.07 // correct 1300: 0.06 // 1.2
     }
@@ -170,7 +202,7 @@ public class LaunchSubsystem extends SubsystemBase {
     public void getTelemetry(Telemetry telemetry){
         telemetry.addData("V1", launchMotor.getVelocity());
         telemetry.addData("V2 ", launchMotor2.getVelocity());
-        telemetry.addData("Vavg ",(launchMotor.getVelocity() + launchMotor2.getVelocity())/2);
+        telemetry.addData("Vavg ",(launchMotor.getVelocity() + -launchMotor2.getVelocity())/2);
         telemetry.addData("Target RPM", TargetRPM);
         telemetry.addData("Target Angle (Deg)", Angle);
         telemetry.addData("Servo Pos", launchAngleServo.getPosition());
@@ -180,7 +212,8 @@ public class LaunchSubsystem extends SubsystemBase {
 
         telemetry.addData("V1", launchMotor.getVelocity());
         telemetry.addData("V2 ", launchMotor2.getVelocity());
-        telemetry.addData("Vavg ",(launchMotor.getVelocity() + launchMotor2.getVelocity())/2);
+        telemetry.addData("Vavg ",(launchMotor.getVelocity() + -launchMotor2.getVelocity())/2);
+        telemetry.addData("correctedSpeed", motorBoostSpeed);
         telemetry.addData("Target RPM", TargetRPM);
         telemetry.addData("Target Angle (Deg)", Angle);
         telemetry.addData("Servo Pos", launchAngleServo.getPosition());

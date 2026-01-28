@@ -22,6 +22,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.CorrectMotorSpeedCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.closeBackSetPointCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.backMiddleSetPointCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
@@ -155,6 +156,9 @@ public class TeleOpBlue extends CommandOpMode {
 
         driverOp.getGamepadButton(GamepadKeys.Button.X) // Heading Reset
                 .whenPressed(new InstantCommand(() -> {follower.setPose(new Pose(0, 0, PI));}));
+
+        driverOp.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(new CorrectMotorSpeedCommand(launchSubsystem));
 //
 //        driverOp.getGamepadButton(GamepadKeys.Button.A)
 //                .whenPressed(new InstantCommand(() -> {

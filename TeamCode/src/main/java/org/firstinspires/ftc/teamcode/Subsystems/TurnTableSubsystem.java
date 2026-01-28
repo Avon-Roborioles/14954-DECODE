@@ -27,12 +27,12 @@ public class TurnTableSubsystem extends SubsystemBase {
     // private double servoPos = 0.08;
 
     // Define the limits for your servo
-    private static final double MIN_POS = 0.13;
-    private static final double MAX_POS = 0.55;
+    private static final double MIN_POS = 0.67;
+    private static final double MAX_POS = 1;
     private double angleOffset = 201.72+3.78;
     private double pos = 0.3;
     // Proportional gain for turning. Tune this value.
-    private static final double Kp = 0.002;
+    private static final double Kp = -0.0002;
     private static final double MANUAL_SPEED_MULTIPLIER = 0.003;
 
     //0.0
@@ -44,7 +44,7 @@ public class TurnTableSubsystem extends SubsystemBase {
 
     public void AutoBackSetPoints(boolean redAlliance){
         if (redAlliance){
-            turntable.setPosition(0.80);
+            turntable.setPosition(0.81);
         } else if (!redAlliance){
             turntable.setPosition(0.8525);
         }

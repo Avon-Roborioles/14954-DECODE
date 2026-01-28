@@ -11,10 +11,10 @@ public class SmartLaunchSequence extends SequentialCommandGroup {
 
     public SmartLaunchSequence(OTOsSmartLaunch launchSubsystem){
         addCommands(
-                new SmartTurnCommand(launchSubsystem),
-                new SmartCarrotCommand(launchSubsystem),
+                new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.SmartTurnCommand(launchSubsystem),
+                new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.SmartCarrotCommand(launchSubsystem),
                 wait,
-                new SmartLaunchCommand(launchSubsystem)
+                new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.SmartLaunchCommand(launchSubsystem)
         );
     }
 

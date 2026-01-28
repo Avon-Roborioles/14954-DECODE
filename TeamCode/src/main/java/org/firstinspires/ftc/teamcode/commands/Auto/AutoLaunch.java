@@ -23,12 +23,12 @@ public class AutoLaunch extends SequentialCommandGroup {
 
         addCommands(
 
-                new IntakeStopServoCommand(intakeSubsystem),
-                new AutoIntakeToLauncher(intakeSubsystem),
-                new AutoFrontToCenter(intakeSubsystem),
-                new AutoIntakeToLauncher(intakeSubsystem),
-                new AutoBackToCenter(intakeSubsystem),
-                new AutoIntakeToLauncher(intakeSubsystem)
+                new IntakeStopServoCommand(intakeSubsystem)
+//                new AutoIntakeToLauncher(intakeSubsystem),
+//                new AutoFrontToCenter(intakeSubsystem),
+//                new AutoIntakeToLauncher(intakeSubsystem),
+//                new AutoBackToCenter(intakeSubsystem),
+//                new AutoIntakeToLauncher(intakeSubsystem)
 
         );
 

@@ -21,8 +21,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.CorrectMotorSpeedCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.closeBackSetPointCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.backMiddleSetPointCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
@@ -63,6 +65,7 @@ public class TeleOpRed extends CommandOpMode {
     private TelemetryManager telemetryM;
     private GamepadEx driverOp;
     private GamepadEx operatorOp;
+
 
     // launcher variables
     private DcMotorEx launchMotor, launchMotor2;
@@ -131,6 +134,7 @@ public class TeleOpRed extends CommandOpMode {
         mSensor.setMode(DigitalChannel.Mode.INPUT);
         bSensor.setMode(DigitalChannel.Mode.INPUT);
 
+
         //Subsystems
         distanceSubsystem = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intakeSubsystem = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
@@ -158,6 +162,9 @@ public class TeleOpRed extends CommandOpMode {
 
         driverOp.getGamepadButton(GamepadKeys.Button.X) // Heading Reset
                 .whenPressed(new InstantCommand(() -> {follower.setPose(new Pose(0, 0, PI));}));
+
+        driverOp.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(new CorrectMotorSpeedCommand(launchSubsystem));
 
 //        driverOp.getGamepadButton(GamepadKeys.Button.A)
 //                        .whenPressed(new InstantCommand(() -> {
