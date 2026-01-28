@@ -92,7 +92,7 @@ public class BackRed_1 extends AutoBase{
                     new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry),
                     new SequentialCommandGroup(
                             new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,true),
-                            new org.firstinspires.ftc.teamcode.commands.Auto.AutoLaunch(distance, intake, launch, telemetry),
+                            new org.firstinspires.ftc.teamcode.Commands.Auto.AutoLaunch(distance, intake, launch, telemetry),
                             new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
                             PrepareToGrab1,
                             new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry)

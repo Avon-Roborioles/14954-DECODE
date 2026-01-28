@@ -24,7 +24,7 @@ public class AutoIntakeToLauncherV2 extends SequentialCommandGroup {
         if (f && m && b) {
             addCommands(
 //                    new autoStateMachineTelmetry(telemetry,"All 3"),
-                    new org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeStopServoCommand(intakeSubsystem),
+                    new org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand(intakeSubsystem),
                     new org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeToLauncher(intakeSubsystem)
 //
 
@@ -41,7 +41,7 @@ public class AutoIntakeToLauncherV2 extends SequentialCommandGroup {
         } else if (!f && m && !b) {
             addCommands(
 //                    new autoStateMachineTelmetry(telemetry,"Middle Only"),
-                    new org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeStopServoCommand(intakeSubsystem),
+                    new org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand(intakeSubsystem),
                     new org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeToLauncher(intakeSubsystem)
             );
 
@@ -49,7 +49,7 @@ public class AutoIntakeToLauncherV2 extends SequentialCommandGroup {
         } else if (!f && !m && b) {
             addCommands(
 //                    new autoStateMachineTelmetry(telemetry,"Back Only"),
-                    new org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeStopServoCommand(intakeSubsystem),
+                    new org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand(intakeSubsystem),
                     new org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeBackToCenter(intakeSubsystem, distanceSubsystem)
             );
 
@@ -57,7 +57,7 @@ public class AutoIntakeToLauncherV2 extends SequentialCommandGroup {
         } else if (f && m && !b) {
             addCommands(
 //                    new autoStateMachineTelmetry(telemetry,"Front + Middle"),
-                    new org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeStopServoCommand(intakeSubsystem),
+                    new org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand(intakeSubsystem),
                     new org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeToLauncher(intakeSubsystem)
             );
 
@@ -65,7 +65,7 @@ public class AutoIntakeToLauncherV2 extends SequentialCommandGroup {
         } else if (!f && m && b) {
             addCommands(
 //                    new autoStateMachineTelmetry(telemetry,"Middle and Back "),
-                    new org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeStopServoCommand(intakeSubsystem),
+                    new org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand(intakeSubsystem),
                     new org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeToLauncher(intakeSubsystem)
             );
 
@@ -73,7 +73,7 @@ public class AutoIntakeToLauncherV2 extends SequentialCommandGroup {
         } else if (f && !m && b) {
             addCommands(
 //                    new autoStateMachineTelmetry(telemetry,"Front and Back"),
-                    new org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeStopServoCommand(intakeSubsystem),
+                    new org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand(intakeSubsystem),
                     new org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeBackToCenter(intakeSubsystem, distanceSubsystem)
 
             );
@@ -81,7 +81,7 @@ public class AutoIntakeToLauncherV2 extends SequentialCommandGroup {
             // ALL 3
         } else if (!f && !m && !b) {
             addCommands(
-                    new org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeStopServoCommand(intakeSubsystem)
+                    new org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand(intakeSubsystem)
             );
         }
     }
