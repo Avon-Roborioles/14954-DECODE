@@ -1,14 +1,17 @@
-package org.firstinspires.ftc.teamcode.commands.Auto;
+package org.firstinspires.ftc.teamcode.Commands.Auto;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Commands.Auto.AutoBackToCenter;
+import org.firstinspires.ftc.teamcode.Commands.Auto.AutoFrontToCenter;
+import org.firstinspires.ftc.teamcode.Commands.Auto.AutoIntakeToLauncher;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeBackToCenter;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeFrontToCenterAndUp;
-import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeStopServoCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.IntakeToLauncher;
 
 public class AutoLaunch extends SequentialCommandGroup {
@@ -23,12 +26,12 @@ public class AutoLaunch extends SequentialCommandGroup {
 
         addCommands(
 
-                new IntakeStopServoCommand(intakeSubsystem)
-//                new AutoIntakeToLauncher(intakeSubsystem),
-//                new AutoFrontToCenter(intakeSubsystem),
-//                new AutoIntakeToLauncher(intakeSubsystem),
-//                new AutoBackToCenter(intakeSubsystem),
-//                new AutoIntakeToLauncher(intakeSubsystem)
+                new IntakeStopServoCommand(intakeSubsystem),
+                new AutoIntakeToLauncher(intakeSubsystem),
+                new AutoFrontToCenter(intakeSubsystem),
+                new AutoIntakeToLauncher(intakeSubsystem),
+                new AutoBackToCenter(intakeSubsystem),
+                new AutoIntakeToLauncher(intakeSubsystem)
 
         );
 

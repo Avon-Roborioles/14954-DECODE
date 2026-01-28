@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.commands.Auto;
+package org.firstinspires.ftc.teamcode.Commands.Auto;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.util.Timing;
@@ -18,7 +18,7 @@ public class AutoBackToCenter extends CommandBase {
 
     }
     public void initialize(){
-        timer = new Timing.Timer(5000, TimeUnit.MILLISECONDS);
+        timer = new Timing.Timer(1000, TimeUnit.MILLISECONDS);
         timer.start();
     }
     @Override
