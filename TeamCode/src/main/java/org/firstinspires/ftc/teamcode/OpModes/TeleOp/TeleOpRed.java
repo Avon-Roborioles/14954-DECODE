@@ -153,6 +153,8 @@ public class TeleOpRed extends CommandOpMode {
 
 
 
+        driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .toggleWhenPressed(new ManIntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
 
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenHeld(new InstantCommand(() -> {
@@ -176,8 +178,6 @@ public class TeleOpRed extends CommandOpMode {
 //                }));
         driverOp.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new CancelCommand(intakeSubsystem,launchSubsystem));
-        operatorOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .toggleWhenPressed(new ManIntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
 
 
 

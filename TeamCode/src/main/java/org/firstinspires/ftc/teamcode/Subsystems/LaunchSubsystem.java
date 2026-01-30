@@ -80,7 +80,7 @@ public class LaunchSubsystem extends SubsystemBase {
 
     public void closeBackSetPoint(){
         double Position;
-        TargetRPM = 1800;
+        TargetRPM = 1750;
         double correctedSpeed = TargetRPM + motorBoostSpeed;
 
 
@@ -94,7 +94,7 @@ public class LaunchSubsystem extends SubsystemBase {
 
    public void backMiddleSetPoint(){
        double Position;
-       TargetRPM = 1850;
+       TargetRPM = 1800;
        double correctedSpeed = TargetRPM + motorBoostSpeed;
 
 
@@ -112,10 +112,10 @@ public class LaunchSubsystem extends SubsystemBase {
         double Position;
 
         if (auto){
-            TargetRPM = 1825;
-            launchMotor.setVelocity(1850);
-            launchMotor2.setVelocity(-1850);
-            Position = ANGLE_SERVO_ZERO - 0.1;
+            TargetRPM = 1800;
+            launchMotor.setVelocity(1750);
+            launchMotor2.setVelocity(-1750);
+            Position = ANGLE_SERVO_ZERO - 0.08;
             launchAngleServo.setPosition(Position);
         } else {
             TargetRPM = 1850;
@@ -183,6 +183,7 @@ public class LaunchSubsystem extends SubsystemBase {
     // UPDATED: Now correctly updates the boolean flag
     public void stopMotor(){
         isRunning = false;
+        TargetRPM = 0;
         launchMotor.setPower(0);
         launchMotor2.setPower(0);
         launchAngleServo.setPosition(ANGLE_SERVO_ZERO);

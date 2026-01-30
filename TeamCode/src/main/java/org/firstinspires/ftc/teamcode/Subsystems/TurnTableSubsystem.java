@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 public class TurnTableSubsystem extends SubsystemBase {
     private Servo turntable;
+    private final double TURN_TABLE_ZERO = 0.7;
     private Limelight3A limelight3A;
     private IMU imu;
     private LLResult result;
@@ -27,8 +28,9 @@ public class TurnTableSubsystem extends SubsystemBase {
     // private double servoPos = 0.08;
 
     // Define the limits for your servo
-    private static final double MIN_POS = 0.67;
-    private static final double MAX_POS = 1;
+    private static final double MIN_POS = 0.5;
+    private static final double MAX_POS = 0.88;
+    // Zero 0.7
     private double angleOffset = 201.72+3.78;
     private double pos = 0.3;
     // Proportional gain for turning. Tune this value.
@@ -44,30 +46,30 @@ public class TurnTableSubsystem extends SubsystemBase {
 
     public void AutoBackSetPoints(boolean redAlliance){
         if (redAlliance){
-            turntable.setPosition(0.81);
+            turntable.setPosition(0.665);
         } else if (!redAlliance){
-            turntable.setPosition(0.8525);
+            turntable.setPosition(0.735);
         }
     }
     public void BackSetPoints(boolean redAlliance){
         if (redAlliance){
-            turntable.setPosition(0.795);
+            turntable.setPosition(0.625);
         } else if (!redAlliance){
-            turntable.setPosition(0.93);
+            turntable.setPosition(0.765);
         }
     }
     public void BackMiddleSetPoints(boolean redAlliance){
         if (redAlliance){
-            turntable.setPosition(0.81);
+            turntable.setPosition(0.635);
         } else if (!redAlliance){
-            turntable.setPosition(0.915);
+            turntable.setPosition(0.745);
         }
     }
     public void closeBackSetPoints(boolean redAlliance){
         if (redAlliance){
-            turntable.setPosition(0.82);
+            turntable.setPosition(0.665);
         } else if (!redAlliance){
-            turntable.setPosition(0.895);
+            turntable.setPosition(0.74);
         }
     }
     public void FrontSetPoints(boolean redAlliance){
