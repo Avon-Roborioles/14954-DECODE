@@ -138,7 +138,7 @@ public class LaunchSubsystem extends SubsystemBase {
 
         launchMotor.setVelocity(correctedSpeed);
         launchMotor2.setVelocity(-correctedSpeed);
-        Position = ANGLE_SERVO_ZERO - 0.04;
+        Position = ANGLE_SERVO_ZERO - 0.03;
         launchAngleServo.setPosition(Position); //0.03 //0.10 //correct 1500: 0.03
     }
     public void frontSetPoint(){

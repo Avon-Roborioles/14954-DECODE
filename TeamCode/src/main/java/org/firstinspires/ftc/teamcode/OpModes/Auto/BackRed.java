@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.CommandGroupBase;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -124,7 +125,8 @@ public void runOpMode(){
                     new AutoDriveCommand(autoDriveSubsystem, telemetry),
 
                     new ParallelCommandGroup(
-                            new AutoIntakeCommand(distance,intake),
+                            new AutoIntakeCommand(distance,intake).withTimeout(5000),
+
                             GrabSet1,
                             new AutoDriveCommand(autoDriveSubsystem, telemetry)
                     ),

@@ -24,9 +24,12 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Commands.Auto.AutoLaunch;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.CorrectMotorSpeedCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.closeBackSetPointCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.backMiddleSetPointCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.midSetPointCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.TeleOpIntakeCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
@@ -157,9 +160,9 @@ public class TeleOpRed extends CommandOpMode {
                 .toggleWhenPressed(new ManIntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
 
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenHeld(new InstantCommand(() -> {
-                    new AutoIntakeToLauncher(distanceSubsystem, intakeSubsystem, launchSubsystem, telemetry).schedule();
-                }));
+                .whenPressed(
+                        new AutoLaunch(distanceSubsystem,intakeSubsystem,launchSubsystem,telemetry))
+        ;
 
 
         driverOp.getGamepadButton(GamepadKeys.Button.X) // Heading Reset
@@ -194,7 +197,7 @@ public class TeleOpRed extends CommandOpMode {
                 .whenHeld(new PukeCommand(intakeSubsystem))
                 .whenReleased(new IntakeStopServoCommand(intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(new AutoIntakeCommand(distanceSubsystem,intakeSubsystem));
+                .whenPressed(new TeleOpIntakeCommand(distanceSubsystem,intakeSubsystem));
 
         TurnSubsystem.setDefaultCommand(new PerpetualCommand(new limelightTurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem, true)));
 
@@ -209,6 +212,9 @@ public class TeleOpRed extends CommandOpMode {
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new backSetPointCommand(launchSubsystem, TurnSubsystem, true));
+
+        operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                        .whenPressed(new midSetPointCommand(launchSubsystem,TurnSubsystem));
 
 
         intakeSubsystem.setDefaultCommand(new ManJoystickPassCommand(intakeSubsystem, operatorOp::getRightY));

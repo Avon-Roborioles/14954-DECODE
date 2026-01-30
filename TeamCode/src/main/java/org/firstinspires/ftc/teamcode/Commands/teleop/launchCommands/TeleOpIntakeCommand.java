@@ -1,24 +1,27 @@
-package org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups;
+package org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands;
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 
 import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeFinal;
+import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeOnlyCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeSide;
+import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.PassToCenter;
+import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.PassToOtherSide;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
-import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.*;
 
-public class AutoIntakeCommand extends SequentialCommandGroup {
+public class TeleOpIntakeCommand extends SequentialCommandGroup {
 
-    public AutoIntakeCommand(DistanceSubsystem distanceSubsystem, IntakeSubsystem intakeSubsystem) {
+    public TeleOpIntakeCommand(DistanceSubsystem distanceSubsystem, IntakeSubsystem intakeSubsystem) {
         addCommands(
                 new IntakeStopServoCommand(intakeSubsystem),
                 new IntakeOnlyCommand(intakeSubsystem, distanceSubsystem),
                 new PassToOtherSide(intakeSubsystem, distanceSubsystem),
                 new IntakeSide(intakeSubsystem,distanceSubsystem),
                 new PassToCenter(intakeSubsystem,distanceSubsystem),
-                new IntakeFinal(intakeSubsystem, distanceSubsystem),
-                new WaitCommand(5000)
+                new IntakeFinal(intakeSubsystem, distanceSubsystem)
         );
 
         // CRITICAL FIX: Do NOT require the subsystem here.
@@ -28,5 +31,4 @@ public class AutoIntakeCommand extends SequentialCommandGroup {
     }
 
 
-    }
-
+}

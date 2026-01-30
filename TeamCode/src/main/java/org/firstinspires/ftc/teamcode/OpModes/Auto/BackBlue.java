@@ -37,19 +37,26 @@ public class BackBlue extends AutoBase {
 
     Pose startPose = new Pose(82, 7, Math.toRadians(0));
     Pose launchPreloadPose = new Pose(86, 14, Math.toRadians(35));
-    Pose prepGrab1Pose = new Pose(82, 29, Math.toRadians(0));
-    Pose grab1Pose = new Pose(47, 32, Math.toRadians(0));
-    Pose midpointPose = new Pose(82, 29, Math.toRadians(0));
-    Pose launch1Pose = new Pose(88.8, 14, Math.toRadians(35));
+    Pose prepGrab1Pose = new Pose(82, 33, Math.toRadians(0));
+    Pose grab1Pose = new Pose(47, 33, Math.toRadians(0));
+    Pose midpointPose = new Pose(80, 33, Math.toRadians(0));
+    Pose launch1Pose = new Pose(82, 10, Math.toRadians(0));
     Pose prepGrab2Pose = new Pose(99, 36, Math.toRadians(0));
     Pose grab2Pose = new Pose(126, 60, Math.toRadians(0));
     Pose midpoint2Pose = new Pose(73, 36, Math.toRadians(90));
     Pose launch2Pose = new Pose(66, 80, Math.toRadians(125));
-    Pose leavePose = new Pose(83, 44, Math.toRadians(0));
+    Pose leavePose = new Pose(83, 24, Math.toRadians(0));
 
 
     @Override
     public void initialize() {
+
+    }
+
+
+    public void runOpMode(){
+        initialize();
+        waitForStart();
         makeAuto();
         buildPath();
         register();
@@ -59,18 +66,22 @@ public class BackBlue extends AutoBase {
         });
 
         PrepareToGrab1 = new InstantCommand(() -> {
+            follower.setMaxPower(0.6);
             autoDriveSubsystem.followPath(prepGrab1, true);
         });
 
         GrabSet1 = new InstantCommand(() -> {
+            follower.setMaxPower(0.35);
             autoDriveSubsystem.followPath(grab1, true);
         });
 
         MoveToMidpoint = new InstantCommand(() -> {
+            follower.setMaxPower(0.5);
             autoDriveSubsystem.followPath(midpoint, true);
         });
 
         MoveToLaunch1 = new InstantCommand(() -> {
+            follower.setMaxPower(0.55);
             autoDriveSubsystem.followPath(Launch1, true);
         });
         PrepareToGrab2 = new InstantCommand(() -> {
@@ -93,6 +104,7 @@ public class BackBlue extends AutoBase {
         });
 
         leave = new InstantCommand(() -> {
+            follower.setMaxPower(0.5);
             autoDriveSubsystem.followPath(Leave, true);
         });
 
@@ -106,17 +118,22 @@ public class BackBlue extends AutoBase {
                         new AutoBackSetPoint(launch,turnTableSubsystem,false),
                         new AutoLaunch(distance, intake, launch, telemetry),
                         new StopMotor(launch),
-PrepareToGrab1,
-new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        PrepareToGrab1,
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
                         new ParallelCommandGroup(
-                                new AutoIntakeCommand(distance,intake),
+                                new AutoIntakeCommand(distance,intake).withTimeout(5000),
                                 GrabSet1,
                                 new AutoDriveCommand(autoDriveSubsystem, telemetry)
                         ),
-MoveToMidpoint,
-new AutoDriveCommand(autoDriveSubsystem, telemetry)
-//                        leave,
-//                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                        MoveToMidpoint,
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        MoveToLaunch1,
+                        new AutoDriveCommand(autoDriveSubsystem,telemetry),
+                        new AutoBackSetPoint(launch,turnTableSubsystem,false),
+                        new AutoLaunch(distance,intake,launch,telemetry),
+                        new StopMotor(launch),
+                        leave,
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
 
 
 
@@ -134,10 +151,12 @@ new AutoDriveCommand(autoDriveSubsystem, telemetry)
 
                 number5IsAlive
 
-                ));
+        ));
+        while (opModeIsActive()&& !isStopRequested()){
+            run();
+        }
+
     }
-
-
     public void makeAuto(){
         //hardware map init
         follower = Constants.createFollower(hardwareMap);
@@ -202,8 +221,8 @@ new AutoDriveCommand(autoDriveSubsystem, telemetry)
 
 
         //launch1
-        Launch1 = new Path(new BezierCurve(grab1Pose, launch1Pose));
-        Launch1.setLinearHeadingInterpolation(grab1Pose.getHeading(), launch1Pose.getHeading());
+        Launch1 = new Path(new BezierCurve(midpointPose, launch1Pose));
+        Launch1.setLinearHeadingInterpolation(midpointPose.getHeading(), launch1Pose.getHeading());
         Launch1.setTimeoutConstraint(250);
 
         //prepGrab2
