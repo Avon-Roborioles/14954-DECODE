@@ -16,6 +16,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Commands.Auto.AutoCommands.AutoPlanBCommand;
 import org.firstinspires.ftc.teamcode.Commands.Auto.AutoCommands.AutoSpeedChange;
+import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
@@ -35,115 +36,133 @@ public class BackRed extends AutoBase{
     Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;
     Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
 
-    Pose startPose = new Pose(64, 7, Math.toRadians(0));
+
+    Pose startPose = new Pose(66, 7, Math.toRadians(0));
     Pose launchPreloadPose = new Pose(60, 10, Math.toRadians(-25));
-    Pose prepGrab1Pose = new Pose(70, 30.5, Math.toRadians(0)); //33y too far
-    Pose grab1Pose = new Pose(120, 30.5, Math.toRadians(0));
+    Pose prepGrab1Pose = new Pose(70, 29.5, Math.toRadians(0)); //33y too far
+    Pose grab1Pose = new Pose(104, 29.5, Math.toRadians(0));
     Pose midpointPose = new Pose(67, 30, Math.toRadians(0));
-    Pose launch1Pose = new Pose(64, 9, Math.toRadians(0));
+    Pose launch1Pose = new Pose(66, 9, Math.toRadians(0));
     Pose prepGrab2Pose = new Pose(45, 60, Math.toRadians(180));
     Pose grab2Pose = new Pose(16, 60, Math.toRadians(180));
     Pose midpoint2Pose = new Pose(71, 60, Math.toRadians(90));
     Pose launch2Pose = new Pose(80, 81, Math.toRadians(45));
-    Pose leavePose = new Pose(65, 44, Math.toRadians(-180));
+    Pose leavePose = new Pose(65, 24, Math.toRadians(-180));
+
+@Override
+public void initialize(){
+
+}
 
 
-    @Override
-    public void initialize() {
-        makeAuto();
-        buildPath();
-        register();
+@Override
+public void runOpMode(){
+    initialize();
 
-        MoveLaunchPreload = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(launchPreload, true);
-        });
+        waitForStart();
+    makeAuto();
+    buildPath();
+    register();
 
-        PrepareToGrab1 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(prepGrab1, true);
-        });
+    MoveLaunchPreload = new InstantCommand(() -> {
+        autoDriveSubsystem.followPath(launchPreload, true);
+    });
 
-        GrabSet1 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(grab1, true);
-        });
+    PrepareToGrab1 = new InstantCommand(() -> {
+        follower.setMaxPower(0.6);
+        autoDriveSubsystem.followPath(prepGrab1, true);
+    });
 
-        MoveToMidpoint = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(midpoint, true);
-        });
+    GrabSet1 = new InstantCommand(() -> {
+        follower.setMaxPower(0.35);
+        autoDriveSubsystem.followPath(grab1, true);
+    });
 
-        MoveToLaunch1 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(Launch1, true);
-        });
-        PrepareToGrab2 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(prepGrab2, true);
-        });
+    MoveToMidpoint = new InstantCommand(() -> {
+        follower.setMaxPower(0.5);
+        autoDriveSubsystem.followPath(midpoint, true);
+    });
 
-
-        GrabSet2 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(grab2, true);
-        });
-
-
-        MoveToMidPoint2 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(midpoint2, true);
-        });
+    MoveToLaunch1 = new InstantCommand(() -> {
+        follower.setMaxPower(0.55);
+        autoDriveSubsystem.followPath(Launch1, true);
+    });
+    PrepareToGrab2 = new InstantCommand(() -> {
+        autoDriveSubsystem.followPath(prepGrab2, true);
+    });
 
 
-        MoveToLaunch2 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(launch2, true);
-        });
-
-        leave = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(Leave, true);
-        });
+    GrabSet2 = new InstantCommand(() -> {
+        autoDriveSubsystem.followPath(grab2, true);
+    });
 
 
-
-        SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
-                new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                new SequentialCommandGroup(
-                        new AutoBackSetPoint(launch,turnTableSubsystem,true),
-                        new AutoPlanBCommand(intake),
-                        new StopMotor(launch),
-                        PrepareToGrab1,
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-//                        new AutoSpeedChange(autoDriveSubsystem, 0.35),
+    MoveToMidPoint2 = new InstantCommand(() -> {
+        autoDriveSubsystem.followPath(midpoint2, true);
+    });
 
 
-                        new ParallelCommandGroup(
-                                new AutoIntakeCommand(distance,intake),
-                                GrabSet1,
-                                new AutoDriveCommand(autoDriveSubsystem, telemetry)
-                        ),
-                        MoveToMidpoint,
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                        MoveToLaunch1,
-                        new AutoDriveCommand(autoDriveSubsystem,telemetry),
-                        new AutoBackSetPoint(launch,turnTableSubsystem,true),
-                        new AutoPlanBCommand(intake),
-                        new StopMotor(launch),
-                        leave,
-                        new AutoDriveCommand(autoDriveSubsystem,telemetry)
+    MoveToLaunch2 = new InstantCommand(() -> {
+        autoDriveSubsystem.followPath(launch2, true);
+    });
+
+    leave = new InstantCommand(() -> {
+        follower.setMaxPower(0.5);
+        autoDriveSubsystem.followPath(Leave, true);
+    });
 
 
 
+    SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
+            new IntakeStopServoCommand(intake),
+            new AutoDriveCommand(autoDriveSubsystem, telemetry),
+            new SequentialCommandGroup(
+                    new AutoBackSetPoint(launch,turnTableSubsystem,true),
+                    new AutoLaunch(distance,intake,launch,telemetry),
+                    new StopMotor(launch),
+                    PrepareToGrab1,
+                    new AutoDriveCommand(autoDriveSubsystem, telemetry),
+
+                    new ParallelCommandGroup(
+                            new AutoIntakeCommand(distance,intake),
+                            GrabSet1,
+                            new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                    ),
+                    MoveToMidpoint,
+                    new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                    MoveToLaunch1,
+                    new AutoDriveCommand(autoDriveSubsystem,telemetry),
+                    new AutoBackSetPoint(launch,turnTableSubsystem,true),
+                    new AutoLaunch(distance,intake,launch,telemetry),
+                    new StopMotor(launch),
+                    leave,
+                    new AutoDriveCommand(autoDriveSubsystem,telemetry)
 
 
-                ));
+
+
+
+            ));
 
 
 
 
-        // Create The Path Commands
+    schedule(new SequentialCommandGroup(
 
 
+            number5IsAlive
 
-        schedule(new SequentialCommandGroup(
+    ));
 
-
-                number5IsAlive
-
-        ));
+    // Create The Path Commands
+    while (opModeIsActive() && !isStopRequested()){
+        run();
     }
+
+
+
+}
+
 
 
     public void makeAuto(){
@@ -151,7 +170,7 @@ public class BackRed extends AutoBase{
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry);
-        follower.setMaxPower(0.35);
+        follower.setMaxPower(0.4);
 
         // launcher
         launchAngle = hardwareMap.get(Servo.class, "launchAngle");
@@ -199,7 +218,6 @@ public class BackRed extends AutoBase{
         //grab1
         grab1 = new Path(new BezierCurve(prepGrab1Pose, grab1Pose));
         grab1.setLinearHeadingInterpolation(prepGrab1Pose.getHeading(), grab1Pose.getHeading());
-        grab1.setTimeoutConstraint(250);
 
         //midpoint
         midpoint = new Path(new BezierCurve(grab1Pose, midpointPose));
