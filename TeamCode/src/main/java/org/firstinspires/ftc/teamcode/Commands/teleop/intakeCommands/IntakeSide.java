@@ -39,4 +39,8 @@ public class IntakeSide extends CommandBase {
         }
         return false;
     }
+    @Override
+    public void end(boolean interrupted) {
+        intakeSubsystem.stopAll();
+    }
 }

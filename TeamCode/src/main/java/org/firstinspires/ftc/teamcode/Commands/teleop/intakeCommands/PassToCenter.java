@@ -41,8 +41,9 @@ public class PassToCenter extends CommandBase {
 
         return timer.done();
     }
-    public void end(boolean interrupted){
-        intakeSubsystem.stopPass();
+    @Override
+    public void end(boolean interrupted) {
+        intakeSubsystem.stopAll();
     }
 
 
