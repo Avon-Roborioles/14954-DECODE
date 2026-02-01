@@ -49,7 +49,7 @@ public class LaunchSubsystem extends SubsystemBase {
         this.launchServo = launchServo;
         this.launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.launchMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(10,0,0,12.2);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(150,0,0,12.2);
         this.launchMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         this.launchMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         //13.29, 15
@@ -80,7 +80,7 @@ public class LaunchSubsystem extends SubsystemBase {
 
     public void closeBackSetPoint(){
         double Position;
-        TargetRPM = 1750;
+        TargetRPM = 1740;
         double correctedSpeed = TargetRPM + motorBoostSpeed;
 
 
@@ -112,9 +112,9 @@ public class LaunchSubsystem extends SubsystemBase {
         double Position;
 
         if (auto){
-            TargetRPM = 1800;
-            launchMotor.setVelocity(1750);
-            launchMotor2.setVelocity(-1750);
+            TargetRPM = 1730;
+            launchMotor.setVelocity(1730);
+            launchMotor2.setVelocity(-1730);
             Position = ANGLE_SERVO_ZERO - 0.08;
             launchAngleServo.setPosition(Position);
         } else {
@@ -143,7 +143,8 @@ public class LaunchSubsystem extends SubsystemBase {
     }
     public void frontSetPoint(){
         double Position;
-        TargetRPM = 1850;
+        TargetRPM = 1350;
+        Position = ANGLE_SERVO_ZERO - 0.02;
         double correctedSpeed = TargetRPM + motorBoostSpeed;
 
 

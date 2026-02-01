@@ -132,6 +132,7 @@ public class FrontRed extends AutoBase {
         // launcher
         launchAngle = hardwareMap.get(Servo.class, "launchAngle");
         launchMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
+        launchMotor2 = hardwareMap.get(DcMotorEx.class, "launchMotor2");
         launchServo = hardwareMap.get(CRServo.class, "launchServo");
         turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
@@ -150,7 +151,7 @@ public class FrontRed extends AutoBase {
         //Subsystems
         distance = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intake = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
-        launch = new LaunchSubsystem(launchMotor, launchAngle, turnServo ,launchServo);
+        launch = new LaunchSubsystem(launchMotor, launchMotor2,launchAngle, turnServo ,launchServo);
         limelight = new LimeLightSubsystem(Limelight);
 
         //turntable

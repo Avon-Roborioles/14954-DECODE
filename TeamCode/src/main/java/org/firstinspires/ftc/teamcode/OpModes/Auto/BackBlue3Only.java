@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.OpModes.Auto;
 
+
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
@@ -14,22 +16,19 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Commands.Auto.AutoLaunch;
 import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoIntakeCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
-import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint;
-import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand;
-import org.firstinspires.ftc.teamcode.Commands.Auto.AutoLaunch;
-import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-
-@Autonomous
-public class BackBlue extends AutoBase {
+@Autonomous(name = "3 Artifacts Back Blue", group = "3 Artifacts")
+public class BackBlue3Only extends AutoBase{
     Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;
     Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
 
@@ -45,7 +44,7 @@ public class BackBlue extends AutoBase {
     Pose grab2Pose = new Pose(126, 60, Math.toRadians(0));
     Pose midpoint2Pose = new Pose(73, 36, Math.toRadians(90));
     Pose launch2Pose = new Pose(66, 80, Math.toRadians(125));
-    Pose leavePose = new Pose(73, 10, Math.toRadians(0));
+    Pose leavePose = new Pose(83, 24, Math.toRadians(0));
 
 
     @Override
@@ -111,33 +110,23 @@ public class BackBlue extends AutoBase {
 
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
-
-
-                new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                new IntakeStopServoCommand(intake),
+                new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry),
                 new SequentialCommandGroup(
-                        new AutoBackSetPoint(launch,turnTableSubsystem,false),
-                        new AutoLaunch(distance, intake, launch, telemetry),
-                        new StopMotor(launch),
-                        PrepareToGrab1,
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                        new ParallelCommandGroup(
-                                new AutoIntakeCommand(distance,intake).withTimeout(5000),
-                                GrabSet1,
-                                new AutoDriveCommand(autoDriveSubsystem, telemetry)
-                        ),
-                        MoveToMidpoint,
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                        MoveToLaunch1,
-                        new AutoDriveCommand(autoDriveSubsystem,telemetry),
-                        new AutoBackSetPoint(launch,turnTableSubsystem,false),
+                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,false),
                         new AutoLaunch(distance,intake,launch,telemetry),
-                        new StopMotor(launch),
+                        new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
+                        new WaitCommand(15000),
                         leave,
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry)
+
+
 
 
 
                 ));
+
+
 
 
 
@@ -264,5 +253,4 @@ public class BackBlue extends AutoBase {
 
 
     }
-
 }

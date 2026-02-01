@@ -46,9 +46,9 @@ public class BackRed extends AutoBase{
     Pose launch1Pose = new Pose(66, 9, Math.toRadians(0));
     Pose prepGrab2Pose = new Pose(45, 60, Math.toRadians(180));
     Pose grab2Pose = new Pose(16, 60, Math.toRadians(180));
-    Pose midpoint2Pose = new Pose(71, 60, Math.toRadians(90));
+    Pose midpoint2Pose = new Pose(66, 16, Math.toRadians(-180));
     Pose launch2Pose = new Pose(80, 81, Math.toRadians(45));
-    Pose leavePose = new Pose(65, 24, Math.toRadians(-180));
+    Pose leavePose = new Pose(76, 9, Math.toRadians(-180));
 
 @Override
 public void initialize(){
@@ -99,6 +99,7 @@ public void runOpMode(){
 
 
     MoveToMidPoint2 = new InstantCommand(() -> {
+        follower.setMaxPower(0.5);
         autoDriveSubsystem.followPath(midpoint2, true);
     });
 
@@ -108,7 +109,7 @@ public void runOpMode(){
     });
 
     leave = new InstantCommand(() -> {
-        follower.setMaxPower(0.5);
+        follower.setMaxPower(0.3);
         autoDriveSubsystem.followPath(Leave, true);
     });
 
@@ -137,6 +138,8 @@ public void runOpMode(){
                     new AutoBackSetPoint(launch,turnTableSubsystem,true),
                     new AutoLaunch(distance,intake,launch,telemetry),
                     new StopMotor(launch),
+                    MoveToMidPoint2,
+                    new AutoDriveCommand(autoDriveSubsystem,telemetry),
                     leave,
                     new AutoDriveCommand(autoDriveSubsystem,telemetry)
 
@@ -243,8 +246,8 @@ public void runOpMode(){
 
 
         //midpoint2
-        midpoint2 = new Path(new BezierCurve(grab2Pose, midpoint2Pose));
-        midpoint2.setLinearHeadingInterpolation(grab2Pose.getHeading(), midpoint2Pose.getHeading());
+        midpoint2 = new Path(new BezierCurve(startPose, midpoint2Pose));
+        midpoint2.setLinearHeadingInterpolation(startPose.getHeading(), midpoint2Pose.getHeading());
         midpoint2.setTimeoutConstraint(250);
 
         //launch2

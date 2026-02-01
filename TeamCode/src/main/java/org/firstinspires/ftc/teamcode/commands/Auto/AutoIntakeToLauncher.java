@@ -27,7 +27,7 @@ public class AutoIntakeToLauncher extends CommandBase {
     public boolean isFinished(){
         return timer.done();
     }
-    public void end(boolean interrupted){
-        intakeSubsystem.stopAll();
-    }
+//    public void end(boolean interrupted){
+//        intakeSubsystem.stopAll();
+//    }
 }

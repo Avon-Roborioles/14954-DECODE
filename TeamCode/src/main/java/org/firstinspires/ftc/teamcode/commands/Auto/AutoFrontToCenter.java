@@ -28,8 +28,8 @@ public class AutoFrontToCenter extends CommandBase {
     public boolean isFinished(){
         return timer.done();
     }
-    public void end(boolean interrupted){
-        intakeServoSubsystem.stopAll();
-    }
+//    public void end(boolean interrupted){
+//        intakeServoSubsystem.stopAll();
+//    }
 
 }

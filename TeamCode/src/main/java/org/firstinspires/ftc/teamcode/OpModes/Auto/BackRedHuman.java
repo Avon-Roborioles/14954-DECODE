@@ -14,48 +14,45 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Commands.Auto.AutoLaunch;
 import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoIntakeCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
-import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint;
-import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand;
-import org.firstinspires.ftc.teamcode.Commands.Auto.AutoLaunch;
-import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-
 @Autonomous
-public class BackBlue extends AutoBase {
+public class BackRedHuman extends AutoBase{
     Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;
     Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
 
 
-
-    Pose startPose = new Pose(82, 7, Math.toRadians(0));
-    Pose launchPreloadPose = new Pose(86, 14, Math.toRadians(35));
-    Pose prepGrab1Pose = new Pose(82, 33, Math.toRadians(0));
-    Pose grab1Pose = new Pose(47, 33, Math.toRadians(0));
-    Pose midpointPose = new Pose(80, 33, Math.toRadians(0));
-    Pose launch1Pose = new Pose(82, 10, Math.toRadians(0));
-    Pose prepGrab2Pose = new Pose(99, 36, Math.toRadians(0));
-    Pose grab2Pose = new Pose(126, 60, Math.toRadians(0));
-    Pose midpoint2Pose = new Pose(73, 36, Math.toRadians(90));
-    Pose launch2Pose = new Pose(66, 80, Math.toRadians(125));
-    Pose leavePose = new Pose(73, 10, Math.toRadians(0));
-
+    Pose startPose = new Pose(66, 7, Math.toRadians(0));
+    Pose launchPreloadPose = new Pose(60, 10, Math.toRadians(-25));
+    Pose prepGrab1Pose = new Pose(70, 29.5, Math.toRadians(0)); //33y too far
+    Pose grab1Pose = new Pose(104, 8, Math.toRadians(0));
+    Pose midpointPose = new Pose(67, 30, Math.toRadians(0));
+    Pose launch1Pose = new Pose(66, 9, Math.toRadians(0));
+    Pose prepGrab2Pose = new Pose(45, 60, Math.toRadians(180));
+    Pose grab2Pose = new Pose(16, 60, Math.toRadians(180));
+    Pose midpoint2Pose = new Pose(71, 60, Math.toRadians(90));
+    Pose launch2Pose = new Pose(80, 81, Math.toRadians(45));
+    Pose leavePose = new Pose(65, 24, Math.toRadians(-180));
 
     @Override
-    public void initialize() {
+    public void initialize(){
 
     }
 
 
+    @Override
     public void runOpMode(){
         initialize();
+
         waitForStart();
         makeAuto();
         buildPath();
@@ -111,38 +108,34 @@ public class BackBlue extends AutoBase {
 
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
-
-
-                new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                new IntakeStopServoCommand(intake),
+                new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry),
                 new SequentialCommandGroup(
-                        new AutoBackSetPoint(launch,turnTableSubsystem,false),
-                        new AutoLaunch(distance, intake, launch, telemetry),
-                        new StopMotor(launch),
-                        PrepareToGrab1,
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                        new ParallelCommandGroup(
-                                new AutoIntakeCommand(distance,intake).withTimeout(5000),
-                                GrabSet1,
-                                new AutoDriveCommand(autoDriveSubsystem, telemetry)
-                        ),
-                        MoveToMidpoint,
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                        MoveToLaunch1,
-                        new AutoDriveCommand(autoDriveSubsystem,telemetry),
-                        new AutoBackSetPoint(launch,turnTableSubsystem,false),
+                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,true),
                         new AutoLaunch(distance,intake,launch,telemetry),
-                        new StopMotor(launch),
+                        new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
+
+                        new ParallelCommandGroup(
+                                new AutoIntakeCommand(distance,intake).withTimeout(8000),
+
+                                GrabSet1,
+                                new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry)
+                        ),
+                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        MoveToLaunch1,
+                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry),
+                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,true),
+                        new AutoLaunch(distance,intake,launch,telemetry),
+                        new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
                         leave,
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry)
+
+
 
 
 
                 ));
 
-
-
-
-        // Create The Path Commands
 
 
 
@@ -152,17 +145,24 @@ public class BackBlue extends AutoBase {
                 number5IsAlive
 
         ));
-        while (opModeIsActive()&& !isStopRequested()){
+
+        // Create The Path Commands
+        while (opModeIsActive() && !isStopRequested()){
             run();
         }
 
+
+
     }
+
+
+
     public void makeAuto(){
         //hardware map init
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry);
-        follower.setMaxPower(0.325);
+        follower.setMaxPower(0.4);
 
         // launcher
         launchAngle = hardwareMap.get(Servo.class, "launchAngle");
@@ -195,8 +195,6 @@ public class BackBlue extends AutoBase {
 
 
 
-
-
     }
     public void buildPath(){
         //launch Preload
@@ -210,9 +208,8 @@ public class BackBlue extends AutoBase {
         prepGrab1.setTimeoutConstraint(250);
 
         //grab1
-        grab1 = new Path(new BezierLine(prepGrab1Pose, grab1Pose));
-        grab1.setLinearHeadingInterpolation(prepGrab1Pose.getHeading(), grab1Pose.getHeading());
-        grab1.setTimeoutConstraint(250);
+        grab1 = new Path(new BezierCurve(startPose, grab1Pose));
+        grab1.setLinearHeadingInterpolation(startPose.getHeading(), grab1Pose.getHeading());
 
         //midpoint
         midpoint = new Path(new BezierCurve(grab1Pose, midpointPose));
@@ -246,8 +243,8 @@ public class BackBlue extends AutoBase {
         launch2.setTimeoutConstraint(250);
 
         //leave
-        Leave = new Path(new BezierCurve(startPose, leavePose));
-        Leave.setLinearHeadingInterpolation(startPose.getHeading(), leavePose.getHeading());
+        Leave = new Path(new BezierCurve(launch1Pose, leavePose));
+        Leave.setLinearHeadingInterpolation(leavePose.getHeading(), leavePose.getHeading());
         Leave.setTimeoutConstraint(250);
 
 
@@ -264,5 +261,4 @@ public class BackBlue extends AutoBase {
 
 
     }
-
 }
