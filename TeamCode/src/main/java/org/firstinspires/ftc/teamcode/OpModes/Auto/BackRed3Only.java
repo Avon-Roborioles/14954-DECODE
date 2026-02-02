@@ -25,6 +25,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
+import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous(name = "3 Artifacts Back Red", group = "3 Artifacts")
@@ -41,9 +42,9 @@ public class BackRed3Only extends AutoBase{
     Pose launch1Pose = new Pose(66, 9, Math.toRadians(0));
     Pose prepGrab2Pose = new Pose(45, 60, Math.toRadians(180));
     Pose grab2Pose = new Pose(16, 60, Math.toRadians(180));
-    Pose midpoint2Pose = new Pose(71, 60, Math.toRadians(90));
+    Pose midpoint2Pose = new Pose(66, 16, Math.toRadians(0));
     Pose launch2Pose = new Pose(80, 81, Math.toRadians(45));
-    Pose leavePose = new Pose(65, 24, Math.toRadians(-180));
+    Pose leavePose = new Pose(76, 9, Math.toRadians(-180));
 
     @Override
     public void initialize(){
@@ -117,6 +118,8 @@ public class BackRed3Only extends AutoBase{
                         new AutoLaunch(distance,intake,launch,telemetry),
                         new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
                        new WaitCommand(15000),
+                        MoveToMidPoint2,
+                        new AutoDriveCommand(autoDriveSubsystem,telemetry),
                         leave,
                         new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry)
 
@@ -223,8 +226,8 @@ public class BackRed3Only extends AutoBase{
 
 
         //midpoint2
-        midpoint2 = new Path(new BezierCurve(grab2Pose, midpoint2Pose));
-        midpoint2.setLinearHeadingInterpolation(grab2Pose.getHeading(), midpoint2Pose.getHeading());
+        midpoint2 = new Path(new BezierCurve(startPose, midpoint2Pose));
+        midpoint2.setLinearHeadingInterpolation(startPose.getHeading(), midpoint2Pose.getHeading());
         midpoint2.setTimeoutConstraint(250);
 
         //launch2
@@ -233,7 +236,7 @@ public class BackRed3Only extends AutoBase{
         launch2.setTimeoutConstraint(250);
 
         //leave
-        Leave = new Path(new BezierCurve(startPose, leavePose));
+        Leave = new Path(new BezierCurve(midpoint2Pose, leavePose));
         Leave.setLinearHeadingInterpolation(leavePose.getHeading(), leavePose.getHeading());
         Leave.setTimeoutConstraint(250);
 
