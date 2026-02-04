@@ -18,7 +18,7 @@ public class AutoFrontToCenter extends CommandBase {
 
     }
     public void initialize(){
-        timer = new Timing.Timer(750, TimeUnit.MILLISECONDS);
+        timer = new Timing.Timer(200, TimeUnit.MILLISECONDS);
         timer.start();
     }
     @Override

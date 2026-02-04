@@ -22,12 +22,12 @@ import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.LightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous
-@Disabled
 public class BackBlueHuman extends AutoBase {
     Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;
     Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
@@ -120,7 +120,7 @@ public class BackBlueHuman extends AutoBase {
                         PrepareToGrab1,
                         new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry),
                         new ParallelCommandGroup(
-                                new AutoIntakeCommand(distance,intake).withTimeout(5000),
+                                new AutoIntakeCommand(distance,intake, lightSubsystem).withTimeout(5000),
                                 GrabSet1,
                                 new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry)
                         ),
@@ -182,11 +182,13 @@ public class BackBlueHuman extends AutoBase {
         mSensor.setMode(DigitalChannel.Mode.INPUT);
         bSensor.setMode(DigitalChannel.Mode.INPUT);
 
+        light = hardwareMap.get(Servo.class,"light");
         //Subsystems
         distance = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intake = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launch = new LaunchSubsystem(launchMotor, launchMotor2, launchAngle, turnServo ,launchServo);
         limelight = new LimeLightSubsystem(Limelight);
+        lightSubsystem = new LightSubsystem(light);
 
         //turntable
         turnTableSubsystem = new TurnTableSubsystem(turnServo);

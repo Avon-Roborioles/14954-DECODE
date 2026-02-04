@@ -17,7 +17,7 @@ public class AutoIntakeToLauncher extends CommandBase {
 
     }
     public void initialize(){
-        timer = new Timing.Timer(1000, TimeUnit.MILLISECONDS);
+        timer = new Timing.Timer(650, TimeUnit.MILLISECONDS);
         timer.start();
     }
     @Override

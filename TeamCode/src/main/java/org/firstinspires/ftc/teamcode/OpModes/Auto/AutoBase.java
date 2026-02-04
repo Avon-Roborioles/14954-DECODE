@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.LightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 
@@ -28,6 +29,7 @@ public abstract class AutoBase extends CommandOpMode {
     protected LimeLightSubsystem limelight;
     protected TurnTableSubsystem turnTableSubsystem;
     protected AutoDriveSubsystem autoDriveSubsystem;
+    protected LightSubsystem lightSubsystem;
     protected Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;
     protected Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
 
@@ -46,6 +48,8 @@ public abstract class AutoBase extends CommandOpMode {
     protected Servo turnServo;
     // Limelight Variables
     protected Limelight3A Limelight;
+
+    protected Servo light;
 
     public abstract void makeAuto();
     public abstract void buildPath();

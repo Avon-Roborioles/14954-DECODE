@@ -36,6 +36,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 //import org.firstinspires.ftc.teamcode.commands.flipper.FlipItDown;
 //import org.firstinspires.ftc.teamcode.commands.flipper.FlipItUp;
+import org.firstinspires.ftc.teamcode.Subsystems.LightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TelemetrySubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
@@ -91,6 +92,10 @@ public class TeleOpRed extends CommandOpMode {
     private LimeLightSubsystem limelightSubsystem;
     private Limelight3A limelight;
 
+
+    private Servo light;
+    private LightSubsystem lightSubsystem;
+
     private boolean redAlliance = true;
 
     private TelemetrySubsystem telemetrySubsystem;
@@ -138,11 +143,13 @@ public class TeleOpRed extends CommandOpMode {
         bSensor.setMode(DigitalChannel.Mode.INPUT);
 
 
+        light = hardwareMap.get(Servo.class,"light");
         //Subsystems
         distanceSubsystem = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intakeSubsystem = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launchSubsystem = new LaunchSubsystem(launchMotor, launchMotor2, launchAngleServo, turnServo ,launchServo);
         limelightSubsystem = new LimeLightSubsystem(limelight);
+        lightSubsystem = new LightSubsystem(light);
 
         //turntable
         TurnSubsystem = new TurnTableSubsystem(turnServo);
@@ -197,7 +204,7 @@ public class TeleOpRed extends CommandOpMode {
                 .whenHeld(new PukeCommand(intakeSubsystem))
                 .whenReleased(new IntakeStopServoCommand(intakeSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(new TeleOpIntakeCommand(distanceSubsystem,intakeSubsystem));
+                .whenPressed(new TeleOpIntakeCommand(distanceSubsystem,intakeSubsystem, lightSubsystem));
 
         TurnSubsystem.setDefaultCommand(new PerpetualCommand(new limelightTurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem, true)));
 

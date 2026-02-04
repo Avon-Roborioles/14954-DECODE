@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.LightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint;
@@ -45,7 +46,7 @@ public class BackBlue extends AutoBase {
     Pose grab2Pose = new Pose(126, 60, Math.toRadians(0));
     Pose midpoint2Pose = new Pose(73, 36, Math.toRadians(90));
     Pose launch2Pose = new Pose(66, 80, Math.toRadians(125));
-    Pose leavePose = new Pose(73, 10, Math.toRadians(0));
+    Pose leavePose = new Pose(76, 10, Math.toRadians(0));
 
 
     @Override
@@ -104,7 +105,7 @@ public class BackBlue extends AutoBase {
         });
 
         leave = new InstantCommand(() -> {
-            follower.setMaxPower(0.5);
+            follower.setMaxPower(0.6);
             autoDriveSubsystem.followPath(Leave, true);
         });
 
@@ -121,7 +122,7 @@ public class BackBlue extends AutoBase {
                         PrepareToGrab1,
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),
                         new ParallelCommandGroup(
-                                new AutoIntakeCommand(distance,intake).withTimeout(5000),
+                                new AutoIntakeCommand(distance,intake,lightSubsystem).withTimeout(3100),
                                 GrabSet1,
                                 new AutoDriveCommand(autoDriveSubsystem, telemetry)
                         ),
@@ -183,11 +184,13 @@ public class BackBlue extends AutoBase {
         mSensor.setMode(DigitalChannel.Mode.INPUT);
         bSensor.setMode(DigitalChannel.Mode.INPUT);
 
+        light = hardwareMap.get(Servo.class,"light");
         //Subsystems
         distance = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intake = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launch = new LaunchSubsystem(launchMotor, launchMotor2, launchAngle, turnServo ,launchServo);
         limelight = new LimeLightSubsystem(Limelight);
+        lightSubsystem = new LightSubsystem(light);
 
         //turntable
         turnTableSubsystem = new TurnTableSubsystem(turnServo);

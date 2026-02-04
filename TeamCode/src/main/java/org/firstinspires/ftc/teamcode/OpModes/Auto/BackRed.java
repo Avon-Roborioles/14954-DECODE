@@ -22,6 +22,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.LightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint;
@@ -40,15 +41,15 @@ public class BackRed extends AutoBase{
 
     Pose startPose = new Pose(66, 7, Math.toRadians(0));
     Pose launchPreloadPose = new Pose(60, 10, Math.toRadians(-25));
-    Pose prepGrab1Pose = new Pose(70, 29.5, Math.toRadians(0)); //33y too far
-    Pose grab1Pose = new Pose(104, 29.5, Math.toRadians(0));
+    Pose prepGrab1Pose = new Pose(70, 25, Math.toRadians(0)); //33y too far
+    Pose grab1Pose = new Pose(102, 25, Math.toRadians(0));
     Pose midpointPose = new Pose(67, 30, Math.toRadians(0));
     Pose launch1Pose = new Pose(66, 9, Math.toRadians(0));
     Pose prepGrab2Pose = new Pose(45, 60, Math.toRadians(180));
     Pose grab2Pose = new Pose(16, 60, Math.toRadians(180));
     Pose midpoint2Pose = new Pose(66, 16, Math.toRadians(-180));
     Pose launch2Pose = new Pose(80, 81, Math.toRadians(45));
-    Pose leavePose = new Pose(76, 9, Math.toRadians(-180));
+    Pose leavePose = new Pose(72, 9, Math.toRadians(-180));
 
 @Override
 public void initialize(){
@@ -85,7 +86,7 @@ public void runOpMode(){
     });
 
     MoveToLaunch1 = new InstantCommand(() -> {
-        follower.setMaxPower(0.55);
+        follower.setMaxPower(0.7);
         autoDriveSubsystem.followPath(Launch1, true);
     });
     PrepareToGrab2 = new InstantCommand(() -> {
@@ -109,7 +110,7 @@ public void runOpMode(){
     });
 
     leave = new InstantCommand(() -> {
-        follower.setMaxPower(0.3);
+        follower.setMaxPower(0.5);
         autoDriveSubsystem.followPath(Leave, true);
     });
 
@@ -126,7 +127,7 @@ public void runOpMode(){
                     new AutoDriveCommand(autoDriveSubsystem, telemetry),
 
                     new ParallelCommandGroup(
-                            new AutoIntakeCommand(distance,intake).withTimeout(5000),
+                            new AutoIntakeCommand(distance,intake,lightSubsystem).withTimeout(3100),
 
                             GrabSet1,
                             new AutoDriveCommand(autoDriveSubsystem, telemetry)
@@ -175,7 +176,7 @@ public void runOpMode(){
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry);
-        follower.setMaxPower(0.4);
+        follower.setMaxPower(0.325);
 
         // launcher
         launchAngle = hardwareMap.get(Servo.class, "launchAngle");
@@ -196,14 +197,18 @@ public void runOpMode(){
         mSensor.setMode(DigitalChannel.Mode.INPUT);
         bSensor.setMode(DigitalChannel.Mode.INPUT);
 
+        light = hardwareMap.get(Servo.class,"light");
         //Subsystems
         distance = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intake = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launch = new LaunchSubsystem(launchMotor, launchMotor2, launchAngle, turnServo ,launchServo);
         limelight = new LimeLightSubsystem(Limelight);
+        lightSubsystem = new LightSubsystem(light);
 
         //turntable
         turnTableSubsystem = new TurnTableSubsystem(turnServo);
+
+
 
 
 

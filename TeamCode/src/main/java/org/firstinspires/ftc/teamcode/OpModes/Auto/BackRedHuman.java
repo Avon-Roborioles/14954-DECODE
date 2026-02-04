@@ -22,12 +22,12 @@ import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.LightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous
-@Disabled
 public class BackRedHuman extends AutoBase{
     Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;
     Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
@@ -118,7 +118,7 @@ public class BackRedHuman extends AutoBase{
                         new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
 
                         new ParallelCommandGroup(
-                                new AutoIntakeCommand(distance,intake).withTimeout(8000),
+                                new AutoIntakeCommand(distance,intake, lightSubsystem).withTimeout(8000),
 
                                 GrabSet1,
                                 new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry)
@@ -164,7 +164,7 @@ public class BackRedHuman extends AutoBase{
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry);
-        follower.setMaxPower(0.4);
+        follower.setMaxPower(0.325);
 
         // launcher
         launchAngle = hardwareMap.get(Servo.class, "launchAngle");
@@ -185,14 +185,18 @@ public class BackRedHuman extends AutoBase{
         mSensor.setMode(DigitalChannel.Mode.INPUT);
         bSensor.setMode(DigitalChannel.Mode.INPUT);
 
+        light = hardwareMap.get(Servo.class,"light");
         //Subsystems
         distance = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intake = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launch = new LaunchSubsystem(launchMotor, launchMotor2, launchAngle, turnServo ,launchServo);
         limelight = new LimeLightSubsystem(Limelight);
+        lightSubsystem = new LightSubsystem(light);
 
         //turntable
         turnTableSubsystem = new TurnTableSubsystem(turnServo);
+
+
 
 
 

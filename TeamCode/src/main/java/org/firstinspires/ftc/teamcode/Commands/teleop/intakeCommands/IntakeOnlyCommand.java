@@ -9,6 +9,7 @@ public class IntakeOnlyCommand extends CommandBase {
     private IntakeSubsystem intakeSubsystem;
     private DistanceSubsystem distanceSubsystem;
 
+
     public IntakeOnlyCommand(IntakeSubsystem intakeSubsystem, DistanceSubsystem distanceSubsystem) {
         this.intakeSubsystem = intakeSubsystem;
         this.distanceSubsystem = distanceSubsystem;
