@@ -25,6 +25,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
+import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous
@@ -35,8 +36,8 @@ public class BackRedHuman extends AutoBase{
 
     Pose startPose = new Pose(66, 7, Math.toRadians(0));
     Pose launchPreloadPose = new Pose(60, 10, Math.toRadians(-25));
-    Pose prepGrab1Pose = new Pose(70, 29.5, Math.toRadians(0)); //33y too far
-    Pose grab1Pose = new Pose(104, 8, Math.toRadians(0));
+    Pose prepGrab1Pose = new Pose(99, 23.5, Math.toRadians(90)); //33y too far
+    Pose grab1Pose = new Pose(104, 7, Math.toRadians(90));
     Pose midpointPose = new Pose(67, 30, Math.toRadians(0));
     Pose launch1Pose = new Pose(66, 9, Math.toRadians(0));
     Pose prepGrab2Pose = new Pose(45, 60, Math.toRadians(180));
@@ -116,11 +117,10 @@ public class BackRedHuman extends AutoBase{
                         new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,true),
                         new AutoLaunch(distance,intake,launch,telemetry),
                         new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
-
+                        PrepareToGrab1,
+                        new AutoDriveCommand(autoDriveSubsystem,telemetry),
                         new ParallelCommandGroup(
-                                new AutoIntakeCommand(distance,intake, lightSubsystem).withTimeout(8000),
-
-                                GrabSet1,
+                                new AutoIntakeCommand(distance,intake, lightSubsystem).withTimeout(6000),GrabSet1,
                                 new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry)
                         ),
                         new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry),
@@ -214,8 +214,8 @@ public class BackRedHuman extends AutoBase{
         prepGrab1.setTimeoutConstraint(250);
 
         //grab1
-        grab1 = new Path(new BezierCurve(startPose, grab1Pose));
-        grab1.setLinearHeadingInterpolation(startPose.getHeading(), grab1Pose.getHeading());
+        grab1 = new Path(new BezierCurve(prepGrab1Pose, grab1Pose));
+        grab1.setLinearHeadingInterpolation(prepGrab1Pose.getHeading(), grab1Pose.getHeading());
 
         //midpoint
         midpoint = new Path(new BezierCurve(grab1Pose, midpointPose));
@@ -224,8 +224,8 @@ public class BackRedHuman extends AutoBase{
 
 
         //launch1
-        Launch1 = new Path(new BezierCurve(midpointPose, launch1Pose));
-        Launch1.setLinearHeadingInterpolation(midpointPose.getHeading(), launch1Pose.getHeading());
+        Launch1 = new Path(new BezierCurve(grab1Pose, launch1Pose));
+        Launch1.setLinearHeadingInterpolation(grab1Pose.getHeading(), launch1Pose.getHeading());
         Launch1.setTimeoutConstraint(250);
 
         //prepGrab2

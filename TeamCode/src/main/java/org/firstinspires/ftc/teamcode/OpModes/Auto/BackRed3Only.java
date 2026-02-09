@@ -44,7 +44,7 @@ public class BackRed3Only extends AutoBase{
     Pose grab2Pose = new Pose(16, 60, Math.toRadians(180));
     Pose midpoint2Pose = new Pose(66, 16, Math.toRadians(0));
     Pose launch2Pose = new Pose(80, 81, Math.toRadians(45));
-    Pose leavePose = new Pose(76, 9, Math.toRadians(-180));
+    Pose leavePose = new Pose(72, 9, Math.toRadians(-180));
 
     @Override
     public void initialize(){

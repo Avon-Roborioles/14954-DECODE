@@ -41,8 +41,8 @@ public class BackRed extends AutoBase{
 
     Pose startPose = new Pose(66, 7, Math.toRadians(0));
     Pose launchPreloadPose = new Pose(60, 10, Math.toRadians(-25));
-    Pose prepGrab1Pose = new Pose(70, 25, Math.toRadians(0)); //33y too far
-    Pose grab1Pose = new Pose(102, 25, Math.toRadians(0));
+    Pose prepGrab1Pose = new Pose(70, 29, Math.toRadians(0)); //33y too far
+    Pose grab1Pose = new Pose(102, 29, Math.toRadians(0));
     Pose midpointPose = new Pose(67, 30, Math.toRadians(0));
     Pose launch1Pose = new Pose(66, 9, Math.toRadians(0));
     Pose prepGrab2Pose = new Pose(45, 60, Math.toRadians(180));
