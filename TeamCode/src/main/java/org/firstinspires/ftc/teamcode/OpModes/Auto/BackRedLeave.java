@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.Commands.Auto.AutoLaunch;
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-@Autonomous(name = "Back Red Leave Only", group = "leaveOnly")
+@Autonomous(name = "Back Red Leave Only", group = "leaveOnly", preselectTeleOp = "TeleOpRed")
 public class BackRedLeave extends AutoBase{
 
         Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;

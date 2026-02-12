@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveComman
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-@Autonomous(name = "Back Blue Leave Only", group = "leaveOnly")
+@Autonomous(name = "Back Blue Leave Only", group = "leaveOnly", preselectTeleOp = "TeleOpBlue")
 public class BackBlueLeave extends AutoBase{
     Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;
     Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
