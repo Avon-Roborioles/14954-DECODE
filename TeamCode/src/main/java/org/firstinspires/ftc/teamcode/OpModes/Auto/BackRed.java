@@ -121,7 +121,7 @@ public void runOpMode(){
             new AutoDriveCommand(autoDriveSubsystem, telemetry),
             new SequentialCommandGroup(
                     new AutoBackSetPoint(launch,turnTableSubsystem,true),
-                    new AutoLaunch(distance,intake,launch,telemetry),
+                    new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
                     new StopMotor(launch),
                     PrepareToGrab1,
                     new AutoDriveCommand(autoDriveSubsystem, telemetry),
@@ -137,7 +137,7 @@ public void runOpMode(){
                     MoveToLaunch1,
                     new AutoDriveCommand(autoDriveSubsystem,telemetry),
                     new AutoBackSetPoint(launch,turnTableSubsystem,true),
-                    new AutoLaunch(distance,intake,launch,telemetry),
+                    new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
                     new StopMotor(launch),
                     MoveToMidPoint2,
                     new AutoDriveCommand(autoDriveSubsystem,telemetry),

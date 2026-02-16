@@ -23,14 +23,26 @@ public class LightSubsystem extends SubsystemBase {
     public void lightYellow(){
         light.setPosition(0.388);
     }
+    public void lightSage(){
+        light.setPosition(0.444);
+    }
     public void lightGreen(){
         light.setPosition(0.5);
+    }
+    public void lightAzure(){
+        light.setPosition(0.555);
     }
     public void lightBlue(){
         light.setPosition(0.611);
     }
+    public void lightIndigo(){
+        light.setPosition(0.666);
+    }
     public void lightViolet(){
         light.setPosition(0.722);
+    }
+    public void lightWhite(){
+        light.setPosition(1);
     }
 
 }

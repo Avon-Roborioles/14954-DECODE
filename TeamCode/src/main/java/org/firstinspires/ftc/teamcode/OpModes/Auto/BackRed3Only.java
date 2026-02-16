@@ -115,7 +115,7 @@ public class BackRed3Only extends AutoBase{
                 new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry),
                 new SequentialCommandGroup(
                         new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,true),
-                        new AutoLaunch(distance,intake,launch,telemetry),
+                        new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
                         new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
                        new WaitCommand(15000),
                         MoveToMidPoint2,

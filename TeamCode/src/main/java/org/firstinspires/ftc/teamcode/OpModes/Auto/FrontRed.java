@@ -75,7 +75,7 @@ public class FrontRed extends AutoBase {
                 new AutoDriveCommand(autoDriveSubsystem, telemetry),
                 new SequentialCommandGroup(
                         new AutoFrontSetPoint(launch, turnTableSubsystem,true),
-                        new AutoLaunch(distance, intake, launch, telemetry),
+                        new AutoLaunch(distance, intake, launch, lightSubsystem,telemetry),
                         new StopMotor(launch),
                         leave,
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)

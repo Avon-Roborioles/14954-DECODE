@@ -117,7 +117,7 @@ public class BackBlue extends AutoBase {
                 new AutoDriveCommand(autoDriveSubsystem, telemetry),
                 new SequentialCommandGroup(
                         new AutoBackSetPoint(launch,turnTableSubsystem,false),
-                        new AutoLaunch(distance, intake, launch, telemetry),
+                        new AutoLaunch(distance, intake, launch, lightSubsystem,telemetry),
                         new StopMotor(launch),
                         PrepareToGrab1,
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),
@@ -131,7 +131,7 @@ public class BackBlue extends AutoBase {
                         MoveToLaunch1,
                         new AutoDriveCommand(autoDriveSubsystem,telemetry),
                         new AutoBackSetPoint(launch,turnTableSubsystem,false),
-                        new AutoLaunch(distance,intake,launch,telemetry),
+                        new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
                         new StopMotor(launch),
                         leave,
                         new AutoDriveCommand(autoDriveSubsystem, telemetry)
@@ -156,6 +156,8 @@ public class BackBlue extends AutoBase {
         while (opModeIsActive()&& !isStopRequested()){
             run();
         }
+
+        reset();
 
     }
     public void makeAuto(){
