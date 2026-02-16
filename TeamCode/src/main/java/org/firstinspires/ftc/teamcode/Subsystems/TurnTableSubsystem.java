@@ -46,7 +46,7 @@ public class TurnTableSubsystem extends SubsystemBase {
 
     public void AutoBackSetPoints(boolean redAlliance){
         if (redAlliance){
-            turntable.setPosition(0.66);
+            turntable.setPosition(0.665);
         } else if (!redAlliance){
             turntable.setPosition(0.735);
         }
@@ -55,7 +55,7 @@ public class TurnTableSubsystem extends SubsystemBase {
         if (redAlliance){
             turntable.setPosition(0.625);
         } else if (!redAlliance){
-            turntable.setPosition(0.76);
+            turntable.setPosition(0.765);
         }
     }
     public void BackMiddleSetPoints(boolean redAlliance){

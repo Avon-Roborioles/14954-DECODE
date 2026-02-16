@@ -49,7 +49,7 @@ public class ProtypeShooterControl extends OpMode {
 
     public DcMotorEx shooterMotor = null;
     public DcMotorEx shooterMotor2 =  null;
-    private double shooterV;
+    private double shooterV = 1000;
     public Servo shooterAngle = null;
     private Servo turn;
     private Limelight3A limelight;
@@ -65,13 +65,13 @@ public class ProtypeShooterControl extends OpMode {
 
 
     private double motorIncrement = 50;
-    private double newShooterPower = 0.0;
+    private double newShooterPower = 1500;
     private double launchServoAngle = 0.6;
     private double servoAngleChange = 0.01;
     private double newServoAngle = 0.6;
 
-    private double turnAngle = 0.8;
-    private double newTurnAngle = 0.8;
+    private double turnAngle = 0.7;
+    private double newTurnAngle = 0.7;
     private double turnAngleChange = 0.005;
 
     @Override
@@ -93,7 +93,9 @@ public class ProtypeShooterControl extends OpMode {
         backPass = hardwareMap.get(CRServo.class, "backPass");
 
         shooterMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
-        shooterMotor2 = hardwareMap.get(DcMotorEx.class, "launchMotor");
+        shooterMotor2 = hardwareMap.get(DcMotorEx.class, "launchMotor2");
+
+
 
 
 
@@ -112,6 +114,13 @@ public class ProtypeShooterControl extends OpMode {
         backPass.setPower(1);
 
         shooterAngle.setDirection(Servo.Direction.FORWARD);
+        shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooterMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        shooterMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        shooterMotor2.setDirection(DcMotorSimple.Direction.FORWARD);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(50,0,0,12.32);
+        shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+        shooterMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
 
 //        shooterAngle.setPosition(0.0);
         launchServoAngle = shooterAngle.getPosition();

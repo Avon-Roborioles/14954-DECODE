@@ -26,7 +26,8 @@ public class LauncherPIDTune extends OpMode {
         launcher2 = hardwareMap.get(DcMotorEx.class, "launchMotor2");
         launcher1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         launcher2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        launcher2.setDirection(DcMotorSimple.Direction.REVERSE);
+        launcher1.setDirection(DcMotorSimple.Direction.REVERSE);
+        launcher2.setDirection(DcMotorSimple.Direction.FORWARD);
 
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P,0,0,F);
         launcher1.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);

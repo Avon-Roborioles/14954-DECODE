@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
@@ -49,7 +50,9 @@ public class LaunchSubsystem extends SubsystemBase {
         this.launchServo = launchServo;
         this.launchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.launchMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(150,0,0,12.2);
+        this.launchMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        this.launchMotor2.setDirection(DcMotorSimple.Direction.FORWARD);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(50,0,0,11.68);
         this.launchMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         this.launchMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         //13.29, 15
@@ -85,7 +88,7 @@ public class LaunchSubsystem extends SubsystemBase {
 
 
         launchMotor.setVelocity(correctedSpeed);
-        launchMotor2.setVelocity(-correctedSpeed);
+        launchMotor2.setVelocity(correctedSpeed);
         Position = ANGLE_SERVO_ZERO - 0.08;
         launchAngleServo.setPosition(Position);
 
@@ -99,7 +102,7 @@ public class LaunchSubsystem extends SubsystemBase {
 
 
        launchMotor.setVelocity(correctedSpeed);
-       launchMotor2.setVelocity(-correctedSpeed);
+       launchMotor2.setVelocity(correctedSpeed);
        Position = ANGLE_SERVO_ZERO - 0.08;
        launchAngleServo.setPosition(Position);
 
@@ -114,7 +117,7 @@ public class LaunchSubsystem extends SubsystemBase {
         if (auto){
             TargetRPM = 1730;
             launchMotor.setVelocity(1730);
-            launchMotor2.setVelocity(-1730);
+            launchMotor2.setVelocity(1730);
             Position = ANGLE_SERVO_ZERO - 0.08;
             launchAngleServo.setPosition(Position);
         } else {
@@ -122,8 +125,8 @@ public class LaunchSubsystem extends SubsystemBase {
             double correctedSpeed = TargetRPM + motorBoostSpeed;
 
 
-            launchMotor.setVelocity(correctedSpeed);
-            launchMotor2.setVelocity(-correctedSpeed);
+            launchMotor.setVelocity(TargetRPM);
+            launchMotor2.setVelocity(TargetRPM);
             Position = ANGLE_SERVO_ZERO - 0.08;
             launchAngleServo.setPosition(Position);
         }
@@ -136,8 +139,8 @@ public class LaunchSubsystem extends SubsystemBase {
         double correctedSpeed = TargetRPM + motorBoostSpeed;
 
 
-        launchMotor.setVelocity(correctedSpeed);
-        launchMotor2.setVelocity(-correctedSpeed);
+        launchMotor.setVelocity(TargetRPM);
+        launchMotor2.setVelocity(TargetRPM);
         Position = ANGLE_SERVO_ZERO - 0.03;
         launchAngleServo.setPosition(Position); //0.03 //0.10 //correct 1500: 0.03
     }
@@ -148,8 +151,8 @@ public class LaunchSubsystem extends SubsystemBase {
         double correctedSpeed = TargetRPM + motorBoostSpeed;
 
 
-        launchMotor.setVelocity(correctedSpeed);
-        launchMotor2.setVelocity(-correctedSpeed);
+        launchMotor.setVelocity(TargetRPM);
+        launchMotor2.setVelocity(TargetRPM);
         Position = ANGLE_SERVO_ZERO - 0.02;
         launchAngleServo.setPosition(Position); //0.06 //0.07 // correct 1300: 0.06 // 1.2
     }
