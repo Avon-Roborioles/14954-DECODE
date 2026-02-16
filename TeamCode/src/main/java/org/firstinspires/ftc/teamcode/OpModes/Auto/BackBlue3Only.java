@@ -144,7 +144,7 @@ public class BackBlue3Only extends AutoBase{
         while (opModeIsActive()&& !isStopRequested()){
             run();
         }
-
+        reset();
     }
     public void makeAuto(){
         //hardware map init

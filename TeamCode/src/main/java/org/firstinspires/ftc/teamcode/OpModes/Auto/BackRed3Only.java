@@ -144,7 +144,7 @@ public class BackRed3Only extends AutoBase{
             run();
         }
 
-
+        reset();
 
     }
 

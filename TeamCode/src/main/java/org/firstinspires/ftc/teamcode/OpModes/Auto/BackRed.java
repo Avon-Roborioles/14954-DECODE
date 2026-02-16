@@ -164,7 +164,7 @@ public void runOpMode(){
     while (opModeIsActive() && !isStopRequested()){
         run();
     }
-
+    reset();
 
 
 }

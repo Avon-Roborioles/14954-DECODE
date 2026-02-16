@@ -153,7 +153,7 @@ public class BackRedHuman extends AutoBase{
             run();
         }
 
-
+        reset();
 
     }
 

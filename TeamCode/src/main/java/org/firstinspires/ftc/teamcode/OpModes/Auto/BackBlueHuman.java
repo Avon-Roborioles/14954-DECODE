@@ -154,7 +154,7 @@ public class BackBlueHuman extends AutoBase {
         while (opModeIsActive()&& !isStopRequested()){
             run();
         }
-
+        reset();
     }
     public void makeAuto(){
         //hardware map init
