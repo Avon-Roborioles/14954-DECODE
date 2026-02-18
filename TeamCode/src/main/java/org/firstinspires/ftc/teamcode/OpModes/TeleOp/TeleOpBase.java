@@ -36,6 +36,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.LightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TelemetrySubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
+import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.RunMotor;
+import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 import java.util.function.Supplier;
@@ -192,11 +194,13 @@ public abstract class TeleOpBase extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
                 .toggleWhenPressed(new org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.limelightTurnCommand(limelightSubsystem, TurnSubsystem,launchSubsystem, redAlliance()));
 
+        operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                        .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(new closeBackSetPointCommand(launchSubsystem, TurnSubsystem , lightSubsystem,redAlliance()));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(new backMiddleSetPointCommand(launchSubsystem, TurnSubsystem, redAlliance()));
+                .whenPressed(new backMiddleSetPointCommand(launchSubsystem, TurnSubsystem, lightSubsystem,redAlliance()));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new backSetPointCommand(launchSubsystem, TurnSubsystem, lightSubsystem,redAlliance()));

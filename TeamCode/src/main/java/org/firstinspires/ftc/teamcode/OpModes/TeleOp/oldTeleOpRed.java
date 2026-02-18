@@ -212,7 +212,7 @@ public class oldTeleOpRed extends CommandOpMode {
                 .whenPressed(new closeBackSetPointCommand(launchSubsystem, TurnSubsystem, lightSubsystem,true));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                .whenPressed(new backMiddleSetPointCommand(launchSubsystem, TurnSubsystem, true));
+                .whenPressed(new backMiddleSetPointCommand(launchSubsystem, TurnSubsystem, lightSubsystem,true));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(new backSetPointCommand(launchSubsystem, TurnSubsystem, lightSubsystem,true));

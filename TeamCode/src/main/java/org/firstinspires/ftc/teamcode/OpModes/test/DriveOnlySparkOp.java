@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.OpModes.test;
 
 
+import static java.lang.Math.PI;
+
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
@@ -19,7 +21,6 @@ import java.util.function.Supplier;
 
 @Configurable
 @TeleOp(name = "TeleOp1")
-@Disabled
 public class DriveOnlySparkOp extends OpMode {
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this
@@ -64,7 +65,7 @@ public class DriveOnlySparkOp extends OpMode {
             if (!slowMode) follower.setTeleOpDrive(
                     -gamepad1.left_stick_y,
                     -gamepad1.left_stick_x,
-                    -gamepad1.right_stick_x,
+                    gamepad1.right_stick_x,
                     false // Robot Centric
             );
 
@@ -97,8 +98,9 @@ public class DriveOnlySparkOp extends OpMode {
 
         //Optional way to change slow mode strength
         if (gamepad1.xWasPressed()) {
-            slowModeMultiplier += 0.25;
+            follower.setPose(new Pose(0, 0, PI));
         }
+
 
         //Optional way to change slow mode strength
         if (gamepad2.yWasPressed()) {

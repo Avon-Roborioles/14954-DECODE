@@ -58,7 +58,7 @@ public class LaunchSubsystem extends SubsystemBase {
         this.launchMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.launchMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         this.launchMotor2.setDirection(DcMotorSimple.Direction.FORWARD);
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(75,0,0,12.32);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(200,0,0,14);
         this.launchMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         this.launchMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         //13.29, 15
@@ -217,7 +217,9 @@ public class LaunchSubsystem extends SubsystemBase {
 
     public void runMotor(){
         isRunning = true;
+        TargetRPM = 1600;
         launchMotor.setVelocity(TargetRPM);
+        launchMotor2.setVelocity(TargetRPM);
         // If you need your intake/feeder servo to run, uncomment this:
         // if(launchServo != null) launchServo.setPower(1);
     }
