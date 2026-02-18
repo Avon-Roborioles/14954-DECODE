@@ -28,7 +28,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Constants extends FollowerConstants {
     private OTOSLocalizer sparkfun;
     public static FollowerConstants followerConstants = new FollowerConstants()
-            .mass(20.0)
+            .mass(20.0) // 12.25 correct
             .forwardZeroPowerAcceleration(-38.1868184966)
             .lateralZeroPowerAcceleration(-65.99318707)
             .useSecondaryDrivePIDF(false)
