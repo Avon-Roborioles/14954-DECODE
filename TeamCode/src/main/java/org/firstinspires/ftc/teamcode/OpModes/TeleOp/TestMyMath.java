@@ -38,7 +38,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 import java.util.function.Supplier;
 
-@TeleOp (name = "TEST MY MATH")
+@TeleOp (name = "TEST MY MATH", group = "Aux Test Op Modes")
 public class TestMyMath extends CommandOpMode {
     // drive variables
     private Follower follower;

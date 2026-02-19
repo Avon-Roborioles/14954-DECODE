@@ -57,7 +57,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import java.util.function.Supplier;
 
 
-@TeleOp(name = "Manual Control", group = "prototype")
+@TeleOp(name = "Manual Control", group = "Other Test Op Modes")
 public class ManualOpMode extends LinearOpMode {
 
     public DcMotorEx shooterMotor = null;

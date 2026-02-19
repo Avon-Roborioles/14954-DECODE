@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 
-@TeleOp(name = "LauncherPIDTune", group = "prototype")
+@TeleOp(name = "LauncherPIDTune", group = "Aux Test Op Modes")
 public class LauncherPIDTune extends OpMode {
     public DcMotorEx launcher1;
     public DcMotorEx launcher2;

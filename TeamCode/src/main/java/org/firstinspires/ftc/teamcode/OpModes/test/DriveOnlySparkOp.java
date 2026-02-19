@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import java.util.function.Supplier;
 
 @Configurable
-@TeleOp(name = "TeleOp1")
+@TeleOp(name = "SparkFunTestOpMode", group = "Other Test Op Modes")
 public class DriveOnlySparkOp extends OpMode {
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this

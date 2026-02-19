@@ -44,7 +44,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@TeleOp(name = "Shooter control code", group = "prototype")
+@TeleOp(name = "Shooter control code", group = "Aux Test Op Modes")
 public class ProtypeShooterControl extends OpMode {
 
     public DcMotorEx shooterMotor = null;

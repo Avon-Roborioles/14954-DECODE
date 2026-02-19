@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.commands.teleop.DriveCommands.DriveCommand;
 
 
-@TeleOp
+@TeleOp (group = "Aux Test Op Modes")
 public class testOpMode extends LinearOpMode {
 
     private CRServo frontIntake;

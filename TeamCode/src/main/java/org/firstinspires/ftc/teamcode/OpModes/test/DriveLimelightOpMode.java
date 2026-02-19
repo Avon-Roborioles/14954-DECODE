@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 
 import java.util.List;
 
-@TeleOp
+@TeleOp(group = "Other Test Op Modes")
 @Disabled
 
     public class DriveLimelightOpMode extends LinearOpMode {

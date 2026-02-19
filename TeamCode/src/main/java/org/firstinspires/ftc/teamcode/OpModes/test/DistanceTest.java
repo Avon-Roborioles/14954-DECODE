@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-@TeleOp
+@TeleOp(group = "Other Test Op Modes")
 @Disabled
 public class DistanceTest extends LinearOpMode {
     private DigitalChannel fSensor, mSensor, bSensor;
