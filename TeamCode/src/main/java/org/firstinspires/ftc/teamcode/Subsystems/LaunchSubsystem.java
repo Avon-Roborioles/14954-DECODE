@@ -217,7 +217,7 @@ public class LaunchSubsystem extends SubsystemBase {
 
     public void runMotor(){
         isRunning = true;
-        TargetRPM = 1600;
+        TargetRPM = 1850;
         launchMotor.setVelocity(TargetRPM);
         launchMotor2.setVelocity(TargetRPM);
         // If you need your intake/feeder servo to run, uncomment this:
