@@ -10,7 +10,7 @@ import java.util.function.DoubleSupplier;
 public class TeleSlowDriveCommand extends CommandBase {
     private AutoDriveSubsystem autoDriveSubsystem;
     private Telemetry telemetry;
-    private double speed1 = 0.3;
+    private double speed1 = 0.4;
     private DoubleSupplier strafe, forward, turn;
     private boolean robotCentric;
 
@@ -26,6 +26,7 @@ public class TeleSlowDriveCommand extends CommandBase {
     @Override
     public void execute(){
         autoDriveSubsystem.setTeleOpDrive(-forward.getAsDouble() * speed1, -strafe.getAsDouble() * speed1, turn.getAsDouble() * speed1, robotCentric);
+        autoDriveSubsystem.startTeleopDrive();
         autoDriveSubsystem.update();
     }
 }

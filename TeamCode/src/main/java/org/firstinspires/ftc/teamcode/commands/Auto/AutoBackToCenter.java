@@ -18,8 +18,9 @@ public class AutoBackToCenter extends CommandBase {
 
     }
     public void initialize(){
-        timer = new Timing.Timer(350, TimeUnit.MILLISECONDS);
+        timer = new Timing.Timer(450, TimeUnit.MILLISECONDS);
         timer.start();
+        intakeServoSubsystem.IntakeBackToCenter();
     }
     @Override
     public void execute() {

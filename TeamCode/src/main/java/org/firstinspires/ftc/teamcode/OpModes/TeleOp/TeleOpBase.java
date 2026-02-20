@@ -94,16 +94,7 @@ public abstract class TeleOpBase extends CommandOpMode {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
         //Follower
-        follower = Constants.createFollower(hardwareMap);
 
-        follower.setStartingPose(new Pose(0, 0, PI));
-        follower.setPose(new Pose(0, 0, PI));
-
-        telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
-        pathChain = () -> follower.pathBuilder() //Lazy Curve Generation
-                .addPath(new Path(new BezierLine(follower::getPose, new Pose(45, 98, PI))))
-                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
-                .build();
 
 
 
@@ -146,7 +137,27 @@ public abstract class TeleOpBase extends CommandOpMode {
 
 
         //Drive Subsystem
+        follower = Constants.createFollower(hardwareMap);
+
         autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry);
+
+//        autoDriveSubsystem.setStartingPose(new Pose(0,0,PI));
+//        autoDriveSubsystem.setStartingPose(new Pose(0,0,PI));
+
+        // Old non autodrive Subsystem
+
+
+        follower.setStartingPose(new Pose(0, 0, PI));
+
+        follower.setPose(new Pose(0, 0, PI));
+
+        telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
+        pathChain = () -> follower.pathBuilder() //Lazy Curve Generation
+                .addPath(new Path(new BezierLine(follower::getPose, new Pose(45, 98, PI))))
+                .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(45), 0.8))
+                .build();
+
+
 
 
         // Driver commands
@@ -195,7 +206,7 @@ public abstract class TeleOpBase extends CommandOpMode {
                 .toggleWhenPressed(new org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.limelightTurnCommand(limelightSubsystem, TurnSubsystem,launchSubsystem, redAlliance()));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                        .toggleWhenPressed(new RunMotor(launchSubsystem), new StopMotor(launchSubsystem));
+                        .whenPressed(new RunMotor(launchSubsystem, lightSubsystem));
         operatorOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(new closeBackSetPointCommand(launchSubsystem, TurnSubsystem , lightSubsystem,redAlliance()));
 
@@ -229,10 +240,10 @@ public abstract class TeleOpBase extends CommandOpMode {
             follower.update();
             telemetryM.update();
 
-//            autoDriveSubsystem.setDefaultCommand(new TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false));
-//            driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-//                    .whenHeld(new TeleSlowDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false))
-//                    .whenInactive(new TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false));
+            /*autoDriveSubsystem.setDefaultCommand(new org.firstinspires.ftc.teamcode.commands.teleop.DriveCommands.TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false));
+            driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                    .whenHeld(new org.firstinspires.ftc.teamcode.commands.teleop.DriveCommands.TeleSlowDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false))
+                    .whenInactive(new org.firstinspires.ftc.teamcode.commands.teleop.DriveCommands.TeleDriveCommand(autoDriveSubsystem, telemetry, driverOp::getLeftY, driverOp::getLeftX, driverOp::getRightX, false));*/
             follower.setTeleOpDrive(
                     -gamepad1.left_stick_y,
                     -gamepad1.left_stick_x,

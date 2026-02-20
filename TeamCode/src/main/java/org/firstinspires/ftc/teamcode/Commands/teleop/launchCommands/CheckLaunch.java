@@ -16,16 +16,27 @@ public class CheckLaunch extends CommandBase {
     }
 
     @Override
-    public void initialize() {
-        if (!distanceSubsystem.checkFront() && !distanceSubsystem.checkBack()){
+    public void execute() {
+        if (distanceSubsystem.getArtifactNum() == 0){
             lightSubsystem.lightOff();
-        } else {
+        } else if (distanceSubsystem.getArtifactNum() == 1){
+            lightSubsystem.lightYellow();
+        } else if (distanceSubsystem.getArtifactNum() == 2){
             lightSubsystem.lightOrange();
+        } else if (distanceSubsystem.getArtifactNum() == 3){
+            lightSubsystem.lightRed();
         }
+
+
+//        if (!distanceSubsystem.checkFront() && !distanceSubsystem.checkBack()){
+//            lightSubsystem.lightOff();
+//        } else {
+//            lightSubsystem.lightOrange();
+//        }
     }
 
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
 }

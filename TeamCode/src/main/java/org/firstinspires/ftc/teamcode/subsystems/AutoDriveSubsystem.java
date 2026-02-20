@@ -69,4 +69,10 @@ public class AutoDriveSubsystem extends SubsystemBase {
     public void holdPosition(){
         follower.holdPoint(getPose());
     }
+    public void getTelemetry(Telemetry telemetry){
+        telemetry.addData("x", follower.getPose().getX());
+        telemetry.addData("y", follower.getPose().getY());
+        telemetry.addData("heading", follower.getPose().getHeading());
+
+    }
 }

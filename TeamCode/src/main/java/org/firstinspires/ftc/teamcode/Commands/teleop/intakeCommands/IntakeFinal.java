@@ -1,14 +1,18 @@
 package org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
+import com.arcrobotics.ftclib.util.Timing;
 
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
+
+import java.util.concurrent.TimeUnit;
 
 public class IntakeFinal extends CommandBase {
     private DistanceSubsystem distanceSubsystem;
     private IntakeSubsystem intakeSubsystem;
     private boolean isFront;
+    private Timing.Timer timer;
 
     public IntakeFinal (IntakeSubsystem intakeSubsystem, DistanceSubsystem distanceSubsystem){
         this.intakeSubsystem = intakeSubsystem;
@@ -17,6 +21,7 @@ public class IntakeFinal extends CommandBase {
 
     public void initialize() {
         isFront = distanceSubsystem.isIntakingFromFront();
+        timer = new Timing.Timer(75, TimeUnit.MILLISECONDS);
     }
     public void execute() {
 
@@ -31,11 +36,15 @@ public class IntakeFinal extends CommandBase {
         boolean f = distanceSubsystem.checkFront();
         boolean b = distanceSubsystem.checkBack();
         if (isFront) {
-            return f;
+            if (f && !timer.isTimerOn()){
+                timer.start();
+            }
         } else if (!isFront) {
-            return b;
+            if(b && !timer.isTimerOn()){
+                timer.start();
+            }
         }
-        return false;
+        return timer.done();
     }
     public void end(boolean interrupted){
         intakeSubsystem.stopAll();

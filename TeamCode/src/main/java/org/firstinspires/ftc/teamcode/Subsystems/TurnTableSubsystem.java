@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 public class TurnTableSubsystem extends SubsystemBase {
     private Servo turntable;
-    private final double TURN_TABLE_ZERO = 0.7;
+    private final double TURN_TABLE_ZERO = 0.0;
     private Limelight3A limelight3A;
     private IMU imu;
     private LLResult result;
@@ -28,13 +28,13 @@ public class TurnTableSubsystem extends SubsystemBase {
     // private double servoPos = 0.08;
 
     // Define the limits for your servo
-    private static final double MIN_POS = 0.5;
-    private static final double MAX_POS = 0.88;
+    private static final double MIN_POS = 0.1;
+    private static final double MAX_POS = 0.995;
     // Zero 0.7
     private double angleOffset = 201.72+3.78;
     private double pos;
     // Proportional gain for turning. Tune this value.
-    private static final double Kp = -0.00014;
+    private static final double Kp = -0.001;
     private static final double MANUAL_SPEED_MULTIPLIER = 0.003;
 
     //0.0
@@ -53,9 +53,9 @@ public class TurnTableSubsystem extends SubsystemBase {
     }
     public void BackSetPoints(boolean redAlliance){
         if (redAlliance){
-            turntable.setPosition(0.625);
+            turntable.setPosition(0.175);
         } else if (!redAlliance){
-            turntable.setPosition(0.765);
+            turntable.setPosition(0.930);
         }
     }
     public void BackMiddleSetPoints(boolean redAlliance){
