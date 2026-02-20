@@ -21,7 +21,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Commands.Auto.AutoLaunch;
+import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoLaunch;
 import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.backMiddleSetPointCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.backSetPointCommand;
@@ -37,7 +37,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TelemetrySubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.RunMotor;
-import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 import java.util.function.Supplier;
@@ -171,15 +170,7 @@ public abstract class TeleOpBase extends CommandOpMode {
                 .whenPressed(new InstantCommand(() -> {follower.setPose(new Pose(0, 0, PI));}));
 
 
-//
-//        driverOp.getGamepadButton(GamepadKeys.Button.A)
-//                .whenPressed(new InstantCommand(() -> {
-//                    launchAngleServo.setPosition(0);
-//                }));
-//        driverOp.getGamepadButton(GamepadKeys.Button.B)
-//                .whenPressed(new InstantCommand(() -> {
-//                    launchAngleServo.setPosition(0.1);
-//                }));
+
         driverOp.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand(intakeSubsystem,launchSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)

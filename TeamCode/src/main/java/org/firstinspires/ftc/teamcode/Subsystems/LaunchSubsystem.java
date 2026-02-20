@@ -35,7 +35,7 @@ public class LaunchSubsystem extends SubsystemBase {
 
 
     private static final double RPM_TOLERANCE = 50; // acceptable error (+/-)
-    private static final double READY_TIME_MS = 150;
+    private static final double READY_TIME_MS = 50;
     private long rpmInRangeStartTime = -1;
 
     public LaunchSubsystem(DcMotorEx launchMotor, Servo launchAngleServo, Servo turnServo, CRServo launchServo){
@@ -71,7 +71,7 @@ public class LaunchSubsystem extends SubsystemBase {
     public double getTargetRPM(){
         return TargetRPM;
     }
-    public void setTargetRPM(double distance){
+    public void distanceToRPM(double distance){
         TargetRPM = ((distance * 6) + 775);
 
         if (TargetRPM < 1200) {
