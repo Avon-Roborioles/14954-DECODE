@@ -44,18 +44,27 @@ public class TurnTableSubsystem extends SubsystemBase {
     }
 
 
+    public void recenterLimeLight(boolean redAlliance){
+        if (redAlliance){
+            turntable.setPosition(0.15);
+        } else if (!redAlliance){
+            turntable.setPosition(0.9);
+        }
+    }
+
+
     public void AutoBackSetPoints(boolean redAlliance){
         if (redAlliance){
-            turntable.setPosition(0.665);
+            turntable.setPosition(0.4);
         } else if (!redAlliance){
-            turntable.setPosition(0.735);
+            turntable.setPosition(0.920);
         }
     }
     public void BackSetPoints(boolean redAlliance){
         if (redAlliance){
             turntable.setPosition(0.175);
         } else if (!redAlliance){
-            turntable.setPosition(0.930);
+            turntable.setPosition(0.920);
         }
     }
     public void BackMiddleSetPoints(boolean redAlliance){

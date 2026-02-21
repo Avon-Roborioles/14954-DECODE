@@ -21,6 +21,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Commands.teleop.limelightAutoSpeed_TurnCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoLaunch;
 import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.backMiddleSetPointCommand;
@@ -28,6 +29,7 @@ import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.b
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.closeBackSetPointCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.midSetPointCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.TeleOpIntakeCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.turntableCommands.RecenterLimelightCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
@@ -162,7 +164,7 @@ public abstract class TeleOpBase_1Person extends CommandOpMode {
         driverOp.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand(intakeSubsystem,launchSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
-                .toggleWhenPressed(new org.firstinspires.ftc.teamcode.commands.teleop.intakeCommands.ManIntakeToLauncher(intakeSubsystem), new IntakeStopServoCommand(intakeSubsystem));
+                        .whenPressed(new RecenterLimelightCommand(TurnSubsystem, redAlliance()));
 
 
 
@@ -218,7 +220,7 @@ public abstract class TeleOpBase_1Person extends CommandOpMode {
                     gamepad1.right_stick_x,
                     false // Robot Centric
             );
-            TurnSubsystem.setDefaultCommand(new org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.limelightTurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem, redAlliance()));
+            TurnSubsystem.setDefaultCommand(new limelightAutoSpeed_TurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem,lightSubsystem ,redAlliance()));
 
             run();
             telemetrySubsystem.setDefaultCommand(new org.firstinspires.ftc.teamcode.commands.teleop.CompTelemetryCommand(telemetrySubsystem));

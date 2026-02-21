@@ -49,7 +49,7 @@ public class ProtypeShooterControl extends OpMode {
 
     public DcMotorEx shooterMotor = null;
     public DcMotorEx shooterMotor2 =  null;
-    private double shooterV = 1000;
+    private double shooterV;
     public Servo shooterAngle = null;
     private Servo turn;
     private Limelight3A limelight;
@@ -77,13 +77,14 @@ public class ProtypeShooterControl extends OpMode {
     @Override
     public void init() {
          motorIncrement = 25;
-         newShooterPower = 0.0;
+         newShooterPower = 1100;
         launchServoAngle = 0.6;
          servoAngleChange = 0.01;
          newServoAngle = 0.6;
+         shooterV = 1100;
 
-         turnAngle = 0.8;
- newTurnAngle = 0.8;
+         turnAngle = 0.585;
+ newTurnAngle = 0.585;
         turnAngleChange = 0.005;
 
 
@@ -105,8 +106,9 @@ public class ProtypeShooterControl extends OpMode {
 
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
-        limelight.pipelineSwitch(1);
+        limelight.pipelineSwitch(2);
         limelight.start();
+        limelight.close();
 
         frontIntake.setPower(-1);
         frontPass.setPower(-1);
@@ -118,7 +120,7 @@ public class ProtypeShooterControl extends OpMode {
         shooterMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooterMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         shooterMotor2.setDirection(DcMotorSimple.Direction.FORWARD);
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(250,0,0,12.32);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(250,0,0,14);
         shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         shooterMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
 
@@ -152,13 +154,6 @@ public class ProtypeShooterControl extends OpMode {
             }
 
 
-//            if (gamepad1.a) {
-//                shooterPower = 1.0;
-//                shooterMotor.setPower(shooterPower);
-//            } else if(){
-//                shooterPower = 0.8;
-//                shooterMotor.setPower(shooterPower);
-//            }
 
 
 
@@ -175,26 +170,29 @@ public class ProtypeShooterControl extends OpMode {
             telemetry.addData("V2", shooterMotor2.getVelocity());
             telemetry.addData("shooterLaunchPosition", "%.3f", launchServoAngle);
             telemetry.addData("turnAngle", "%.3f", turnAngle);
-//            telemetry.addData("getDistance", getDistance());
+            telemetry.addData("getDistance", getDistance());
             telemetry.update();
 
-            LLResult result = limelight.getLatestResult();
+
 
         }
+
+    double getDistance() {
+        LLResult result = limelight.getLatestResult();
+        double targetOffsetAngle_Vertical = result.getTy();
+
+        double limelightMountAngleDegrees = 20.0;
+        double limelightLensHeightInches = 14.5;
+        double goalHeightInches = 28.5;
+
+        double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
+        double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+
+        return (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
+
+    }
     }
 
-//    double getDistance() {
-//        LLResult result = limelight.getLatestResult();
-//        double targetOffsetAngle_Vertical = result.getTy();
-//
-//        double limelightMountAngleDegrees = 20.0;
-//        double limelightLensHeightInches = 14.5;
-//        double goalHeightInches = 28.5;
-//
-//        double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
-//        double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
-//
-//        return (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
-//
-//    }
+
+
 

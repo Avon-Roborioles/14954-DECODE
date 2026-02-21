@@ -21,6 +21,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Commands.teleop.limelightAutoSpeed_TurnCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoLaunch;
 import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.backMiddleSetPointCommand;
@@ -192,9 +193,9 @@ public abstract class TeleOpBase extends CommandOpMode {
         operatorOp.getGamepadButton(GamepadKeys.Button.X)
                 .whenPressed(new TeleOpIntakeCommand(distanceSubsystem,intakeSubsystem, lightSubsystem));
 
-        TurnSubsystem.setDefaultCommand(new org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.limelightTurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem, redAlliance()));
+        TurnSubsystem.setDefaultCommand(new limelightAutoSpeed_TurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem,lightSubsystem ,redAlliance()));
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
-                .toggleWhenPressed(new org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.limelightTurnCommand(limelightSubsystem, TurnSubsystem,launchSubsystem, redAlliance()));
+                .toggleWhenPressed(new org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.ManualTurntableCommand(TurnSubsystem,limelightSubsystem,operatorOp::getLeftX), new limelightAutoSpeed_TurnCommand(limelightSubsystem, TurnSubsystem,launchSubsystem, lightSubsystem,redAlliance()));
 
         operatorOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                         .whenPressed(new RunMotor(launchSubsystem, lightSubsystem));
@@ -241,7 +242,7 @@ public abstract class TeleOpBase extends CommandOpMode {
                     gamepad1.right_stick_x,
                     false // Robot Centric
             );
-            TurnSubsystem.setDefaultCommand(new org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands.limelightTurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem, redAlliance()));
+            TurnSubsystem.setDefaultCommand(new limelightAutoSpeed_TurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem,lightSubsystem ,redAlliance()));
 
             run();
             telemetrySubsystem.setDefaultCommand(new org.firstinspires.ftc.teamcode.commands.teleop.CompTelemetryCommand(telemetrySubsystem));
