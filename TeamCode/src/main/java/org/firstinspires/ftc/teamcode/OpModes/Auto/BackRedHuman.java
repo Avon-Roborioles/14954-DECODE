@@ -35,8 +35,8 @@ public class BackRedHuman extends AutoBase{
 
     Pose startPose = new Pose(66, 7, Math.toRadians(0));
     Pose launchPreloadPose = new Pose(60, 10, Math.toRadians(-25));
-    Pose prepGrab1Pose = new Pose(99, 23.5, Math.toRadians(90)); //33y too far
-    Pose grab1Pose = new Pose(104, 7, Math.toRadians(90));
+    Pose prepGrab1Pose = new Pose(99, 23.5, Math.toRadians(-90)); //33y too far
+    Pose grab1Pose = new Pose(79, 13.5, Math.toRadians(90));
     Pose midpointPose = new Pose(67, 30, Math.toRadians(0));
     Pose launch1Pose = new Pose(66, 9, Math.toRadians(0));
     Pose prepGrab2Pose = new Pose(45, 60, Math.toRadians(180));
@@ -65,7 +65,7 @@ public class BackRedHuman extends AutoBase{
         });
 
         PrepareToGrab1 = new InstantCommand(() -> {
-            follower.setMaxPower(0.6);
+            follower.setMaxPower(0.35);
             autoDriveSubsystem.followPath(prepGrab1, true);
         });
 
@@ -117,19 +117,19 @@ public class BackRedHuman extends AutoBase{
                         new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
                         new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
                         PrepareToGrab1,
-                        new AutoDriveCommand(autoDriveSubsystem,telemetry),
-                        new ParallelCommandGroup(
-                                new AutoIntakeCommand(distance,intake, lightSubsystem).withTimeout(6000),GrabSet1,
-                                new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry)
-                        ),
-                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry),
-                        MoveToLaunch1,
-                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry),
-                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,true),
-                        new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
-                        new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
-                        leave,
-                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry)
+                        new AutoDriveCommand(autoDriveSubsystem,telemetry)
+//                        new ParallelCommandGroup(
+//                                new AutoIntakeCommand(distance,intake, lightSubsystem).withTimeout(6000),GrabSet1,
+//                                new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry)
+//                        ),
+//                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry),
+//                        MoveToLaunch1,
+//                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry),
+//                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,true),
+//                        new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
+//                        new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
+//                        leave,
+//                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry)
 
 
 
@@ -152,7 +152,7 @@ public class BackRedHuman extends AutoBase{
             run();
         }
 
-        reset();
+
 
     }
 
@@ -205,6 +205,7 @@ public class BackRedHuman extends AutoBase{
         //launch Preload
         launchPreload = new Path(new BezierCurve(startPose, launchPreloadPose));
         launchPreload.setLinearHeadingInterpolation(startPose.getHeading(), launchPreloadPose.getHeading());
+
         launchPreload.setTimeoutConstraint(250);
 
         //prepGrab1

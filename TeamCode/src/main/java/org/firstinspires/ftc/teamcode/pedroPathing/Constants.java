@@ -86,10 +86,10 @@ public class Constants extends FollowerConstants {
     );
     public static OTOSConstants sparkConstants = new OTOSConstants()
             .hardwareMapName("otos")
-            .offset(new SparkFunOTOS.Pose2D(0,0,-PI/2))
+            .offset(new SparkFunOTOS.Pose2D(0,0,PI/2))
             .linearUnit(DistanceUnit.INCH)
             .angleUnit(AngleUnit.RADIANS)
-            .linearScalar(1.0577373997)
+            .linearScalar(-1.03067)
             .angularScalar(0.97758);
 
 
