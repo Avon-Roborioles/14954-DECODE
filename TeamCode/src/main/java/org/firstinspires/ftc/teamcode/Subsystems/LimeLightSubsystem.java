@@ -28,6 +28,14 @@ public class LimeLightSubsystem extends SubsystemBase {
     }
     public void stop(){limelight.stop();}
 
+    public void pollRate(int rate){
+        limelight.setPollRateHz(rate);
+    }
+
+    public boolean isLimeLightCooked(){
+        return !limelight.isConnected();
+    }
+
     public void setPipeline(int pipeline) {
         limelight.pipelineSwitch(pipeline);
     }

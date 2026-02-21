@@ -72,10 +72,12 @@ public class LaunchSubsystem extends SubsystemBase {
         return TargetRPM;
     }
     public void distanceToRPM(double distance){
-        TargetRPM = ((distance * 6) + 775);
+        TargetRPM = ((2.0073 * distance) + 1425.7);
 
-        if (TargetRPM < 1200) {
-            TargetRPM = 1200;
+        if (TargetRPM < 1550) {
+            TargetRPM = 1550;
+        } else if (TargetRPM > 1900) {
+            TargetRPM = 1850;
         }
     }
 
@@ -159,7 +161,7 @@ public class LaunchSubsystem extends SubsystemBase {
             Position = ANGLE_SERVO_ZERO - 0.08;
             launchAngleServo.setPosition(Position);
         } else {
-            TargetRPM = 1850;
+            TargetRPM = 1825;
 
 
             launchMotor.setVelocity(TargetRPM);
@@ -217,7 +219,6 @@ public class LaunchSubsystem extends SubsystemBase {
 
     public void runMotor(){
         isRunning = true;
-        TargetRPM = 1850;
         launchMotor.setVelocity(TargetRPM);
         launchMotor2.setVelocity(TargetRPM);
         // If you need your intake/feeder servo to run, uncomment this:

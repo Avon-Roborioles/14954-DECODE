@@ -1,23 +1,26 @@
-package org.firstinspires.ftc.teamcode.commands.teleop.turntableCommands;
+package org.firstinspires.ftc.teamcode.Commands.teleop;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.LightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 
-public class limelightTurnCommand extends CommandBase {
+public class limelightAutoSpeed_TurnCommand extends CommandBase {
     private LimeLightSubsystem limelightSubsystem;
     private TurnTableSubsystem turnTableSubsystem;
     private LaunchSubsystem launchSubsystem;
+    private LightSubsystem lightSubsystem;
     private boolean redAlliance = false;
 
-    public limelightTurnCommand(LimeLightSubsystem limelightSubsystem, TurnTableSubsystem turnTableSubsystem, LaunchSubsystem launchSubsystem, boolean redAlliance){
+    public limelightAutoSpeed_TurnCommand(LimeLightSubsystem limelightSubsystem, TurnTableSubsystem turnTableSubsystem, LaunchSubsystem launchSubsystem,LightSubsystem lightSubsystem ,boolean redAlliance){
         this.limelightSubsystem = limelightSubsystem;
         this.turnTableSubsystem = turnTableSubsystem;
         this.launchSubsystem = launchSubsystem;
+        this.lightSubsystem = lightSubsystem;
         this.redAlliance = redAlliance;
-        addRequirements(limelightSubsystem, turnTableSubsystem);
+        addRequirements(limelightSubsystem,turnTableSubsystem);
     }
 
     public void initialize(){
@@ -26,11 +29,15 @@ public class limelightTurnCommand extends CommandBase {
         } else {
             limelightSubsystem.setPipeline(2);
         }
+
         limelightSubsystem.start();
     }
 
     public void execute(){
         double tx = limelightSubsystem.getTx();
+        double distance = limelightSubsystem.getDistance();
+        boolean failed = limelightSubsystem.isLimeLightCooked();
+
 
         double result = Math.toRadians(tx);
 
@@ -40,12 +47,24 @@ public class limelightTurnCommand extends CommandBase {
 
         // 2. Calculate and Set Hood Angle
 
-        // 4. If the launcher is ALREADY toggled on, update the velocity live.
-        // We check isMotorRunning() instead of getPower() because setVelocity
-        // doesn't always update getPower() immediately in the way you expect.
-        if (launchSubsystem.isMotorRunning()){
-            launchSubsystem.runMotor();
-        }
+      launchSubsystem.distanceToRPM(distance);
+      if (failed){
+          lightSubsystem.lightRed();
+          limelightSubsystem.stop();
+          limelightSubsystem.start();
+          if (redAlliance){
+              limelightSubsystem.setPipeline(1);
+          } else {
+              limelightSubsystem.setPipeline(2);
+          }
+
+
+      }
+
+
+//        if (launchSubsystem.isMotorRunning()){
+//            launchSubsystem.runMotor();
+//        }
 
     }
 
