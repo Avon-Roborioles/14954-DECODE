@@ -34,7 +34,7 @@ public class TurnTableSubsystem extends SubsystemBase {
     private double angleOffset = 201.72+3.78;
     private double pos;
     // Proportional gain for turning. Tune this value.
-    private static final double Kp = -0.001;
+    private static final double Kp = -0.0015;
     private static final double MANUAL_SPEED_MULTIPLIER = 0.003;
 
     //0.0
@@ -57,7 +57,7 @@ public class TurnTableSubsystem extends SubsystemBase {
         if (redAlliance){
             turntable.setPosition(0.4);
         } else if (!redAlliance){
-            turntable.setPosition(0.920);
+            turntable.setPosition(0.755);
         }
     }
     public void BackSetPoints(boolean redAlliance){
@@ -142,6 +142,7 @@ public class TurnTableSubsystem extends SubsystemBase {
 
     public void compTelemetry(Telemetry telemetry){
         double currentPos = turntable.getPosition();
+        telemetry.addLine("LimeLight Data");
         telemetry.addData("turntable position", currentPos);
 
     }

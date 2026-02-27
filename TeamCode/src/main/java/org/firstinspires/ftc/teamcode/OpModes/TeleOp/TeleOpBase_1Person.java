@@ -21,6 +21,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Commands.teleop.TeleOpLaunch;
 import org.firstinspires.ftc.teamcode.Commands.teleop.limelightAutoSpeed_TurnCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoLaunch;
 import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand;
@@ -143,7 +144,7 @@ public abstract class TeleOpBase_1Person extends CommandOpMode {
         //turntable
         TurnSubsystem = new TurnTableSubsystem(turnServo);
 
-        telemetrySubsystem = new TelemetrySubsystem(telemetry,TurnSubsystem,limelightSubsystem,launchSubsystem,intakeSubsystem,distanceSubsystem);
+        telemetrySubsystem = new TelemetrySubsystem(telemetry,TurnSubsystem,limelightSubsystem,launchSubsystem,intakeSubsystem,distanceSubsystem, autoDriveSubsystem);
 
 
         //Drive Subsystem
@@ -153,7 +154,7 @@ public abstract class TeleOpBase_1Person extends CommandOpMode {
         // Driver commands
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(
-                        new AutoLaunch(distanceSubsystem,intakeSubsystem,launchSubsystem,lightSubsystem,telemetry))
+                        new TeleOpLaunch(distanceSubsystem,intakeSubsystem,lightSubsystem,telemetry))
         ;
 
 

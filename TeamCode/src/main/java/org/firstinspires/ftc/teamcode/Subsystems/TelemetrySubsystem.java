@@ -14,14 +14,16 @@ public class TelemetrySubsystem extends SubsystemBase {
     private LaunchSubsystem launchSubsystem;
     private IntakeSubsystem intakeSubsystem;
     private DistanceSubsystem distanceSubsystem;
+    private AutoDriveSubsystem autoDriveSubsystem;
 
-    public TelemetrySubsystem(Telemetry telemetry, TurnTableSubsystem turnTable, LimeLightSubsystem limelight, LaunchSubsystem launchSubsystem, IntakeSubsystem intakeSubsystem, DistanceSubsystem distanceSubsystem) {
+    public TelemetrySubsystem(Telemetry telemetry, TurnTableSubsystem turnTable, LimeLightSubsystem limelight, LaunchSubsystem launchSubsystem, IntakeSubsystem intakeSubsystem, DistanceSubsystem distanceSubsystem, AutoDriveSubsystem autoDriveSubsystem) {
         this.telemetry = telemetry;
         this.turnTable = turnTable;
         this.limelight = limelight;
         this.launchSubsystem = launchSubsystem;
         this.intakeSubsystem = intakeSubsystem;
         this.distanceSubsystem = distanceSubsystem;
+        this.autoDriveSubsystem = autoDriveSubsystem;
 
     }
     public TelemetrySubsystem(Telemetry telemetry, LaunchSubsystem launchSubsystem){
@@ -50,6 +52,8 @@ public class TelemetrySubsystem extends SubsystemBase {
         clearTelemetry();
         launchSubsystem.compTelemetry(telemetry);
         turnTable.compTelemetry(telemetry);
+        limelight.compTelemetry(telemetry);
+//        autoDriveSubsystem.getTelemetry(telemetry);
         updateTelemetry();
     }
 

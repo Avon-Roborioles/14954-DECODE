@@ -37,11 +37,11 @@ public class BackBlue extends AutoBase {
 
 
     Pose startPose = new Pose(82, 7, Math.toRadians(0));
-    Pose launchPreloadPose = new Pose(86, 14, Math.toRadians(35));
+    Pose launchPreloadPose = new Pose(82, 9, Math.toRadians(0));
     Pose prepGrab1Pose = new Pose(82, 31, Math.toRadians(0));
     Pose grab1Pose = new Pose(47, 31, Math.toRadians(0));
     Pose midpointPose = new Pose(80, 33, Math.toRadians(0));
-    Pose launch1Pose = new Pose(82, 10, Math.toRadians(0));
+    Pose launch1Pose = new Pose(78, 15, Math.toRadians(3));
     Pose prepGrab2Pose = new Pose(99, 36, Math.toRadians(0));
     Pose grab2Pose = new Pose(126, 60, Math.toRadians(0));
     Pose midpoint2Pose = new Pose(73, 36, Math.toRadians(90));
@@ -63,16 +63,17 @@ public class BackBlue extends AutoBase {
         register();
 
         MoveLaunchPreload = new InstantCommand(() -> {
+            follower.setMaxPower(0.6);
             autoDriveSubsystem.followPath(launchPreload, true);
         });
 
         PrepareToGrab1 = new InstantCommand(() -> {
-            follower.setMaxPower(0.6);
+            follower.setMaxPower(0.8);
             autoDriveSubsystem.followPath(prepGrab1, true);
         });
 
         GrabSet1 = new InstantCommand(() -> {
-            follower.setMaxPower(0.35);
+            follower.setMaxPower(0.45);
             autoDriveSubsystem.followPath(grab1, true);
         });
 
@@ -82,7 +83,7 @@ public class BackBlue extends AutoBase {
         });
 
         MoveToLaunch1 = new InstantCommand(() -> {
-            follower.setMaxPower(0.55);
+            follower.setMaxPower(0.7);
             autoDriveSubsystem.followPath(Launch1, true);
         });
         PrepareToGrab2 = new InstantCommand(() -> {
@@ -114,6 +115,8 @@ public class BackBlue extends AutoBase {
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
 
 
+
+                MoveLaunchPreload,
                 new AutoDriveCommand(autoDriveSubsystem, telemetry),
                 new SequentialCommandGroup(
                         new AutoBackSetPoint(launch,turnTableSubsystem,false),
@@ -122,12 +125,10 @@ public class BackBlue extends AutoBase {
                         PrepareToGrab1,
                         new AutoDriveCommand(autoDriveSubsystem, telemetry),
                         new ParallelCommandGroup(
-                                new AutoIntakeCommand(distance,intake,lightSubsystem).withTimeout(3100),
+                                new AutoIntakeCommand(distance,intake,lightSubsystem).withTimeout(4025),
                                 GrabSet1,
                                 new AutoDriveCommand(autoDriveSubsystem, telemetry)
                         ),
-                        MoveToMidpoint,
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
                         MoveToLaunch1,
                         new AutoDriveCommand(autoDriveSubsystem,telemetry),
                         new AutoBackSetPoint(launch,turnTableSubsystem,false),
@@ -192,7 +193,7 @@ public class BackBlue extends AutoBase {
         intake = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launch = new LaunchSubsystem(launchMotor, launchMotor2, launchAngle, turnServo ,launchServo);
         limelight = new LimeLightSubsystem(Limelight);
-        lightSubsystem = new LightSubsystem(light);
+        lightSubsystem = new LightSubsystem(light,false);
 
         //turntable
         turnTableSubsystem = new TurnTableSubsystem(turnServo);
@@ -210,8 +211,8 @@ public class BackBlue extends AutoBase {
         launchPreload.setTimeoutConstraint(250);
 
         //prepGrab1
-        prepGrab1 = new Path(new BezierCurve(startPose, prepGrab1Pose));
-        prepGrab1.setLinearHeadingInterpolation(startPose.getHeading(), prepGrab1Pose.getHeading());
+        prepGrab1 = new Path(new BezierCurve(launchPreloadPose, prepGrab1Pose));
+        prepGrab1.setLinearHeadingInterpolation(launchPreloadPose.getHeading(), prepGrab1Pose.getHeading());
         prepGrab1.setTimeoutConstraint(250);
 
         //grab1
@@ -226,8 +227,8 @@ public class BackBlue extends AutoBase {
 
 
         //launch1
-        Launch1 = new Path(new BezierCurve(midpointPose, launch1Pose));
-        Launch1.setLinearHeadingInterpolation(midpointPose.getHeading(), launch1Pose.getHeading());
+        Launch1 = new Path(new BezierCurve(grab1Pose, launch1Pose));
+        Launch1.setLinearHeadingInterpolation(grab1Pose.getHeading(), launch1Pose.getHeading());
         Launch1.setTimeoutConstraint(250);
 
         //prepGrab2

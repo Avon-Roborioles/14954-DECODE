@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.OpModes.test;
 
+import com.bylazar.configurables.annotations.Configurable;
+import com.bylazar.telemetry.PanelsTelemetry;
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
-
+@Configurable
 @TeleOp(name = "LauncherPIDTune", group = "Aux Test Op Modes")
 public class LauncherPIDTune extends OpMode {
     public DcMotorEx launcher1;
@@ -20,6 +23,7 @@ public class LauncherPIDTune extends OpMode {
     public double[] stepSizes = {10.0, 1.0, 0.1, 0.001, 0.0001};
     public int stepIndex = 1;
     public double targetSpeed = maxSpeed;
+    private TelemetryManager telemetryM;
     @Override
     public void init(){
         launcher1 = hardwareMap.get(DcMotorEx.class, "launchMotor");
@@ -32,11 +36,13 @@ public class LauncherPIDTune extends OpMode {
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P,0,0,F);
         launcher1.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         launcher2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+        telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
 
     }
 
     public void loop(){
 
+        telemetryM.update();
         if(gamepad1.aWasPressed()){
             if (targetSpeed == maxSpeed){
                 targetSpeed = minSpeed;

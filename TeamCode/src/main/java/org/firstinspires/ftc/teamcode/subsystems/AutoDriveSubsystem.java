@@ -62,17 +62,19 @@ public class AutoDriveSubsystem extends SubsystemBase {
         follower.startTeleopDrive();
     }
     public void setTeleOpDrive(double forwardSpeed, double strafeSpeed, double heading, boolean robotCentric){
-        follower.setTeleOpDrive(-strafeSpeed,forwardSpeed
-                 , heading, false);
+        follower.setTeleOpDrive(-forwardSpeed, -strafeSpeed
+                 , heading, robotCentric);
         follower.updatePose();
     }
     public void holdPosition(){
         follower.holdPoint(getPose());
     }
     public void getTelemetry(Telemetry telemetry){
+        telemetry.addLine("Pedro Data");
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
         telemetry.addData("heading", follower.getPose().getHeading());
+
 
     }
 }

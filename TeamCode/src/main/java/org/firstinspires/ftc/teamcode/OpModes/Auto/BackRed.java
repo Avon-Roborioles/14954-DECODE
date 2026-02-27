@@ -35,138 +35,132 @@ public class BackRed extends AutoBase{
     Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
 
 
-    Pose startPose = new Pose(66, 7, Math.toRadians(0));
-    Pose launchPreloadPose = new Pose(60, 10, Math.toRadians(-25));
-    Pose prepGrab1Pose = new Pose(70, 29, Math.toRadians(0)); //33y too far
-    Pose grab1Pose = new Pose(102, 29, Math.toRadians(0));
-    Pose midpointPose = new Pose(67, 30, Math.toRadians(0));
-    Pose launch1Pose = new Pose(66, 9, Math.toRadians(0));
-    Pose prepGrab2Pose = new Pose(45, 60, Math.toRadians(180));
-    Pose grab2Pose = new Pose(16, 60, Math.toRadians(180));
-    Pose midpoint2Pose = new Pose(66, 16, Math.toRadians(-180));
-    Pose launch2Pose = new Pose(80, 81, Math.toRadians(45));
-    Pose leavePose = new Pose(72, 9, Math.toRadians(-180));
 
-@Override
-public void initialize(){
-
-}
+    Pose startPose = new Pose(82, 7, Math.toRadians(0)).mirror();
+    Pose launchPreloadPose = new Pose(82, 9, Math.toRadians(0)).mirror();
+    Pose prepGrab1Pose = new Pose(82, 31, Math.toRadians(0)).mirror();
+    Pose grab1Pose = new Pose(47, 31, Math.toRadians(0)).mirror();
+    Pose midpointPose = new Pose(80, 33, Math.toRadians(0)).mirror();
+    Pose launch1Pose = new Pose(78, 15, Math.toRadians(3)).mirror();
+    Pose prepGrab2Pose = new Pose(99, 36, Math.toRadians(0)).mirror();
+    Pose grab2Pose = new Pose(126, 60, Math.toRadians(0)).mirror();
+    Pose midpoint2Pose = new Pose(73, 36, Math.toRadians(90)).mirror();
+    Pose launch2Pose = new Pose(66, 80, Math.toRadians(125)).mirror();
+    Pose leavePose = new Pose(80, 10, Math.toRadians(0)).mirror();
 
 
-@Override
-public void runOpMode(){
-    initialize();
+    @Override
+    public void initialize() {
 
-        waitForStart();
-    makeAuto();
-    buildPath();
-    register();
-
-    MoveLaunchPreload = new InstantCommand(() -> {
-        autoDriveSubsystem.followPath(launchPreload, true);
-    });
-
-    PrepareToGrab1 = new InstantCommand(() -> {
-        follower.setMaxPower(0.6);
-        autoDriveSubsystem.followPath(prepGrab1, true);
-    });
-
-    GrabSet1 = new InstantCommand(() -> {
-        follower.setMaxPower(0.35);
-        autoDriveSubsystem.followPath(grab1, true);
-    });
-
-    MoveToMidpoint = new InstantCommand(() -> {
-        follower.setMaxPower(0.5);
-        autoDriveSubsystem.followPath(midpoint, true);
-    });
-
-    MoveToLaunch1 = new InstantCommand(() -> {
-        follower.setMaxPower(0.7);
-        autoDriveSubsystem.followPath(Launch1, true);
-    });
-    PrepareToGrab2 = new InstantCommand(() -> {
-        autoDriveSubsystem.followPath(prepGrab2, true);
-    });
-
-
-    GrabSet2 = new InstantCommand(() -> {
-        autoDriveSubsystem.followPath(grab2, true);
-    });
-
-
-    MoveToMidPoint2 = new InstantCommand(() -> {
-        follower.setMaxPower(0.5);
-        autoDriveSubsystem.followPath(midpoint2, true);
-    });
-
-
-    MoveToLaunch2 = new InstantCommand(() -> {
-        autoDriveSubsystem.followPath(launch2, true);
-    });
-
-    leave = new InstantCommand(() -> {
-        follower.setMaxPower(0.5);
-        autoDriveSubsystem.followPath(Leave, true);
-    });
-
-
-
-    SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
-            new IntakeStopServoCommand(intake),
-            new AutoDriveCommand(autoDriveSubsystem, telemetry),
-            new SequentialCommandGroup(
-                    new AutoBackSetPoint(launch,turnTableSubsystem,true),
-                    new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
-                    new StopMotor(launch),
-                    PrepareToGrab1,
-                    new AutoDriveCommand(autoDriveSubsystem, telemetry),
-
-                    new ParallelCommandGroup(
-                            new AutoIntakeCommand(distance,intake,lightSubsystem).withTimeout(3100),
-
-                            GrabSet1,
-                            new AutoDriveCommand(autoDriveSubsystem, telemetry)
-                    ),
-                    MoveToMidpoint,
-                    new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                    MoveToLaunch1,
-                    new AutoDriveCommand(autoDriveSubsystem,telemetry),
-                    new AutoBackSetPoint(launch,turnTableSubsystem,true),
-                    new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
-                    new StopMotor(launch),
-                    MoveToMidPoint2,
-                    new AutoDriveCommand(autoDriveSubsystem,telemetry),
-                    leave,
-                    new AutoDriveCommand(autoDriveSubsystem,telemetry)
-
-
-
-
-
-            ));
-
-
-
-
-    schedule(new SequentialCommandGroup(
-
-
-            number5IsAlive
-
-    ));
-
-    // Create The Path Commands
-    while (opModeIsActive() && !isStopRequested()){
-        run();
     }
-    reset();
 
 
-}
+    public void runOpMode(){
+        initialize();
+        waitForStart();
+        makeAuto();
+        buildPath();
+        register();
+
+        MoveLaunchPreload = new InstantCommand(() -> {
+            follower.setMaxPower(0.6);
+            autoDriveSubsystem.followPath(launchPreload, true);
+        });
+
+        PrepareToGrab1 = new InstantCommand(() -> {
+            follower.setMaxPower(0.8);
+            autoDriveSubsystem.followPath(prepGrab1, true);
+        });
+
+        GrabSet1 = new InstantCommand(() -> {
+            follower.setMaxPower(0.45);
+            autoDriveSubsystem.followPath(grab1, true);
+        });
+
+        MoveToMidpoint = new InstantCommand(() -> {
+            follower.setMaxPower(0.5);
+            autoDriveSubsystem.followPath(midpoint, true);
+        });
+
+        MoveToLaunch1 = new InstantCommand(() -> {
+            follower.setMaxPower(0.7);
+            autoDriveSubsystem.followPath(Launch1, true);
+        });
+        PrepareToGrab2 = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(prepGrab2, true);
+        });
+
+
+        GrabSet2 = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(grab2, true);
+        });
+
+
+        MoveToMidPoint2 = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(midpoint2, true);
+        });
+
+
+        MoveToLaunch2 = new InstantCommand(() -> {
+            autoDriveSubsystem.followPath(launch2, true);
+        });
+
+        leave = new InstantCommand(() -> {
+            follower.setMaxPower(0.6);
+            autoDriveSubsystem.followPath(Leave, true);
+        });
 
 
 
+        SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
+
+
+
+                MoveLaunchPreload,
+                new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                new SequentialCommandGroup(
+                        new AutoBackSetPoint(launch,turnTableSubsystem,true),
+                        new AutoLaunch(distance, intake, launch, lightSubsystem,telemetry),
+                        new StopMotor(launch),
+                        PrepareToGrab1,
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        new ParallelCommandGroup(
+                                new AutoIntakeCommand(distance,intake,lightSubsystem).withTimeout(4025),
+                                GrabSet1,
+                                new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                        ),
+                        MoveToLaunch1,
+                        new AutoDriveCommand(autoDriveSubsystem,telemetry),
+                        new AutoBackSetPoint(launch,turnTableSubsystem,true),
+                        new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
+                        new StopMotor(launch),
+                        leave,
+                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
+
+
+
+                ));
+
+
+
+
+        // Create The Path Commands
+
+
+
+        schedule(new SequentialCommandGroup(
+
+
+                number5IsAlive
+
+        ));
+        while (opModeIsActive()&& !isStopRequested()){
+            run();
+        }
+
+        reset();
+
+    }
     public void makeAuto(){
         //hardware map init
         follower = Constants.createFollower(hardwareMap);
@@ -199,7 +193,7 @@ public void runOpMode(){
         intake = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launch = new LaunchSubsystem(launchMotor, launchMotor2, launchAngle, turnServo ,launchServo);
         limelight = new LimeLightSubsystem(Limelight);
-        lightSubsystem = new LightSubsystem(light);
+        lightSubsystem = new LightSubsystem(light,false);
 
         //turntable
         turnTableSubsystem = new TurnTableSubsystem(turnServo);
@@ -217,13 +211,14 @@ public void runOpMode(){
         launchPreload.setTimeoutConstraint(250);
 
         //prepGrab1
-        prepGrab1 = new Path(new BezierCurve(startPose, prepGrab1Pose));
-        prepGrab1.setLinearHeadingInterpolation(startPose.getHeading(), prepGrab1Pose.getHeading());
+        prepGrab1 = new Path(new BezierCurve(launchPreloadPose, prepGrab1Pose));
+        prepGrab1.setLinearHeadingInterpolation(launchPreloadPose.getHeading(), prepGrab1Pose.getHeading());
         prepGrab1.setTimeoutConstraint(250);
 
         //grab1
-        grab1 = new Path(new BezierCurve(prepGrab1Pose, grab1Pose));
+        grab1 = new Path(new BezierLine(prepGrab1Pose, grab1Pose));
         grab1.setLinearHeadingInterpolation(prepGrab1Pose.getHeading(), grab1Pose.getHeading());
+        grab1.setTimeoutConstraint(250);
 
         //midpoint
         midpoint = new Path(new BezierCurve(grab1Pose, midpointPose));
@@ -232,8 +227,8 @@ public void runOpMode(){
 
 
         //launch1
-        Launch1 = new Path(new BezierCurve(midpointPose, launch1Pose));
-        Launch1.setLinearHeadingInterpolation(midpointPose.getHeading(), launch1Pose.getHeading());
+        Launch1 = new Path(new BezierCurve(grab1Pose, launch1Pose));
+        Launch1.setLinearHeadingInterpolation(grab1Pose.getHeading(), launch1Pose.getHeading());
         Launch1.setTimeoutConstraint(250);
 
         //prepGrab2
@@ -247,8 +242,8 @@ public void runOpMode(){
 
 
         //midpoint2
-        midpoint2 = new Path(new BezierCurve(startPose, midpoint2Pose));
-        midpoint2.setLinearHeadingInterpolation(startPose.getHeading(), midpoint2Pose.getHeading());
+        midpoint2 = new Path(new BezierCurve(grab2Pose, midpoint2Pose));
+        midpoint2.setLinearHeadingInterpolation(grab2Pose.getHeading(), midpoint2Pose.getHeading());
         midpoint2.setTimeoutConstraint(250);
 
         //launch2
@@ -257,8 +252,8 @@ public void runOpMode(){
         launch2.setTimeoutConstraint(250);
 
         //leave
-        Leave = new Path(new BezierCurve(launch1Pose, leavePose));
-        Leave.setLinearHeadingInterpolation(leavePose.getHeading(), leavePose.getHeading());
+        Leave = new Path(new BezierCurve(startPose, leavePose));
+        Leave.setLinearHeadingInterpolation(startPose.getHeading(), leavePose.getHeading());
         Leave.setTimeoutConstraint(250);
 
 

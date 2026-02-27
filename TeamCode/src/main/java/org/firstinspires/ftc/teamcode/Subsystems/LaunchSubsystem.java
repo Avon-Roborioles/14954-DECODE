@@ -58,7 +58,7 @@ public class LaunchSubsystem extends SubsystemBase {
         this.launchMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.launchMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         this.launchMotor2.setDirection(DcMotorSimple.Direction.FORWARD);
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(250,0,0,14);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(125,0,0,12);
         this.launchMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         this.launchMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         //13.29, 15
@@ -154,7 +154,7 @@ public class LaunchSubsystem extends SubsystemBase {
         double Position;
 
         if (auto){
-            TargetRPM = 1730;
+            TargetRPM = 1860;
             launchMotor.setVelocity(TargetRPM);
             launchMotor2.setVelocity(TargetRPM);
             isRunning = true;
@@ -256,13 +256,11 @@ public class LaunchSubsystem extends SubsystemBase {
     }
     public void compTelemetry(Telemetry telemetry) {
 
+        telemetry.addLine("Launcher Data");
         telemetry.addData("V1", launchMotor.getVelocity());
         telemetry.addData("V2 ", launchMotor2.getVelocity());
         telemetry.addData("Vavg ",(launchMotor.getVelocity() + launchMotor2.getVelocity())/2);
-        telemetry.addData("correctedSpeed", motorBoostSpeed);
         telemetry.addData("Target RPM", TargetRPM);
-        telemetry.addData("Target Angle (Deg)", Angle);
-        telemetry.addData("Servo Pos", launchAngleServo.getPosition());
 
     }
 

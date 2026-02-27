@@ -102,6 +102,23 @@ public class LimeLightSubsystem extends SubsystemBase {
 
 
             }
+
+
+public void compTelemetry(Telemetry telemetry) {
+    LLStatus status = limelight.getStatus();
+    LLResult result = limelight.getLatestResult();
+    Pose3D botpose = result.getBotpose();
+    telemetry.addLine("LimeLight Data");
+    telemetry.addData("isLimelightWorking",isLimeLightCooked());
+    telemetry.addData("tx", result.getTx());
+    telemetry.addData("ty", result.getTy());
+    telemetry.addData("tags", result.getFiducialResults());
+    telemetry.addData("distance", getDistance());
+    telemetry.addData("LL", "Temp: %.1fC, CPU: %.1f%%, FPS: %d",
+            status.getTemp(), status.getCpu(), (int) status.getFps());
+
+
+}
         }
 
 

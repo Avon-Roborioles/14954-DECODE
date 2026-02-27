@@ -24,7 +24,7 @@ public class RunMotor extends CommandBase {
         if (ready){
             lightSubsystem.lightViolet();
         } else {
-            lightSubsystem.lightRed();
+            lightSubsystem.lightAzure();
         }
 
     }

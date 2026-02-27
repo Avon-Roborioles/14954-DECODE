@@ -1,21 +1,33 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.robotcore.hardware.Light;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class LightSubsystem extends SubsystemBase {
     private Servo light;
+    private boolean redAlliance;
 
 
     public LightSubsystem(Servo light){
         this.light = light;
+    }
+    public LightSubsystem(Servo light, boolean redAlliance){
+        this.light = light;
+        this.redAlliance = redAlliance;
+
+        if(!redAlliance){
+            light.setPosition(0.611);
+        } else {
+            light.setPosition(0.28);
+        }
     }
 
     public void lightOff(){
         light.setPosition(0);
     }
     public void lightRed(){
-        light.setPosition(0.277);
+        light.setPosition(0.28);
     }
     public void lightOrange(){
         light.setPosition(0.333);
