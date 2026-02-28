@@ -21,11 +21,13 @@ public class AutoBackSetPoint extends CommandBase {
         addRequirements(launchSubsystem);
     }
 
+
     public void initialize(){
         timer = new Timing.Timer(1250, TimeUnit.MILLISECONDS);
         timer.start();
         launchSubsystem.closeBackSetPoint();
         turnTableSubsystem.AutoBackSetPoints(redAlliance);
+
     }
     public boolean isFinished(){
         return timer.done();

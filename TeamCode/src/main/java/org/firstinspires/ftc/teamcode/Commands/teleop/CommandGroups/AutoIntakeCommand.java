@@ -19,7 +19,7 @@ public class AutoIntakeCommand extends SequentialCommandGroup {
                 new IntakeSide(intakeSubsystem,distanceSubsystem),
                 new PassToCenter(intakeSubsystem,distanceSubsystem, lightSubsystem),
                 new IntakeFinal(intakeSubsystem, distanceSubsystem),
-                new WaitCommand(5000)
+                new WaitCommand(15000)
         );
 
         // CRITICAL FIX: Do NOT require the subsystem here.
