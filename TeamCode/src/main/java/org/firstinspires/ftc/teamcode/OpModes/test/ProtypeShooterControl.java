@@ -121,7 +121,7 @@ public class ProtypeShooterControl extends OpMode {
         shooterMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shooterMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         shooterMotor2.setDirection(DcMotorSimple.Direction.FORWARD);
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(250,0,0,14);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(125,0,0,12);
         shooterMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         shooterMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
 

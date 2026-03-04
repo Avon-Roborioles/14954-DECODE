@@ -120,7 +120,7 @@ public class LaunchSubsystem extends SubsystemBase {
 
     public void closeBackSetPoint(){
         double Position;
-        TargetRPM = 1740;
+        TargetRPM = 1800;
 
 
 

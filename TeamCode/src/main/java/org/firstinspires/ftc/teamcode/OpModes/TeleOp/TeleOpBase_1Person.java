@@ -21,9 +21,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Commands.teleop.TeleOpLaunch;
-import org.firstinspires.ftc.teamcode.Commands.teleop.limelightAutoSpeed_TurnCommand;
-import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoLaunch;
+import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.TeleOpLaunch;
+import org.firstinspires.ftc.teamcode.Commands.teleop.LimelightCommands.limelightAutoSpeed_TurnCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.backMiddleSetPointCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.backSetPointCommand;
@@ -163,7 +162,7 @@ public abstract class TeleOpBase_1Person extends CommandOpMode {
 
 
         driverOp.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(new org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand(intakeSubsystem,launchSubsystem));
+                .whenPressed(new org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand(intakeSubsystem,launchSubsystem, lightSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
                         .whenPressed(new RecenterLimelightCommand(TurnSubsystem, redAlliance()));
 
