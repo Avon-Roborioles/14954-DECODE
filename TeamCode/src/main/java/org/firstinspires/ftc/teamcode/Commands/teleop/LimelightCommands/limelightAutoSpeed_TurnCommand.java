@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Commands.teleop;
+package org.firstinspires.ftc.teamcode.Commands.teleop.LimelightCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
