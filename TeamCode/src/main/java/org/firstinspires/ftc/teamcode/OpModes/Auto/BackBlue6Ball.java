@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoIntakeCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoLaunch;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
@@ -22,15 +23,9 @@ import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
-import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint;
-import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand;
-import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoLaunch;
-import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
-
-
-@Autonomous (preselectTeleOp = "TeleOpBlue")
-public class BackBlue extends AutoBase {
+@Autonomous (preselectTeleOp = "TeleOpBlue", group = "Back6Ball")
+public class BackBlue6Ball extends AutoBase {
     Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;
     Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
 
@@ -42,10 +37,6 @@ public class BackBlue extends AutoBase {
     Pose grab1Pose = new Pose(47, 31, Math.toRadians(0));
     Pose midpointPose = new Pose(80, 33, Math.toRadians(0));
     Pose launch1Pose = new Pose(78, 15, Math.toRadians(3));
-    Pose prepGrab2Pose = new Pose(99, 36, Math.toRadians(0));
-    Pose grab2Pose = new Pose(126, 60, Math.toRadians(0));
-    Pose midpoint2Pose = new Pose(73, 36, Math.toRadians(90));
-    Pose launch2Pose = new Pose(66, 80, Math.toRadians(125));
     Pose leavePose = new Pose(80, 10, Math.toRadians(0));
 
 
@@ -86,24 +77,24 @@ public class BackBlue extends AutoBase {
             follower.setMaxPower(0.7);
             autoDriveSubsystem.followPath(Launch1, true);
         });
-        PrepareToGrab2 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(prepGrab2, true);
-        });
-
-
-        GrabSet2 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(grab2, true);
-        });
-
-
-        MoveToMidPoint2 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(midpoint2, true);
-        });
-
-
-        MoveToLaunch2 = new InstantCommand(() -> {
-            autoDriveSubsystem.followPath(launch2, true);
-        });
+//        PrepareToGrab2 = new InstantCommand(() -> {
+//            autoDriveSubsystem.followPath(prepGrab2, true);
+//        });
+//
+//
+//        GrabSet2 = new InstantCommand(() -> {
+//            autoDriveSubsystem.followPath(grab2, true);
+//        });
+//
+//
+//        MoveToMidPoint2 = new InstantCommand(() -> {
+//            autoDriveSubsystem.followPath(midpoint2, true);
+//        });
+//
+//
+//        MoveToLaunch2 = new InstantCommand(() -> {
+//            autoDriveSubsystem.followPath(launch2, true);
+//        });
 
         leave = new InstantCommand(() -> {
             follower.setMaxPower(0.6);
@@ -117,25 +108,33 @@ public class BackBlue extends AutoBase {
 
 
                 MoveLaunchPreload,
-                new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                new ParallelCommandGroup(
+                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,false)
+                ),
+
+
+
                 new SequentialCommandGroup(
-                        new AutoBackSetPoint(launch,turnTableSubsystem,false),
+
                         new AutoLaunch(distance, intake, launch, lightSubsystem,telemetry),
-                        new StopMotor(launch),
+                        new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
                         PrepareToGrab1,
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry),
                         new ParallelCommandGroup(
                                 new AutoIntakeCommand(distance,intake,lightSubsystem).withTimeout(4025),
                                 GrabSet1,
-                                new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                                new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry)
                         ),
                         MoveToLaunch1,
-                        new AutoDriveCommand(autoDriveSubsystem,telemetry),
-                        new AutoBackSetPoint(launch,turnTableSubsystem,false),
+                        new ParallelCommandGroup(
+                                new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry),
+                                new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,false)
+                        ),
                         new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
-                        new StopMotor(launch),
+                        new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
                         leave,
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
+                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry)
 
 
 
@@ -166,7 +165,7 @@ public class BackBlue extends AutoBase {
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry);
-        follower.setMaxPower(0.325);
+        follower.setMaxPower(1);
 
         // launcher
         launchAngle = hardwareMap.get(Servo.class, "launchAngle");
@@ -232,24 +231,25 @@ public class BackBlue extends AutoBase {
         Launch1.setTimeoutConstraint(250);
 
         //prepGrab2
-        prepGrab2 = new Path(new BezierCurve(launch1Pose, prepGrab2Pose));
-        prepGrab2.setLinearHeadingInterpolation(launch1Pose.getHeading(), prepGrab2Pose.getHeading());
-        prepGrab2.setTimeoutConstraint(250);
-
-        //grab2
-        grab2 = new Path(new BezierLine(prepGrab2Pose, grab2Pose));
-        grab2.setTimeoutConstraint(250);
-
-
-        //midpoint2
-        midpoint2 = new Path(new BezierCurve(grab2Pose, midpoint2Pose));
-        midpoint2.setLinearHeadingInterpolation(grab2Pose.getHeading(), midpoint2Pose.getHeading());
-        midpoint2.setTimeoutConstraint(250);
-
-        //launch2
-        launch2 = new Path(new BezierCurve(midpoint2Pose, launch2Pose));
-        launch2.setLinearHeadingInterpolation(midpoint2Pose.getHeading(), launch2Pose.getHeading());
-        launch2.setTimeoutConstraint(250);
+//        prepGrab2 = new Path(new BezierCurve(launch1Pose, prepGrab2Pose));
+//        prepGrab2.setLinearHeadingInterpolation(launch1Pose.getHeading(), prepGrab2Pose.getHeading());
+//        prepGrab2.setTimeoutConstraint(250);
+//
+//        //grab2
+//        grab2 = new Path(new BezierLine(prepGrab2Pose, grab2Pose));
+//        grab2.setConstantHeadingInterpolation(grab2Pose.getHeading());
+//        grab2.setTimeoutConstraint(250);
+//
+//
+//        //midpoint2
+//        midpoint2 = new Path(new BezierCurve(grab2Pose, midpoint2Pose));
+//        midpoint2.setLinearHeadingInterpolation(grab2Pose.getHeading(), midpoint2Pose.getHeading());
+//        midpoint2.setTimeoutConstraint(250);
+//
+//        //launch2
+//        launch2 = new Path(new BezierCurve(grab2Pose, launch2Pose));
+//        launch2.setLinearHeadingInterpolation(grab2Pose.getHeading(), launch2Pose.getHeading());
+//        launch2.setTimeoutConstraint(250);
 
         //leave
         Leave = new Path(new BezierCurve(startPose, leavePose));
@@ -269,6 +269,6 @@ public class BackBlue extends AutoBase {
 
 
 
-    }
 
+    }
 }
