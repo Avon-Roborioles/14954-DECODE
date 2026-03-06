@@ -187,12 +187,13 @@ public class BackBlue6Ball extends AutoBase {
         bSensor.setMode(DigitalChannel.Mode.INPUT);
 
         light = hardwareMap.get(Servo.class,"light");
+        light2 = hardwareMap.get(Servo.class, "light2");
         //Subsystems
         distance = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intake = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launch = new LaunchSubsystem(launchMotor, launchMotor2, launchAngle, turnServo ,launchServo);
         limelight = new LimeLightSubsystem(Limelight);
-        lightSubsystem = new LightSubsystem(light,false);
+        lightSubsystem = new LightSubsystem(light,light2,false);
 
         //turntable
         turnTableSubsystem = new TurnTableSubsystem(turnServo);

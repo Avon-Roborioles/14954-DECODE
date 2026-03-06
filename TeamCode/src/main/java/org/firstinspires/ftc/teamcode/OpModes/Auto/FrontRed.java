@@ -13,10 +13,12 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoIntakeCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.LightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoLaunch;
@@ -25,16 +27,16 @@ import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoFrontSetPoi
 import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-@Autonomous(name = "FrontRed", group = "Front Auto", preselectTeleOp = "TeleOpRed")
+@Autonomous(name = "FrontRed6Ball", group = "Front Auto 6 Ball", preselectTeleOp = "TeleOpRed")
 public class FrontRed extends AutoBase {
     Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;
     Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
 
     Pose startPose = new Pose(123, 124, Math.toRadians(-53));  // 126,122,40
-    Pose launchPreloadPose = new Pose(81, 83, Math.toRadians(-45)); //98,98,45
-    Pose prepGrab1Pose = new Pose(101, 84, Math.toRadians(-45)); // 102,84,0
-    Pose grab1Pose = new Pose(128, 82, Math.toRadians(0)); // 129,84,0
-    Pose launch1Pose = new Pose(81, 83, Math.toRadians(-45)); // 98,98,45
+    Pose launchPreloadPose = new Pose(85, 89, Math.toRadians(-45)); //98,98,45
+    Pose prepGrab1Pose = new Pose(95, 84, Math.toRadians(0)); // 102,84,0
+    Pose grab1Pose = new Pose(120, 84, Math.toRadians(0)); // 129,84,0
+    Pose launch1Pose = new Pose(87, 89, Math.toRadians(-45)); // 98,98,45
     Pose prepGrab2Pose = new Pose(88,60,Math.toRadians(0));
     Pose Grab2Pose = new Pose(135,60,Math.toRadians(0));
     Pose launch2Pose = new Pose (81,83,Math.toRadians(-45));
@@ -54,7 +56,7 @@ public class FrontRed extends AutoBase {
         register();
 
         MoveLaunchPreload = new InstantCommand(() -> {
-            follower.setMaxPower(0.5);
+            follower.setMaxPower(1);
             autoDriveSubsystem.followPath(launchPreload, true);
         });
 
@@ -85,50 +87,41 @@ public class FrontRed extends AutoBase {
 
 
         SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
+
+
+
                 MoveLaunchPreload,
                 new ParallelCommandGroup(
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                        new AutoFrontSetPoint(launch, turnTableSubsystem,true)
-                ));
+                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        new AutoFrontSetPoint(launch,turnTableSubsystem,false)
+                ),
+
+
 
                 new SequentialCommandGroup(
+
                         new AutoLaunch(distance, intake, launch, lightSubsystem,telemetry),
-                        new StopMotor(launch),
+                        new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
+                        PrepareToGrab1,
+                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry),
+                        GrabSet1,
+                        new ParallelCommandGroup(
+                                new AutoIntakeCommand(distance,intake,lightSubsystem).withTimeout(3000),
+                                new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry)
+                        ),
+                        MoveToLaunch1,
+                        new ParallelCommandGroup(
+                                new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry),
+                                new AutoFrontSetPoint(launch,turnTableSubsystem,false)
+                        ),
+                        new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
+                        new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
                         leave,
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry)
-
-                );
-
-
-        // test this
-//        SequentialCommandGroup number5IsAlive = new SequentialCommandGroup(
-//                MoveLaunchPreload,
-//                new AutoDriveCommand(autoDriveSubsystem, telemetry),
-//                new SequentialCommandGroup(
-//                        new AutoFrontSetPoint(launch),
-//                        new AutoLaunch(distance, intake, launch, telemetry)
-//                )),
-//                leave;
-//
+                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry)
 
 
 
-//                PrepareToGrab1,
-//                new AutoDriveCommand(autoDriveSubsystem, telemetry),
-//                GrabSet1,
-//                new AutoDriveCommand(autoDriveSubsystem, telemetry),
-//                MoveToLaunch1,
-//                new AutoDriveCommand(autoDriveSubsystem, telemetry)
-
-
-
-
-
-
-
-        // Create The Path Commands
-
-
+                ));
 
         schedule(new SequentialCommandGroup(
 
@@ -170,14 +163,19 @@ public class FrontRed extends AutoBase {
         mSensor.setMode(DigitalChannel.Mode.INPUT);
         bSensor.setMode(DigitalChannel.Mode.INPUT);
 
+        light = hardwareMap.get(Servo.class,"light");
+        light2 = hardwareMap.get(Servo.class, "light2");
         //Subsystems
         distance = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intake = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
-        launch = new LaunchSubsystem(launchMotor, launchMotor2,launchAngle, turnServo ,launchServo);
+        launch = new LaunchSubsystem(launchMotor, launchMotor2, launchAngle, turnServo ,launchServo);
         limelight = new LimeLightSubsystem(Limelight);
+        lightSubsystem = new LightSubsystem(light,light2,true);
 
         //turntable
         turnTableSubsystem = new TurnTableSubsystem(turnServo);
+
+
 
 
 

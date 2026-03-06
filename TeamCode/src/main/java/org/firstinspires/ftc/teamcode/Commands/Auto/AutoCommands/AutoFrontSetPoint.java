@@ -25,6 +25,7 @@ public class AutoFrontSetPoint extends CommandBase {
         timer = new Timing.Timer(2000, TimeUnit.MILLISECONDS);
         timer.start();
         launchSubsystem.frontSetPoint();
+        turnTableSubsystem.FrontSetPoint();
 //        turnTableSubsystem.FrontSetPoints(redAlliance);
     }
     public boolean isFinished(){

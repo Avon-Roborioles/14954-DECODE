@@ -76,7 +76,7 @@ public class LaunchSubsystem extends SubsystemBase {
 
         if (TargetRPM < 1550) {
             TargetRPM = 1550;
-        } else if (TargetRPM > 1900) {
+        } else if (TargetRPM >= 1860) {
             TargetRPM = 1850;
         }
     }
@@ -186,7 +186,7 @@ public class LaunchSubsystem extends SubsystemBase {
     }
     public void frontSetPoint(){
         double Position;
-        TargetRPM = 1350;
+        TargetRPM = 1600;
         Position = ANGLE_SERVO_ZERO - 0.02;
 
 

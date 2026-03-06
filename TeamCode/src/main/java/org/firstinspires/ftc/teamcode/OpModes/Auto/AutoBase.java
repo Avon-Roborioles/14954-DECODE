@@ -50,6 +50,7 @@ public abstract class AutoBase extends CommandOpMode {
     protected Limelight3A Limelight;
 
     protected Servo light;
+    protected Servo light2;
 
     public abstract void makeAuto();
     public abstract void buildPath();

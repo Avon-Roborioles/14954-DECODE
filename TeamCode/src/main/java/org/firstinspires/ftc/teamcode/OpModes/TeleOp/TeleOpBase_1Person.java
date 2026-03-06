@@ -75,6 +75,7 @@ public abstract class TeleOpBase_1Person extends CommandOpMode {
     private Limelight3A limelight;
 
     private Servo light;
+    private Servo light2;
     private LightSubsystem lightSubsystem;
 
     public abstract Boolean redAlliance();
@@ -132,12 +133,13 @@ public abstract class TeleOpBase_1Person extends CommandOpMode {
 
 
         light = hardwareMap.get(Servo.class,"light");
+        light2 = hardwareMap.get(Servo.class,"light2");
         //Subsystems
         distanceSubsystem = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intakeSubsystem = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launchSubsystem = new LaunchSubsystem(launchMotor, launchMotor2,launchAngleServo, turnServo ,launchServo);
         limelightSubsystem = new LimeLightSubsystem(limelight);
-        lightSubsystem = new LightSubsystem(light);
+        lightSubsystem = new LightSubsystem(light, light2,redAlliance());
 
 
         //turntable

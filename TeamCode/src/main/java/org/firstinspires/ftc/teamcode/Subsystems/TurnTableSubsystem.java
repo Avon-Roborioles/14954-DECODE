@@ -82,7 +82,7 @@ public class TurnTableSubsystem extends SubsystemBase {
         }
     }
     public void FrontSetPoint(){
-        turntable.setPosition(0.7);
+        turntable.setPosition(0.560);
     }
 
     public void moveManual(double inputSpeed) {

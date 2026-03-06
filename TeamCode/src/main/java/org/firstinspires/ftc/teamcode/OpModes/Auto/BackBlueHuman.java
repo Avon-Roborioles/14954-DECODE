@@ -160,7 +160,7 @@ public class BackBlueHuman extends AutoBase {
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
         autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry);
-        follower.setMaxPower(0.325);
+        follower.setMaxPower(1);
 
         // launcher
         launchAngle = hardwareMap.get(Servo.class, "launchAngle");
@@ -182,12 +182,13 @@ public class BackBlueHuman extends AutoBase {
         bSensor.setMode(DigitalChannel.Mode.INPUT);
 
         light = hardwareMap.get(Servo.class,"light");
+        light2 = hardwareMap.get(Servo.class, "light2");
         //Subsystems
         distance = new DistanceSubsystem(fSensor, mSensor, bSensor);
         intake = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launch = new LaunchSubsystem(launchMotor, launchMotor2, launchAngle, turnServo ,launchServo);
         limelight = new LimeLightSubsystem(Limelight);
-        lightSubsystem = new LightSubsystem(light);
+        lightSubsystem = new LightSubsystem(light,light2,false);
 
         //turntable
         turnTableSubsystem = new TurnTableSubsystem(turnServo);
