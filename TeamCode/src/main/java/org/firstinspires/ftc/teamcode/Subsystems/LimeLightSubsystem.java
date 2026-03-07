@@ -77,7 +77,7 @@ public class LimeLightSubsystem extends SubsystemBase {
         LLResult result = limelight.getLatestResult();
         double targetOffsetAngle_Vertical = result.getTy();
 
-        double limelightMountAngleDegrees = 20.0;
+        double limelightMountAngleDegrees = 21.0;
         double limelightLensHeightInches = 14.5;
         double goalHeightInches = 28.5;
 

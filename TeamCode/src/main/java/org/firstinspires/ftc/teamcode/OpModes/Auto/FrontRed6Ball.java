@@ -22,22 +22,23 @@ import org.firstinspires.ftc.teamcode.Subsystems.LightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoLaunch;
-import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoFrontSetPoint;
-import org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
-@Autonomous(name = "FrontBlue6Ball", group = "Front Auto 6 Ball", preselectTeleOp = "TeleOpBlue")
-public class FrontBlue extends AutoBase {
+
+@Autonomous(name = "FrontRed6Ball", group = "Front Auto 6 Ball", preselectTeleOp = "TeleOpRed")
+public class FrontRed6Ball extends AutoBase {
     Command MoveLaunchPreload, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave;
     Path launchPreload, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave;
 
-    Pose startPose = new Pose(15, 122, Math.toRadians(45));
-    Pose launchPreloadPose = new Pose(53, 77, Math.toRadians(40));//43,77
-    Pose prepGrab1Pose = new Pose(50, 82, Math.toRadians(0));
-    Pose grab1Pose = new Pose(10, 82, Math.toRadians(0));
-    Pose launch1Pose = new Pose(53, 77, Math.toRadians(40)); //43,77
-    Pose leavePose = new Pose(42, 110, Math.toRadians(0)); // 98,98,45
-     // 98,75,-180
+    Pose startPose = new Pose(123, 124, Math.toRadians(-53));  // 126,122,40
+    Pose launchPreloadPose = new Pose(85, 89, Math.toRadians(-45)); //98,98,45
+    Pose prepGrab1Pose = new Pose(95, 84, Math.toRadians(0)); // 102,84,0
+    Pose grab1Pose = new Pose(120, 84, Math.toRadians(0)); // 129,84,0
+    Pose launch1Pose = new Pose(87, 89, Math.toRadians(-45)); // 98,98,45
+    Pose prepGrab2Pose = new Pose(88,60,Math.toRadians(0));
+    Pose Grab2Pose = new Pose(135,60,Math.toRadians(0));
+    Pose launch2Pose = new Pose (81,83,Math.toRadians(-45));
+    Pose leavePose = new Pose(90, 110, Math.toRadians(-180)); // 98,75,-180
 
 
     public void initialize(){
@@ -167,7 +168,7 @@ public class FrontBlue extends AutoBase {
         intake = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         launch = new LaunchSubsystem(launchMotor, launchMotor2, launchAngle, turnServo ,launchServo);
         limelight = new LimeLightSubsystem(Limelight);
-        lightSubsystem = new LightSubsystem(light,light2,false);
+        lightSubsystem = new LightSubsystem(light,light2,true);
 
         //turntable
         turnTableSubsystem = new TurnTableSubsystem(turnServo);

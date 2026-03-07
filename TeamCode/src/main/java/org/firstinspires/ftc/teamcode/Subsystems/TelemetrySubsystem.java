@@ -53,6 +53,7 @@ public class TelemetrySubsystem extends SubsystemBase {
         launchSubsystem.compTelemetry(telemetry);
         turnTable.compTelemetry(telemetry);
         limelight.compTelemetry(telemetry);
+        intakeSubsystem.compTelemtry(telemetry);
 //        autoDriveSubsystem.getTelemetry(telemetry);
         updateTelemetry();
     }

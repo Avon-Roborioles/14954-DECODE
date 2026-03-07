@@ -195,4 +195,11 @@ public class IntakeSubsystem extends SubsystemBase {
         telemetry.addData("backIntakePower", backIntake.getPower());
         telemetry.addData("backPassPower", backPass.getPower());
     }
+    public void compTelemtry(Telemetry telemetry){
+        telemetry.addLine("Intake Data");
+        telemetry.addData("frontIntakePower", frontIntake.getPower());
+        telemetry.addData("frontPassPower", frontPass.getPower());
+        telemetry.addData("backIntakePower", backIntake.getPower());
+        telemetry.addData("backPassPower", backPass.getPower());
+    }
 }

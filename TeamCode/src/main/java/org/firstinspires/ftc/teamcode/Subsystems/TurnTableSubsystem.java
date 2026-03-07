@@ -35,6 +35,7 @@ public class TurnTableSubsystem extends SubsystemBase {
     private double pos;
     // Proportional gain for turning. Tune this value.
     private static final double Kp = -0.0015;
+
     private static final double MANUAL_SPEED_MULTIPLIER = 0.003;
 
     //0.0
@@ -76,13 +77,13 @@ public class TurnTableSubsystem extends SubsystemBase {
     }
     public void closeBackSetPoints(boolean redAlliance){
         if (redAlliance){
-            turntable.setPosition(0.66);
+            turntable.setPosition(0.645);
         } else if (!redAlliance){
             turntable.setPosition(0.735);
         }
     }
     public void FrontSetPoint(){
-        turntable.setPosition(0.560);
+        turntable.setPosition(0.530);
     }
 
     public void moveManual(double inputSpeed) {
@@ -106,7 +107,15 @@ public class TurnTableSubsystem extends SubsystemBase {
         // Update 'pos' variable to track this new manual position
         pos = targetPos;
     }
-    public void limelightFollow(double tx) {
+    public void limelightFollow(double tx, boolean redAlliance) {
+        double offsetPos;
+
+
+        if(redAlliance){
+            offsetPos = -0.005;
+        } else {
+            offsetPos = 0;
+        }
         // Only adjust if a target is visible (tx is non-zero)
         if (tx != 0) {
             // Read the current servo position
@@ -114,7 +123,7 @@ public class TurnTableSubsystem extends SubsystemBase {
 
             // Calculate the adjustment. The sign depends on your servo's orientation.
             // You may need to change '-' to '+'
-            newPos = currentPos + (Kp * tx);
+            newPos = currentPos + (Kp * tx) + offsetPos;
 
 
             // Clamp the new position to stay within the servo's safe range

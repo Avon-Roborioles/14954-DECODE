@@ -58,7 +58,7 @@ public class LaunchSubsystem extends SubsystemBase {
         this.launchMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.launchMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         this.launchMotor2.setDirection(DcMotorSimple.Direction.FORWARD);
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(125,0,0,12);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(175,0,0,12);
         this.launchMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         this.launchMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         //13.29, 15
