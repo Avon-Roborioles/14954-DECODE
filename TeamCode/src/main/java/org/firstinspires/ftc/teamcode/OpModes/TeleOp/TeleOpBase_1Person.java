@@ -21,6 +21,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Commands.teleop.DriveCommands.autoSetHeading;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.TeleOpLaunch;
 import org.firstinspires.ftc.teamcode.Commands.teleop.LimelightCommands.limelightAutoSpeed_TurnCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand;
@@ -98,8 +99,7 @@ public abstract class TeleOpBase_1Person extends CommandOpMode {
         //Follower
         follower = Constants.createFollower(hardwareMap);
 
-        follower.setStartingPose(new Pose(0, 0, PI));
-        follower.setPose(new Pose(0, 0, PI));
+
 
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         pathChain = () -> follower.pathBuilder() //Lazy Curve Generation
@@ -150,6 +150,8 @@ public abstract class TeleOpBase_1Person extends CommandOpMode {
 
         //Drive Subsystem
         autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry);
+
+        autoDriveSubsystem.setDefaultCommand(new autoSetHeading(autoDriveSubsystem, redAlliance()));
 
 
         // Driver commands

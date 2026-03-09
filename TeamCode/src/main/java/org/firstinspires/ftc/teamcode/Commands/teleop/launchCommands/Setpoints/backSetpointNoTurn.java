@@ -6,24 +6,22 @@ import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 
-public class backSetPointCommand extends CommandBase {
+public class backSetpointNoTurn extends CommandBase {
     private LaunchSubsystem launchSubsystem;
-    private TurnTableSubsystem turnTableSubsystem;
     private LightSubsystem lightSubsystem;
     private boolean redAlliance;
 
 
-    public backSetPointCommand(LaunchSubsystem launchSubsystem, TurnTableSubsystem turnTableSubsystem,LightSubsystem lightSubsystem,boolean redAlliance){
+    public backSetpointNoTurn(LaunchSubsystem launchSubsystem,LightSubsystem lightSubsystem,boolean redAlliance){
         this.launchSubsystem = launchSubsystem;
-        this.turnTableSubsystem = turnTableSubsystem;
         this.lightSubsystem = lightSubsystem;
         this.redAlliance = redAlliance;
-        addRequirements(launchSubsystem, turnTableSubsystem, lightSubsystem);
+        addRequirements(launchSubsystem, lightSubsystem);
     }
 
     public void initialize(){
         launchSubsystem.backSetPoint(false);
-        turnTableSubsystem.BackSetPoints(redAlliance);
+
 
 
     }

@@ -21,7 +21,10 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Commands.teleop.DriveCommands.autoSetHeading;
 import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.ManJoystickPassCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.FrontSetpointNoTurn;
+import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.backSetpointNoTurn;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.TeleOpLaunch;
 import org.firstinspires.ftc.teamcode.Commands.teleop.LimelightCommands.limelightAutoSpeed_TurnCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand;
@@ -31,6 +34,7 @@ import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.c
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.midSetPointCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.TeleOpIntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.turntableCommands.RecenterLimelightCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.turntableCommands.RecenterLimelightMiddle;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
@@ -87,6 +91,8 @@ public abstract class TeleOpBase extends CommandOpMode {
     private AutoDriveSubsystem autoDriveSubsystem;
     public Command compTel;
 
+
+    private double Max_Speed = 1;
 
     @Override
     public void initialize() {
@@ -147,9 +153,10 @@ public abstract class TeleOpBase extends CommandOpMode {
         // Old non autodrive Subsystem
 
 
-        follower.setStartingPose(new Pose(0, 0, PI));
-
-        follower.setPose(new Pose(0, 0, PI));
+//        follower.setStartingPose(new Pose(0, 0, PI));
+//
+//        follower.setPose(new Pose(0, 0, PI));
+        autoDriveSubsystem.setDefaultCommand(new autoSetHeading(autoDriveSubsystem, redAlliance()));
 
         telemetryM = PanelsTelemetry.INSTANCE.getTelemetry();
         pathChain = () -> follower.pathBuilder() //Lazy Curve Generation
@@ -173,11 +180,24 @@ public abstract class TeleOpBase extends CommandOpMode {
 
         driverOp.getGamepadButton(GamepadKeys.Button.Y)
                 .whenPressed(new RecenterLimelightCommand(TurnSubsystem, redAlliance()));
+     driverOp.getGamepadButton(GamepadKeys.Button.DPAD_RIGHT)
+                     .whenPressed(new RecenterLimelightMiddle(TurnSubsystem));
+     driverOp.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                     .whenPressed(new backSetpointNoTurn(launchSubsystem,lightSubsystem,redAlliance()));
+     driverOp.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                     .whenPressed(new FrontSetpointNoTurn(launchSubsystem,lightSubsystem,redAlliance()));
         driverOp.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(new org.firstinspires.ftc.teamcode.commands.teleop.CommandGroups.CancelCommand(intakeSubsystem, launchSubsystem, lightSubsystem));
         driverOp.getGamepadButton(GamepadKeys.Button.A)
                 .whenHeld(new ManIntakeToLauncher(intakeSubsystem))
                 .whenReleased(new IntakeStopServoCommand(intakeSubsystem));
+        driverOp.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .whenHeld(new InstantCommand(() -> {
+                    Max_Speed = 0.35;
+                }))
+                .whenReleased(new InstantCommand(() -> {
+                    Max_Speed = 1.0;
+                }));
 
 
         // Operator commands
@@ -241,6 +261,8 @@ public abstract class TeleOpBase extends CommandOpMode {
             });
 
 
+
+
         }
 
         waitForStart();
@@ -250,10 +272,11 @@ public abstract class TeleOpBase extends CommandOpMode {
             follower.update();
             telemetryM.update();
 
+
             follower.setTeleOpDrive(
-                    -gamepad1.left_stick_y,
-                    -gamepad1.left_stick_x,
-                    gamepad1.right_stick_x,
+                    -gamepad1.left_stick_y * Max_Speed,
+                    -gamepad1.left_stick_x * Max_Speed,
+                    gamepad1.right_stick_x * Max_Speed,
                     false // Robot Centric
             );
             TurnSubsystem.setDefaultCommand(new limelightAutoSpeed_TurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem,lightSubsystem ,redAlliance()));
