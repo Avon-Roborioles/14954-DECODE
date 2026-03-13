@@ -38,7 +38,7 @@ public class FrontRed6Ball extends AutoBase {
     Pose prepGrab2Pose = new Pose(88,60,Math.toRadians(0));
     Pose Grab2Pose = new Pose(135,60,Math.toRadians(0));
     Pose launch2Pose = new Pose (81,83,Math.toRadians(-45));
-    Pose leavePose = new Pose(90, 110, Math.toRadians(-180)); // 98,75,-180
+    Pose leavePose = new Pose(90, 110, Math.toRadians(0)); // 98,75,-180
 
 
     public void initialize(){

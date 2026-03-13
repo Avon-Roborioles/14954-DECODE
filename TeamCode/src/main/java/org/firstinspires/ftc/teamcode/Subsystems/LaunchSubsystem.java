@@ -135,7 +135,7 @@ public class LaunchSubsystem extends SubsystemBase {
 
    public void backMiddleSetPoint(){
        double Position;
-       TargetRPM = 1800;
+       TargetRPM = 1825;
 
 
 
@@ -161,7 +161,7 @@ public class LaunchSubsystem extends SubsystemBase {
             Position = ANGLE_SERVO_ZERO - 0.08;
             launchAngleServo.setPosition(Position);
         } else {
-            TargetRPM = 1825;
+            TargetRPM = 1835;
 
 
             launchMotor.setVelocity(TargetRPM);

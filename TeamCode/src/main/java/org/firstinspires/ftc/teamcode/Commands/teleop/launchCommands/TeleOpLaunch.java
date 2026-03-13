@@ -34,7 +34,7 @@ public class TeleOpLaunch extends SequentialCommandGroup {
 //                new IntakeStopServoCommand(intakeSubsystem),
                 new AutoIntakeToLauncher(intakeSubsystem),
                 new IntakeStopServoCommand(intakeSubsystem),
-                new CheckLaunch(distanceSubsystem, lightSubsystem)
+                new CheckLaunch(distanceSubsystem, lightSubsystem,intakeSubsystem)
 
         );
 

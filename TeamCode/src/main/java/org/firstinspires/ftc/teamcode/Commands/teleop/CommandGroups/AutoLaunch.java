@@ -37,8 +37,8 @@ public class AutoLaunch extends SequentialCommandGroup {
 //                new IntakeStopServoCommand(intakeSubsystem),
                 new AutoIntakeToLauncher(intakeSubsystem),
 //                new CheckLaunch(distanceSubsystem, lightSubsystem),
-                new IntakeStopServoCommand(intakeSubsystem),
-                new WaitCommand(1000)
+                new IntakeStopServoCommand(intakeSubsystem)
+//                new WaitCommand(1000)
         );
 
 

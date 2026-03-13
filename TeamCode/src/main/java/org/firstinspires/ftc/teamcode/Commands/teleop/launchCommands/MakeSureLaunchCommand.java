@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Commands.Auto;
+package org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.util.Timing;
@@ -7,22 +7,22 @@ import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 
 import java.util.concurrent.TimeUnit;
 
-public class AutoIntakeToLauncher extends CommandBase {
+public class MakeSureLaunchCommand extends CommandBase {
     private IntakeSubsystem intakeSubsystem;
     private Timing.Timer timer;
 
-    public AutoIntakeToLauncher(IntakeSubsystem intakeSubsystem){
+    public MakeSureLaunchCommand(IntakeSubsystem intakeSubsystem){
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem);
 
     }
     public void initialize(){
-        timer = new Timing.Timer(850, TimeUnit.MILLISECONDS);
+        timer = new Timing.Timer(1500, TimeUnit.MILLISECONDS);
         timer.start();
     }
     @Override
     public void execute() {
-        intakeSubsystem.TransferToLauncher();
+        intakeSubsystem.backSideLaunch();
     }
     public boolean isFinished(){
         return timer.done();
@@ -31,3 +31,4 @@ public class AutoIntakeToLauncher extends CommandBase {
 //        intakeSubsystem.stopAll();
 //    }
 }
+

@@ -45,7 +45,7 @@ public class BackRed6Ball extends AutoBase{
     Pose grab2Pose = new Pose(126, 60, Math.toRadians(0));
     Pose midpoint2Pose = new Pose(66, 16, Math.toRadians(90));
     Pose launch2Pose = new Pose(80, 81, Math.toRadians(125));
-    Pose leavePose = new Pose(72, 9, Math.toRadians(-180));
+    Pose leavePose = new Pose(72, 9, Math.toRadians(0));
 
 
     @Override
