@@ -33,20 +33,20 @@ public class BackRedHumanV3 extends AutoBase{
 
 
         Pose startPose = new Pose(66, 7, Math.toRadians(0));
-        Pose prepGrab1Pose = new Pose(66, 25, Math.toRadians(-25)); //0,18
-        Pose grab1Pose = new Pose(98, 10, Math.toRadians(-25)); //101,8,-90
-        Pose grab1Pose2 = new Pose(98, 7, Math.toRadians(-45));
+        Pose prepGrab1Pose = new Pose(66, 27, Math.toRadians(-25)); //0,18
+        Pose grab1Pose = new Pose(98, 13, Math.toRadians(-25)); //101,8,-90
+        Pose grab1Pose2 = new Pose(98, 8.5, Math.toRadians(-45));
         Pose midpointPose = new Pose(93, 4, Math.toRadians(0));
-        Pose midpoint2Pose = new Pose(100, 4, Math.toRadians(0));
+        Pose midpoint2Pose = new Pose(102, 4, Math.toRadians(0));
         Pose backUpGrabPose = new Pose(93,8,Math.toRadians(0));
         Pose grabAgainPose = new Pose(100,6,Math.toRadians(0));
         Pose MoveRightPose = new Pose(100, 8, Math.toRadians(0));
-        Pose launch1Pose = new Pose(64, 12, Math.toRadians(0));
+        Pose launch1Pose = new Pose(65.5, 12, Math.toRadians(-1.5));
         Pose prepGrab2Pose = new Pose(66, 30.25, Math.toRadians(0));
         Pose grab2Pose = new Pose(101, 30.25, Math.toRadians(0));
 
         Pose launch2Pose = new Pose(70, 12, Math.toRadians(0));
-        Pose leavePose = new Pose(71.5, 9, Math.toRadians(0));
+        Pose leavePose = new Pose(72.5, 25, Math.toRadians(0));
 
         @Override
         public void initialize(){
@@ -140,7 +140,7 @@ public class BackRedHumanV3 extends AutoBase{
                             new ParallelCommandGroup(
                                     new AutoIntakeCommand(distance,intake,lightSubsystem).withTimeout(2000),
                                     GrabSet2,
-                                    new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry)
+                                    new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry).withTimeout(2000)
                             ),
 
 

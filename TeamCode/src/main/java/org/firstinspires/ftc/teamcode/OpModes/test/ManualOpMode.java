@@ -43,6 +43,7 @@ import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -58,6 +59,7 @@ import java.util.function.Supplier;
 
 
 @TeleOp(name = "Manual Control", group = "Other Test Op Modes")
+@Disabled
 public class ManualOpMode extends LinearOpMode {
 
     public DcMotorEx shooterMotor = null;

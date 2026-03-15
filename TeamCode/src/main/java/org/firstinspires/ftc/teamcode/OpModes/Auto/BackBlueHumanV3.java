@@ -44,8 +44,8 @@ public class BackBlueHumanV3 extends AutoBase{
     Pose prepGrab2Pose = new Pose(48, 31, Math.toRadians(0));
     Pose grab2Pose = new Pose(15, 31, Math.toRadians(0));
 
-    Pose launch2Pose = new Pose(44, 15, Math.toRadians(0));
-    Pose leavePose = new Pose(40, 9, Math.toRadians(0));
+    Pose launch2Pose = new Pose(44.5k5, 15, Math.toRadians(0));
+    Pose leavePose = new Pose(41.5, 25, Math.toRadians(0));
 
     @Override
     public void initialize(){

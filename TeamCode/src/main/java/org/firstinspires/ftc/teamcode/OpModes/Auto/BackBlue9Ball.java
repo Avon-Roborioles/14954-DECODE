@@ -41,12 +41,12 @@ public class BackBlue9Ball extends AutoBase {
     Pose prepGrab1Pose = new Pose(82, 31, Math.toRadians(0));
     Pose grab1Pose = new Pose(47, 31, Math.toRadians(0));
     Pose midpointPose = new Pose(80, 33, Math.toRadians(0));
-    Pose launch1Pose = new Pose(78, 15, Math.toRadians(3));
+    Pose launch1Pose = new Pose(78, 15, Math.toRadians(0));
     Pose prepGrab2Pose = new Pose(82, 57, Math.toRadians(0));
     Pose grab2Pose = new Pose(45, 56, Math.toRadians(0));
     Pose midpoint2Pose = new Pose(73, 36, Math.toRadians(90));
-    Pose launch2Pose = new Pose(78, 15, Math.toRadians(3));
-    Pose leavePose = new Pose(80, 10, Math.toRadians(0));
+    Pose launch2Pose = new Pose(78, 15, Math.toRadians(0));
+    Pose leavePose = new Pose(80, 25, Math.toRadians(0));
 
 
     @Override
@@ -68,12 +68,12 @@ public class BackBlue9Ball extends AutoBase {
         });
 
         PrepareToGrab1 = new InstantCommand(() -> {
-            follower.setMaxPower(0.8);
+            follower.setMaxPower(1);
             autoDriveSubsystem.followPath(prepGrab1, true);
         });
 
         GrabSet1 = new InstantCommand(() -> {
-            follower.setMaxPower(0.4);
+            follower.setMaxPower(0.6);
             autoDriveSubsystem.followPath(grab1, true);
         });
 
@@ -83,7 +83,7 @@ public class BackBlue9Ball extends AutoBase {
         });
 
         MoveToLaunch1 = new InstantCommand(() -> {
-            follower.setMaxPower(0.7);
+            follower.setMaxPower(0.8);
             autoDriveSubsystem.followPath(Launch1, true);
         });
         PrepareToGrab2 = new InstantCommand(() -> {
@@ -102,12 +102,12 @@ public class BackBlue9Ball extends AutoBase {
 
 
         MoveToLaunch2 = new InstantCommand(() -> {
-            follower.setMaxPower(0.75);
+            follower.setMaxPower(0.86);
             autoDriveSubsystem.followPath(launch2, true);
         });
 
         leave = new InstantCommand(() -> {
-            follower.setMaxPower(0.6);
+            follower.setMaxPower(1);
             autoDriveSubsystem.followPath(Leave, true);
         });
 
@@ -117,11 +117,12 @@ public class BackBlue9Ball extends AutoBase {
 
 
 
-                MoveLaunchPreload,
-                new ParallelCommandGroup(
-                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
-                        new AutoBackSetPoint(launch,turnTableSubsystem,false)
-                ),
+                new AutoBackSetPoint(launch,turnTableSubsystem,false),
+//                MoveLaunchPreload,
+//                new ParallelCommandGroup(
+//                        new AutoDriveCommand(autoDriveSubsystem, telemetry),
+//
+//                ),
 
 
 

@@ -64,12 +64,12 @@ public class BackRed9Ball extends AutoBase{
         });
 
         PrepareToGrab1 = new InstantCommand(() -> {
-            follower.setMaxPower(0.8);
+            follower.setMaxPower(1);
             autoDriveSubsystem.followPath(prepGrab1, true);
         });
 
         GrabSet1 = new InstantCommand(() -> {
-            follower.setMaxPower(0.4);
+            follower.setMaxPower(0.6);
             autoDriveSubsystem.followPath(grab1, true);
         });
 
@@ -79,7 +79,7 @@ public class BackRed9Ball extends AutoBase{
         });
 
         MoveToLaunch1 = new InstantCommand(() -> {
-            follower.setMaxPower(0.7);
+            follower.setMaxPower(1);
             autoDriveSubsystem.followPath(Launch1, true);
         });
         PrepareToGrab2 = new InstantCommand(() -> {
@@ -88,6 +88,7 @@ public class BackRed9Ball extends AutoBase{
 
 
         GrabSet2 = new InstantCommand(() -> {
+            follower.setMaxPower(0.6);
             autoDriveSubsystem.followPath(grab2, true);
         });
 
@@ -98,7 +99,7 @@ public class BackRed9Ball extends AutoBase{
 
 
         MoveToLaunch2 = new InstantCommand(() -> {
-            follower.setMaxPower(0.9);
+            follower.setMaxPower(1);
             autoDriveSubsystem.followPath(launch2, true);
         });
 

@@ -34,6 +34,7 @@ import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -46,6 +47,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Configurable
 @TeleOp(name = "Shooter control code", group = "Aux Test Op Modes")
+@Disabled
 public class ProtypeShooterControl extends OpMode {
 
     public DcMotorEx shooterMotor = null;

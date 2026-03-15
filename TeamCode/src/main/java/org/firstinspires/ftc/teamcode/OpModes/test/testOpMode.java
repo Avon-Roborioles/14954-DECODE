@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes.test;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.teamcode.commands.teleop.DriveCommands.DriveCommand
 
 
 @TeleOp (group = "Aux Test Op Modes")
+@Disabled
 public class testOpMode extends LinearOpMode {
 
     private CRServo frontIntake;

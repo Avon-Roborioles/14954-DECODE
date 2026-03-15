@@ -21,6 +21,7 @@ import java.util.function.Supplier;
 
 @Configurable
 @TeleOp(name = "SparkFunTestOpMode", group = "Other Test Op Modes")
+@Disabled
 public class DriveOnlySparkOp extends OpMode {
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this
