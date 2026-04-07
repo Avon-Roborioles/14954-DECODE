@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.tel
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.util.Timing;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -22,10 +23,12 @@ public class IntakeSubsystem extends SubsystemBase {
     private CRServo frontIntake;
     private CRServo.Direction frontIntakeDirection;
     private CRServo frontPass;
+//    private DcMotor frontPass;
     private CRServo.Direction frontPassDirection;
     private CRServo backIntake;
     private CRServo.Direction backIntakeDirection;
     private CRServo backPass;
+//    private DcMotor backPass;
     private CRServo.Direction backPassDirection;
     private double power;
 
@@ -96,16 +99,6 @@ public class IntakeSubsystem extends SubsystemBase {
         backPass.setPower(1);
     }
 
-    public void IntakeFrontToBack(long ms) {
-        Timing.Timer timer = new Timing.Timer(ms, TimeUnit.MILLISECONDS);
-        timer.start();
-        while (timer.isTimerOn()) {
-            frontIntake.setPower(-1);
-            frontPass.setPower(-1);
-            backIntake.setPower(1);
-            backPass.setPower(1);
-        }
-    }
 
     public void IntakeFrontToCenter() {
         frontIntake.setPower(-1);
@@ -144,15 +137,6 @@ public class IntakeSubsystem extends SubsystemBase {
        backPass.setPower(1);
     }
 
-    public void TransferToLauncher(long ms) {
-        Timing.Timer timer = new Timing.Timer(ms, TimeUnit.MILLISECONDS);
-        while (timer.isTimerOn()) {
-            frontIntake.setPower(0);
-            frontPass.setPower(-1);
-            backIntake.setPower(0);
-            backPass.setPower(1);
-        }
-    }
 
     public void stopAll() {
         frontIntake.setPower(0);
@@ -186,6 +170,11 @@ public class IntakeSubsystem extends SubsystemBase {
         backIntake.setPower(1);
         backPass.setPower(1);
     }
+     public void frontSideLaunch(){
+        frontPass.setPower(-1);
+        backPass.setPower(1);
+        frontIntake.setPower(-1);
+     }
     public void proportionalLaunch(float input){
         frontIntake.setPower(-input);
         frontPass.setPower(-input);

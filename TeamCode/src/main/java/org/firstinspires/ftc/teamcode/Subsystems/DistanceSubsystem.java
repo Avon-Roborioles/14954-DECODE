@@ -39,13 +39,24 @@ public class DistanceSubsystem extends SubsystemBase {
             return false; //no, there is not an artifact
         }
     }
-    public String[] reportDistanceAsString(){
-        String[] currentDistances
-                = {"front (cm): " + fSensor.getState(),
-                "middle (cm): " + mSensor.getState(),
-                "back (cm): " + bSensor.getState()};
-        return currentDistances;
+
+
+    public boolean backCenterIsGone(){
+        if (!mSensor.getState() && !bSensor.getState()){
+            return true;
+        } else {
+            return false;
+        }
     }
+
+    public boolean frontCenterIsGone(){
+        if (!mSensor.getState() && !fSensor.getState()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public int getArtifactNum(){
         int num = 0;
         if(checkFront()){
