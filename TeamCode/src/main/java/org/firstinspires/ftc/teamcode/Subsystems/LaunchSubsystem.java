@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.bylazar.configurables.annotations.Configurable;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -11,12 +12,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
+@Configurable
 public class LaunchSubsystem extends SubsystemBase {
     private DcMotorEx launchMotor;
     private DcMotorEx launchMotor2;
     private Servo launchAngleServo;
     private Servo turnServo;
+    private static double P = 175;
+    private static double F = 12;
     private CRServo launchServo;
     private double motorBoostSpeed = 0;
     private final double ANGLE_SERVO_ZERO = 0.6;
@@ -58,7 +61,7 @@ public class LaunchSubsystem extends SubsystemBase {
         this.launchMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.launchMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         this.launchMotor2.setDirection(DcMotorSimple.Direction.FORWARD);
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(175,0,0,12);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P,0,0,F);
         this.launchMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         this.launchMotor2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         //13.29, 15

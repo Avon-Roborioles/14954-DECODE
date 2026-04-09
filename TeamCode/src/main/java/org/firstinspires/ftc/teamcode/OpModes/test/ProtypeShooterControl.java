@@ -52,7 +52,7 @@ public class ProtypeShooterControl extends OpMode {
 
     public DcMotorEx shooterMotor = null;
     public DcMotorEx shooterMotor2 =  null;
-    private double shooterV;
+    private static double shooterV;
     public Servo shooterAngle = null;
     private Servo turn;
     private Limelight3A limelight;
@@ -73,7 +73,7 @@ public class ProtypeShooterControl extends OpMode {
     private double servoAngleChange = 0.01;
     private double newServoAngle = 0.6;
 
-    private double turnAngle = 0.7;
+    private static double turnAngle = 0.7;
     private double newTurnAngle = 0.7;
     private double turnAngleChange = 0.005;
 

@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.tel
 import android.util.Log;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.follower.Follower;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -15,10 +16,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
-
+@Configurable
 public class TurnTableSubsystem extends SubsystemBase {
     private Servo turntable;
-    private final double TURN_TABLE_ZERO = 0.0;
+    private static final double TURN_TABLE_ZERO = 0.0;
     private Limelight3A limelight3A;
     private IMU imu;
     private LLResult result;
@@ -28,15 +29,17 @@ public class TurnTableSubsystem extends SubsystemBase {
     // private double servoPos = 0.08;
 
     // Define the limits for your servo
-    private static final double MIN_POS = 0.1;
-    private static final double MAX_POS = 0.995;
+    private static double MIN_POS = 0.1;
+    private static double MAX_POS = 0.995;
     // Zero 0.7
     private double angleOffset = 201.72+3.78;
     private double pos;
     // Proportional gain for turning. Tune this value.
-    private static final double Kp = -0.0015;
+    private static double Kp = -0.0015;
+    private static double redOffset = -0.005;
+    private static double blueOffset = 0;
 
-    private static final double MANUAL_SPEED_MULTIPLIER = 0.003;
+    private static double MANUAL_SPEED_MULTIPLIER = 0.003;
 
     //0.0
 
