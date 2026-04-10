@@ -30,6 +30,7 @@ import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.b
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.closeBackSetPointCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.midSetPointCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.TeleOpIntakeCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.newlaunchSequence.newLaunchSequencer;
 import org.firstinspires.ftc.teamcode.Commands.teleop.turntableCommands.RecenterLimelightCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
@@ -155,10 +156,15 @@ public abstract class TeleOpBase_1Person extends CommandOpMode {
 
 
         // Driver commands
+//        driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+//                .whenPressed(
+//                        new TeleOpLaunch(distanceSubsystem,intakeSubsystem,lightSubsystem,telemetry))
+//        ;
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(
-                        new TeleOpLaunch(distanceSubsystem,intakeSubsystem,lightSubsystem,telemetry))
-        ;
+                        new newLaunchSequencer(distanceSubsystem,intakeSubsystem,lightSubsystem)
+                );
+
 
 
         driverOp.getGamepadButton(GamepadKeys.Button.X) // Heading Reset

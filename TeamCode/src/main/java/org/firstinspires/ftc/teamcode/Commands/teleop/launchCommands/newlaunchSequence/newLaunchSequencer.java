@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.newlaunchS
 
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
+import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.CheckLaunch;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
@@ -14,7 +15,8 @@ public class newLaunchSequencer extends SequentialCommandGroup {
         addCommands(
                 new frontLaunchSequence( distanceSubsystem, intakeSubsystem),
                 new backLaunchSequence(distanceSubsystem,intakeSubsystem),
-                new CheckLaunch(distanceSubsystem,lightSubsystem,intakeSubsystem)
+//                new CheckLaunch(distanceSubsystem,lightSubsystem,intakeSubsystem),
+                new IntakeStopServoCommand(intakeSubsystem)
         );
     }
 
