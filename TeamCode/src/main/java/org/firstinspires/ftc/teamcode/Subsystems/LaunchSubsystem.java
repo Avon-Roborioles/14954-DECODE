@@ -18,7 +18,7 @@ public class LaunchSubsystem extends SubsystemBase {
     private DcMotorEx launchMotor2;
     private Servo launchAngleServo;
     private Servo turnServo;
-    private static double P = 175;
+    private static double P = 200;
     private static double F = 12;
     private CRServo launchServo;
     private double motorBoostSpeed = 0;

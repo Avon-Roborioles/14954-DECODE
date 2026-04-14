@@ -1,38 +1,29 @@
 package org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.newlaunchSequence;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.util.Timing;
 
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 
-import java.util.concurrent.TimeUnit;
-
-public class backLaunchSequence extends CommandBase {
+public class middleLaunchSequence extends CommandBase {
     private DistanceSubsystem distanceSubsystem;
     private IntakeSubsystem intakeSubsystem;
-    private Timing.Timer timer;
 
-    public backLaunchSequence(DistanceSubsystem distanceSubsystem, IntakeSubsystem intakeSubsystem){
+    public middleLaunchSequence(DistanceSubsystem distanceSubsystem, IntakeSubsystem intakeSubsystem){
         this.distanceSubsystem = distanceSubsystem;
         this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeSubsystem, distanceSubsystem);
     }
 
-    public void initialize(){
-        timer = new Timing.Timer(250, TimeUnit.MILLISECONDS);
 
-    }
+
 
     @Override
     public void execute() {
-        intakeSubsystem.backSideLaunch();
-        if (distanceSubsystem.backCenterIsGone()){
-            timer.start();
-        }
+        intakeSubsystem.TransferToLauncher();
     }
 
     public boolean isFinished(){
-        return timer.done();
+        return !distanceSubsystem.checkMiddle();
     }
 }
