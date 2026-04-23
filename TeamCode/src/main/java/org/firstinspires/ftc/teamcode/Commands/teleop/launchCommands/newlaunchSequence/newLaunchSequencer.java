@@ -18,9 +18,8 @@ public class newLaunchSequencer extends SequentialCommandGroup {
                 new IntakeStopServoCommand(intakeSubsystem),
                 new frontLaunchSequence( distanceSubsystem, intakeSubsystem),
                 new IntakeStopServoCommand(intakeSubsystem),
-                new backLaunchSequence(distanceSubsystem,intakeSubsystem),
+                new backLaunchSequence(distanceSubsystem,intakeSubsystem)
 //                new CheckLaunch(distanceSubsystem,lightSubsystem,intakeSubsystem),
-                new IntakeStopServoCommand(intakeSubsystem)
         );
     }
 

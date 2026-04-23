@@ -47,7 +47,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Configurable
 @TeleOp(name = "Shooter control code", group = "Aux Test Op Modes")
-@Disabled
 public class ProtypeShooterControl extends OpMode {
 
     public DcMotorEx shooterMotor = null;
@@ -104,7 +103,6 @@ public class ProtypeShooterControl extends OpMode {
 
 
         shooterAngle = hardwareMap.get(Servo.class, "launchAngle");
-
         turn = hardwareMap.get(Servo.class, "turnServo");
 
         limelight = hardwareMap.get(Limelight3A.class, "limelight");

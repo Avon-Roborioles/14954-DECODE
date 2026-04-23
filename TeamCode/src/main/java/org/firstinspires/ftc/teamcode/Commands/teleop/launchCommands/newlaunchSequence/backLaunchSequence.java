@@ -20,19 +20,25 @@ public class backLaunchSequence extends CommandBase {
     }
 
     public void initialize(){
-        timer = new Timing.Timer(250, TimeUnit.MILLISECONDS);
+        timer = new Timing.Timer(1000, TimeUnit.MILLISECONDS);
 
     }
 
     @Override
     public void execute() {
         intakeSubsystem.backSideLaunch();
-        if (distanceSubsystem.backCenterIsGone()){
-            timer.start();
-        }
+
+
     }
 
     public boolean isFinished(){
+        if (!distanceSubsystem.checkBack() && !distanceSubsystem.checkMiddle() && !timer.isTimerOn()){
+            timer.start();
+        }
+
         return timer.done();
+    }
+    public void end(boolean interrupted){
+        intakeSubsystem.stopAll();
     }
 }

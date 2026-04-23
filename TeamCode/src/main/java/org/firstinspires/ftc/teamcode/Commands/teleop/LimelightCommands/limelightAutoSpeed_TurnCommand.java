@@ -50,13 +50,13 @@ public class limelightAutoSpeed_TurnCommand extends CommandBase {
       launchSubsystem.distanceToRPM(distance);
       if (failed){
           lightSubsystem.lightRed();
-          limelightSubsystem.stop();
-          limelightSubsystem.start();
-          if (redAlliance){
-              limelightSubsystem.setPipeline(1);
-          } else {
-              limelightSubsystem.setPipeline(2);
-          }
+//          limelightSubsystem.stop();
+//          limelightSubsystem.start();
+//          if (redAlliance){
+//              limelightSubsystem.setPipeline(1);
+//          } else {
+//              limelightSubsystem.setPipeline(2);
+//          }
 
 
       }

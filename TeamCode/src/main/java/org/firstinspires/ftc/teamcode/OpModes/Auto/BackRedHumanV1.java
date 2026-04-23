@@ -188,9 +188,9 @@ public class BackRedHumanV1 extends AutoBase{
         turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
         frontIntakeServo = hardwareMap.get(CRServo.class, "frontIntake");
-        frontPassServo = hardwareMap.get(CRServo.class, "frontPass");
+        frontPassServo = hardwareMap.get(DcMotorEx.class, "frontPass");
         backIntakeServo = hardwareMap.get(CRServo.class, "backIntake");
-        backPassServo = hardwareMap.get(CRServo.class, "backPass");
+        backPassServo = hardwareMap.get(DcMotorEx.class, "backPass");
         // distance Sensors
         fSensor = hardwareMap.get(DigitalChannel.class, "fSensor");
         mSensor = hardwareMap.get(DigitalChannel.class, "mSensor");

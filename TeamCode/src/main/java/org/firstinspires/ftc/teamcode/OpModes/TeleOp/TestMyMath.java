@@ -56,9 +56,9 @@ public class TestMyMath extends CommandOpMode {
     private OTOsSmartLaunch launchSubsystem;
     // intake variables
     private CRServo frontIntakeServo;
-    private CRServo frontPassServo;
+    private DcMotorEx frontPassServo;
     private CRServo backIntakeServo;
-    private CRServo backPassServo;
+    private DcMotorEx backPassServo;
     private IntakeSubsystem intakeSubsystem;
 
     // Turntable Variables
@@ -89,9 +89,9 @@ public class TestMyMath extends CommandOpMode {
         turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
         frontIntakeServo = hardwareMap.get(CRServo.class, "frontIntake");
-        frontPassServo = hardwareMap.get(CRServo.class, "frontPass");
+        frontPassServo = hardwareMap.get(DcMotorEx.class, "frontPass");
         backIntakeServo = hardwareMap.get(CRServo.class, "backIntake");
-        backPassServo = hardwareMap.get(CRServo.class, "backPass");
+        backPassServo = hardwareMap.get(DcMotorEx.class, "backPass");
 
         //Subsystems
         intakeSubsystem = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);

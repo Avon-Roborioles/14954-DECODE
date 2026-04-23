@@ -22,6 +22,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Commands.teleop.DriveCommands.autoSetHeading;
+import org.firstinspires.ftc.teamcode.Commands.teleop.LimelightCommands.noLimelightCenter;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.TeleOpLaunch;
 import org.firstinspires.ftc.teamcode.Commands.teleop.LimelightCommands.limelightAutoSpeed_TurnCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand;
@@ -32,6 +33,7 @@ import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.Setpoints.m
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.TeleOpIntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.newlaunchSequence.newLaunchSequencer;
 import org.firstinspires.ftc.teamcode.Commands.teleop.turntableCommands.RecenterLimelightCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.turntableCommands.RecenterLimelightMiddle;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
@@ -62,9 +64,9 @@ public abstract class TeleOpBase_1Person extends CommandOpMode {
     private LaunchSubsystem launchSubsystem;
     // intake variables
     private CRServo frontIntakeServo;
-    private CRServo frontPassServo;
+    private DcMotorEx frontPassServo;
     private CRServo backIntakeServo;
-    private CRServo backPassServo;
+    private DcMotorEx backPassServo;
     private IntakeSubsystem intakeSubsystem;
     //Distance Sensor Variables
     private DigitalChannel fSensor, mSensor, bSensor;
@@ -118,9 +120,9 @@ public abstract class TeleOpBase_1Person extends CommandOpMode {
         turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
         frontIntakeServo = hardwareMap.get(CRServo.class, "frontIntake");
-        frontPassServo = hardwareMap.get(CRServo.class, "frontPass");
+        frontPassServo = hardwareMap.get(DcMotorEx.class, "frontPassM");
         backIntakeServo = hardwareMap.get(CRServo.class, "backIntake");
-        backPassServo = hardwareMap.get(CRServo.class, "backPass");
+        backPassServo = hardwareMap.get(DcMotorEx.class, "backPassM");
         // distance Sensors
         fSensor = hardwareMap.get(DigitalChannel.class, "fSensor");
         mSensor = hardwareMap.get(DigitalChannel.class, "mSensor");
@@ -161,8 +163,10 @@ public abstract class TeleOpBase_1Person extends CommandOpMode {
 //                        new TeleOpLaunch(distanceSubsystem,intakeSubsystem,lightSubsystem,telemetry))
 //        ;
         driverOp.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(
+                .whenHeld(
                         new newLaunchSequencer(distanceSubsystem,intakeSubsystem,lightSubsystem)
+                ).whenReleased(
+                        new IntakeStopServoCommand(intakeSubsystem)
                 );
 
 
@@ -206,6 +210,10 @@ public abstract class TeleOpBase_1Person extends CommandOpMode {
         telemetry.update();
 
         follower.startTeleopDrive();
+
+
+           TurnSubsystem.setDefaultCommand(new limelightAutoSpeed_TurnCommand(limelightSubsystem, TurnSubsystem, launchSubsystem, lightSubsystem, redAlliance()));
+
     }
 
     @Override
@@ -214,6 +222,7 @@ public abstract class TeleOpBase_1Person extends CommandOpMode {
         initialize();
 
         waitForStart();
+
 
         // run the scheduler
         while (!isStopRequested() && opModeIsActive()) {
@@ -230,7 +239,7 @@ public abstract class TeleOpBase_1Person extends CommandOpMode {
                     gamepad1.right_stick_x,
                     false // Robot Centric
             );
-            TurnSubsystem.setDefaultCommand(new limelightAutoSpeed_TurnCommand(limelightSubsystem,TurnSubsystem, launchSubsystem,lightSubsystem ,redAlliance()));
+
 
             run();
             telemetrySubsystem.setDefaultCommand(new org.firstinspires.ftc.teamcode.commands.teleop.CompTelemetryCommand(telemetrySubsystem));

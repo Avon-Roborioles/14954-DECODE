@@ -17,6 +17,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoIntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoLaunch;
 import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand;
+import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.newlaunchSequence.newLaunchSequencer;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
@@ -130,7 +131,7 @@ public class BackRedHumanV3 extends AutoBase{
 //                new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry),
                     new SequentialCommandGroup(
                             new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,true),
-                            new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
+                            new newLaunchSequencer(distance,intake,lightSubsystem),
                             new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
 //                        MoveLaunchPreload,
 //                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry),
@@ -151,7 +152,7 @@ public class BackRedHumanV3 extends AutoBase{
                                     new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry),
                                     new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,true)
                             )),
-                    new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
+                    new newLaunchSequencer(distance,intake,lightSubsystem),
                     new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
 
                             PrepareToGrab1,
@@ -179,7 +180,7 @@ public class BackRedHumanV3 extends AutoBase{
                                     new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry),
                                     new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,true)
                             ),
-                            new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
+                            new newLaunchSequencer(distance,intake,lightSubsystem),
                             new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
                             leave,
                             new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry)
@@ -203,7 +204,12 @@ public class BackRedHumanV3 extends AutoBase{
             // Create The Path Commands
 
 
+            initialize();
+            waitForStart();
+
             while (opModeIsActive() && !isStopRequested()){
+
+
                 run();
             }
 
@@ -228,9 +234,9 @@ public class BackRedHumanV3 extends AutoBase{
             turnServo = hardwareMap.get(Servo.class, "turnServo");
             // intake
             frontIntakeServo = hardwareMap.get(CRServo.class, "frontIntake");
-            frontPassServo = hardwareMap.get(CRServo.class, "frontPass");
+            frontPassServo = hardwareMap.get(DcMotorEx.class, "frontPassM");
             backIntakeServo = hardwareMap.get(CRServo.class, "backIntake");
-            backPassServo = hardwareMap.get(CRServo.class, "backPass");
+            backPassServo = hardwareMap.get(DcMotorEx.class, "backPassM");
             // distance Sensors
             fSensor = hardwareMap.get(DigitalChannel.class, "fSensor");
             mSensor = hardwareMap.get(DigitalChannel.class, "mSensor");

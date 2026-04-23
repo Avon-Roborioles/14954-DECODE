@@ -75,7 +75,8 @@ public class LaunchSubsystem extends SubsystemBase {
         return TargetRPM;
     }
     public void distanceToRPM(double distance){
-        TargetRPM = ((2.0073 * distance) + 1425.7);
+        TargetRPM = ((2.3393*distance)+ 1421.6);
+//        TargetRPM = ((2.0073 * distance) + 1425.7);
 
         if (TargetRPM < 1550) {
             TargetRPM = 1550;

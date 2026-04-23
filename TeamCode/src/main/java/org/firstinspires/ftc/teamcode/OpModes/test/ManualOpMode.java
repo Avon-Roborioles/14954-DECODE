@@ -59,7 +59,7 @@ import java.util.function.Supplier;
 
 
 @TeleOp(name = "Manual Control", group = "Other Test Op Modes")
-@Disabled
+
 public class ManualOpMode extends LinearOpMode {
 
     public DcMotorEx shooterMotor = null;
@@ -76,9 +76,9 @@ public class ManualOpMode extends LinearOpMode {
 
     // intake variables
     private CRServo frontIntakeServo;
-    private CRServo frontPassServo;
+    private DcMotorEx frontPassServo;
     private CRServo backIntakeServo;
-    private CRServo backPassServo;
+    private DcMotorEx backPassServo;
 
     private IntakeSubsystem intakeSubsystem;
 
@@ -102,9 +102,9 @@ public class ManualOpMode extends LinearOpMode {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         // intake
         frontIntakeServo = hardwareMap.get(CRServo.class, "frontIntake");
-        frontPassServo = hardwareMap.get(CRServo.class, "frontPass");
+        frontPassServo = hardwareMap.get(DcMotorEx.class, "frontPass");
         backIntakeServo = hardwareMap.get(CRServo.class, "backIntake");
-        backPassServo = hardwareMap.get(CRServo.class, "backPass");
+        backPassServo = hardwareMap.get(DcMotorEx.class, "backPass");
 
         intakeSubsystem = new IntakeSubsystem(frontIntakeServo, frontPassServo, backIntakeServo, backPassServo);
         limelight.pipelineSwitch(2);

@@ -39,9 +39,9 @@ public abstract class AutoBase extends CommandOpMode {
     protected CRServo launchServo;
     // intake variables
     protected CRServo frontIntakeServo;
-    protected CRServo frontPassServo;
+    protected DcMotorEx frontPassServo;
     protected CRServo backIntakeServo;
-    protected CRServo backPassServo;
+    protected DcMotorEx backPassServo;
     //Distance Sensor Variables
     protected DigitalChannel fSensor, mSensor, bSensor;
     // Turntable Variables

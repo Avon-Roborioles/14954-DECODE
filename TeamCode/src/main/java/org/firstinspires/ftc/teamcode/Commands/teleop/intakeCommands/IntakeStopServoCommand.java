@@ -17,18 +17,14 @@ public class IntakeStopServoCommand extends CommandBase {
 }
 
     public void initialize(){
-        timer = new Timing.Timer(75, TimeUnit.MILLISECONDS);
-        timer.start();
+
+
     }
 @Override
         public void execute() {
             subsystem.stopAll();
         }
     public boolean isFinished(){
-        return timer.done();
-    }
-    public void end(boolean interrupted){
-        subsystem.stopAll();
-
+        return true;
     }
 }
