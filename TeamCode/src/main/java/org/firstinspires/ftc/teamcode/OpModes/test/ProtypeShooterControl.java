@@ -58,11 +58,11 @@ public class ProtypeShooterControl extends OpMode {
     private LLResult result;
     private CRServo frontIntake;
     private CRServo.Direction frontIntakeDirection;
-    private CRServo frontPass;
+    private DcMotorEx frontPass;
     private CRServo.Direction frontPassDirection;
     private CRServo backIntake;
     private CRServo.Direction backIntakeDirection;
-    private CRServo backPass;
+    private DcMotorEx backPass;
     private CRServo.Direction backPassDirection;
 
 
@@ -91,9 +91,9 @@ public class ProtypeShooterControl extends OpMode {
 
 
         frontIntake = hardwareMap.get(CRServo.class, "frontIntake");
-        frontPass = hardwareMap.get(CRServo.class, "frontPass");
+        frontPass = hardwareMap.get(DcMotorEx.class, "frontPassM");
         backIntake = hardwareMap.get(CRServo.class, "backIntake");
-        backPass = hardwareMap.get(CRServo.class, "backPass");
+        backPass = hardwareMap.get(DcMotorEx.class, "backPassM");
 
         shooterMotor = hardwareMap.get(DcMotorEx.class, "launchMotor");
         shooterMotor2 = hardwareMap.get(DcMotorEx.class, "launchMotor2");
@@ -112,9 +112,9 @@ public class ProtypeShooterControl extends OpMode {
         limelight.close();
 
         frontIntake.setPower(-1);
-        frontPass.setPower(-1);
+        frontPass.setPower(-0.35);
         backIntake.setPower(1);
-        backPass.setPower(1);
+        backPass.setPower(0.5);
 
         shooterAngle.setDirection(Servo.Direction.FORWARD);
         shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

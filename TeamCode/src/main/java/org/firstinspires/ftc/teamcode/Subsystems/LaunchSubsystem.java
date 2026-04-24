@@ -165,7 +165,7 @@ public class LaunchSubsystem extends SubsystemBase {
             Position = ANGLE_SERVO_ZERO - 0.08;
             launchAngleServo.setPosition(Position);
         } else {
-            TargetRPM = 1835;
+            TargetRPM = 1850;
 
 
             launchMotor.setVelocity(TargetRPM);

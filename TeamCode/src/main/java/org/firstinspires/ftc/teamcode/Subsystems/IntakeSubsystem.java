@@ -135,7 +135,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public void IntakeFrontToCenter() {
         frontIntake.setPower(-1);
-        frontPass.setPower(-.5);
+        frontPass.setPower(-.3);
         backIntake.setPower(0);
         backPass.setPower(0);
     }
@@ -152,7 +152,7 @@ public class IntakeSubsystem extends SubsystemBase {
         frontIntake.setPower(0);
         frontPass.setPower(0);
         backIntake.setPower(1);
-        backPass.setPower(.5);
+        backPass.setPower(.3);
     }
 
 
@@ -204,7 +204,7 @@ public class IntakeSubsystem extends SubsystemBase {
         backPass.setPower(.5);
     }
      public void frontSideLaunch(){
-        frontPass.setPower(-1);
+        frontPass.setPower(-.5);
         backPass.setPower(.5);
         frontIntake.setPower(-1);
      }
