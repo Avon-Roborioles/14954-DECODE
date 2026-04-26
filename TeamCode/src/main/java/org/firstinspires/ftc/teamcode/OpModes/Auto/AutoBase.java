@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.TelemetrySubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 
 public abstract class AutoBase extends CommandOpMode {
@@ -26,6 +27,7 @@ public abstract class AutoBase extends CommandOpMode {
     protected IntakeSubsystem intake;
     protected LaunchSubsystem launch;
     protected DistanceSubsystem distance;
+    protected TelemetrySubsystem telemetrySubsystem;
     protected LimeLightSubsystem limelight;
     protected TurnTableSubsystem turnTableSubsystem;
     protected AutoDriveSubsystem autoDriveSubsystem;

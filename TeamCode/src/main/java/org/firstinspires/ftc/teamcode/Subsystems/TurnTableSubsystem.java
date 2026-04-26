@@ -39,7 +39,7 @@ public class TurnTableSubsystem extends SubsystemBase {
     private static double redOffset = -0.005;
     private static double blueOffset = 0;
 
-    private static double MANUAL_SPEED_MULTIPLIER = 0.003;
+    private static double MANUAL_SPEED_MULTIPLIER = 0.02;
 
     //0.0
 
@@ -59,9 +59,9 @@ public class TurnTableSubsystem extends SubsystemBase {
 
     public void AutoBackSetPoints(boolean redAlliance){
         if (redAlliance){
-            turntable.setPosition(0.365);
+            turntable.setPosition(0.385);
         } else if (!redAlliance){
-            turntable.setPosition(0.755);
+            turntable.setPosition(0.775);
         }
     }
     public void BackSetPoints(boolean redAlliance){
@@ -88,6 +88,10 @@ public class TurnTableSubsystem extends SubsystemBase {
     }
     public void FrontSetPoint(){
         turntable.setPosition(0.530);
+    }
+
+    public void setTurntable(double position){
+        turntable.setPosition(position);
     }
 
     public void moveManual(double inputSpeed) {

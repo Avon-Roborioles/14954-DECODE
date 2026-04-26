@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.pedropathing.geometry.Pose;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -55,6 +56,12 @@ public class TelemetrySubsystem extends SubsystemBase {
         limelight.compTelemetry(telemetry);
         intakeSubsystem.compTelemtry(telemetry);
 //        autoDriveSubsystem.getTelemetry(telemetry);
+        updateTelemetry();
+    }
+
+    public void autoTelemetry(Pose pose){
+        clearTelemetry();
+        autoDriveSubsystem.getTelemetry(telemetry, pose);
         updateTelemetry();
     }
 

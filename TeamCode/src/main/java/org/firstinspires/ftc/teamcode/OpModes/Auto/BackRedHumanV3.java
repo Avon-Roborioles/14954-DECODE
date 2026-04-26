@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Commands.AutoTelemetryCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoIntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoLaunch;
 import org.firstinspires.ftc.teamcode.Commands.teleop.intakeCommands.IntakeStopServoCommand;
@@ -28,10 +29,11 @@ import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous(group = "Human", preselectTeleOp = "TeleOpRed")
+
 public class BackRedHumanV3 extends AutoBase{
         Command MoveRight, PrepareToGrab1, GrabSet1, MoveToMidpoint, MoveToLaunch1, PrepareToGrab2, GrabSet2, MoveToMidPoint2, MoveToLaunch2, leave, BackUpToGrab, GrabSet1again;
         Path MoveRightPath, prepGrab1, grab1, midpoint, Launch1, prepGrab2, grab2, midpoint2, launch2, Leave, backUpGrab,GrabSetAgain;
-
+    private Pose requestedPose;
 
         Pose startPose = new Pose(66, 7, Math.toRadians(0));
         Pose prepGrab1Pose = new Pose(66, 27, Math.toRadians(-25)); //0,18
@@ -42,11 +44,11 @@ public class BackRedHumanV3 extends AutoBase{
         Pose backUpGrabPose = new Pose(93,8,Math.toRadians(0));
         Pose grabAgainPose = new Pose(100,6,Math.toRadians(0));
         Pose MoveRightPose = new Pose(100, 8, Math.toRadians(0));
-        Pose launch1Pose = new Pose(65.5, 12, Math.toRadians(-1.5));
+        Pose launch1Pose = new Pose(65.5, 7, Math.toRadians(-1.5));
         Pose prepGrab2Pose = new Pose(66, 30.25, Math.toRadians(0));
         Pose grab2Pose = new Pose(101, 30.25, Math.toRadians(0));
 
-        Pose launch2Pose = new Pose(70, 12, Math.toRadians(0));
+        Pose launch2Pose = new Pose(68, 7, Math.toRadians(0));
         Pose leavePose = new Pose(72.5, 25, Math.toRadians(0));
 
         @Override
@@ -90,14 +92,16 @@ public class BackRedHumanV3 extends AutoBase{
                 autoDriveSubsystem.followPath(Launch1, true);
             });
             PrepareToGrab2 = new InstantCommand(() -> {
-                follower.setMaxPower(1);
+                follower.setMaxPower(0.75);
                 autoDriveSubsystem.followPath(prepGrab2, true);
+                requestedPose = prepGrab2Pose;
             });
 
 
             GrabSet2 = new InstantCommand(() -> {
-                follower.setMaxPower(1);
+                follower.setMaxPower(0.5);
                 autoDriveSubsystem.followPath(grab2, true);
+                requestedPose = grab2Pose;
             });
 
 
@@ -164,7 +168,7 @@ public class BackRedHumanV3 extends AutoBase{
                                             GrabSet1,
                                             new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry).withTimeout(2000),
                                             MoveToMidpoint,
-                                            new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry),
+                                            new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry).withTimeout(2000),
                                             MoveToMidPoint2,
                                             new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry).withTimeout(2000)
 //                                            MoveRight,
@@ -209,6 +213,8 @@ public class BackRedHumanV3 extends AutoBase{
 
             while (opModeIsActive() && !isStopRequested()){
 
+//
+//                telemetrySubsystem.setDefaultCommand(new AutoTelemetryCommand(telemetrySubsystem, requestedPose));
 
                 run();
             }
@@ -223,7 +229,7 @@ public class BackRedHumanV3 extends AutoBase{
             //hardware map init
             follower = Constants.createFollower(hardwareMap);
             follower.setStartingPose(startPose);
-            autoDriveSubsystem = new AutoDriveSubsystem(follower, telemetry);
+            autoDriveSubsystem = new AutoDriveSubsystem(follower);
             follower.setMaxPower(1);
 
             // launcher

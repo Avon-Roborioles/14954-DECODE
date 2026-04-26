@@ -27,6 +27,7 @@ public class LimeLightSubsystem extends SubsystemBase {
         limelight.start();
     }
     public void stop(){limelight.stop();}
+    public void shutDown(){limelight.shutdown();}
 
     public void pollRate(int rate){
         limelight.setPollRateHz(rate);

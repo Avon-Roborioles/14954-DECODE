@@ -13,9 +13,11 @@ public class AutoDriveSubsystem extends SubsystemBase {
     private Follower follower;
     private Telemetry telemetry;
 
+    public AutoDriveSubsystem(Follower follower){
+        this.follower = follower;
+    }
     public AutoDriveSubsystem(Follower follower, Telemetry telemetry){
         this.follower = follower;
-        this.telemetry = telemetry;
     }
 
     public void followPath(Path path, boolean holdEnd){
@@ -69,8 +71,9 @@ public class AutoDriveSubsystem extends SubsystemBase {
     public void holdPosition(){
         follower.holdPoint(getPose());
     }
-    public void getTelemetry(Telemetry telemetry){
+    public void getTelemetry(Telemetry telemetry, Pose pose){
         telemetry.addLine("Pedro Data");
+        telemetry.addData("requestedPose", pose);
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
         telemetry.addData("heading", follower.getPose().getHeading());

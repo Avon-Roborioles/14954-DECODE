@@ -1,17 +1,21 @@
 package org.firstinspires.ftc.teamcode.Commands.teleop.LimelightCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
+import com.arcrobotics.ftclib.util.Timing;
 
 import org.firstinspires.ftc.teamcode.Subsystems.LaunchSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.LimeLightSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TurnTableSubsystem;
 
+import java.util.concurrent.TimeUnit;
+
 public class limelightAutoSpeed_TurnCommand extends CommandBase {
     private LimeLightSubsystem limelightSubsystem;
     private TurnTableSubsystem turnTableSubsystem;
     private LaunchSubsystem launchSubsystem;
     private LightSubsystem lightSubsystem;
+    private Timing.Timer timer;
     private boolean redAlliance = false;
 
     public limelightAutoSpeed_TurnCommand(LimeLightSubsystem limelightSubsystem, TurnTableSubsystem turnTableSubsystem, LaunchSubsystem launchSubsystem,LightSubsystem lightSubsystem ,boolean redAlliance){
@@ -31,6 +35,10 @@ public class limelightAutoSpeed_TurnCommand extends CommandBase {
         }
 
         limelightSubsystem.start();
+
+            timer = new Timing.Timer(500, TimeUnit.MILLISECONDS);
+
+
     }
 
     public void execute(){
@@ -50,13 +58,25 @@ public class limelightAutoSpeed_TurnCommand extends CommandBase {
       launchSubsystem.distanceToRPM(distance);
       if (failed){
           lightSubsystem.lightRed();
-//          limelightSubsystem.stop();
-//          limelightSubsystem.start();
-//          if (redAlliance){
-//              limelightSubsystem.setPipeline(1);
-//          } else {
-//              limelightSubsystem.setPipeline(2);
-//          }
+          timer = new Timing.Timer(500, TimeUnit.MILLISECONDS);
+         limelightSubsystem.stop();
+         limelightSubsystem.shutDown();
+         if(!timer.isTimerOn()){
+             timer.start();
+         }
+
+         if (timer.done()) {
+
+             limelightSubsystem.start();
+             if (redAlliance){
+                 limelightSubsystem.setPipeline(1);
+             } else {
+                 limelightSubsystem.setPipeline(2);
+             }
+
+         }
+
+
 
 
       }

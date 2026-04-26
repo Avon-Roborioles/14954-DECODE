@@ -38,27 +38,34 @@ public class LimelightAutoSpeedInAuto extends CommandBase {
         double tx = limelightSubsystem.getTx();
         double distance = limelightSubsystem.getDistance();
         boolean failed = limelightSubsystem.isLimeLightCooked();
-        timer = new Timing.Timer(500, TimeUnit.MILLISECONDS);
-        timer.start();
+        timer = new Timing.Timer(1000, TimeUnit.MILLISECONDS);
+
+
+
+
+
 
 
         double result = Math.toRadians(tx);
 
 
         // 1. Aim Turret
-        turnTableSubsystem.limelightFollow(tx, redAlliance);
+        if (redAlliance){
+            turnTableSubsystem.setTurntable(0.215);
+        } else {
+            turnTableSubsystem.setTurntable(0.795);
+        }
 
-        // 2. Calculate and Set Hood Angle
 
-//        launchSubsystem.distanceToRPM(distance);
+        if (!timer.isTimerOn()){
+            timer.start();
+        }
+
     }
 
 
 
 
-//        if (launchSubsystem.isMotorRunning()){
-//            launchSubsystem.runMotor();
-//        }
 
 
     public void execute() {
@@ -71,13 +78,24 @@ public class LimelightAutoSpeedInAuto extends CommandBase {
 
 
         // 1. Aim Turret
-        turnTableSubsystem.limelightFollow(tx, redAlliance);
+        if (!limelightSubsystem.isLimeLightCooked()) {
+
+            turnTableSubsystem.limelightFollow(tx, redAlliance);
+        } else {
+            if (redAlliance){
+                turnTableSubsystem.setTurntable(0.215);
+            } else {
+                turnTableSubsystem.setTurntable(0.795);
+            }
+        }
+
 
         // 2. Calculate and Set Hood Angle
 
     }
 
     public boolean isFinished(){
-        return timer.done();
+        return
+                timer.done();
     }
 }

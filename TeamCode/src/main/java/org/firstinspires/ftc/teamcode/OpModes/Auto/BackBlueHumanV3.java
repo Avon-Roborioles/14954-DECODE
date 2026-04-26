@@ -16,6 +16,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoIntakeCommand;
 import org.firstinspires.ftc.teamcode.Commands.teleop.CommandGroups.AutoLaunch;
+import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.newlaunchSequence.newLaunchSequencer;
+import org.firstinspires.ftc.teamcode.Commands.teleop.launchCommands.newlaunchSequence.newLaunchSequencerAuto;
 import org.firstinspires.ftc.teamcode.Subsystems.AutoDriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.DistanceSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeSubsystem;
@@ -40,11 +42,11 @@ public class BackBlueHumanV3 extends AutoBase{
     Pose backUpGrabPose = new Pose(21,8,Math.toRadians(0));
     Pose grabAgainPose = new Pose(14,6,Math.toRadians(0));
     Pose MoveRightPose = new Pose(14, 8, Math.toRadians(0));
-    Pose launch1Pose = new Pose(42, 15, Math.toRadians(0));
+    Pose launch1Pose = new Pose(44, 7, Math.toRadians(0));
     Pose prepGrab2Pose = new Pose(48, 31, Math.toRadians(0));
     Pose grab2Pose = new Pose(15, 31, Math.toRadians(0));
 
-    Pose launch2Pose = new Pose(44.5, 15, Math.toRadians(0));
+    Pose launch2Pose = new Pose(48, 7, Math.toRadians(0));
     Pose leavePose = new Pose(41.5, 25, Math.toRadians(0));
 
     @Override
@@ -88,13 +90,13 @@ public class BackBlueHumanV3 extends AutoBase{
             autoDriveSubsystem.followPath(Launch1, true);
         });
         PrepareToGrab2 = new InstantCommand(() -> {
-            follower.setMaxPower(1);
+            follower.setMaxPower(0.75);
             autoDriveSubsystem.followPath(prepGrab2, true);
         });
 
 
         GrabSet2 = new InstantCommand(() -> {
-            follower.setMaxPower(0.65);
+            follower.setMaxPower(0.5);
             autoDriveSubsystem.followPath(grab2, true);
         });
 
@@ -129,7 +131,7 @@ public class BackBlueHumanV3 extends AutoBase{
 //                new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry),
                 new SequentialCommandGroup(
                         new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,false),
-                        new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
+                      new newLaunchSequencerAuto(distance,intake,lightSubsystem).withTimeout(2000),
                         new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
 //                        MoveLaunchPreload,
 //                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry),
@@ -150,7 +152,7 @@ public class BackBlueHumanV3 extends AutoBase{
                                 new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry),
                                 new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,false)
                         )),
-                new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
+                new newLaunchSequencerAuto(distance,intake,lightSubsystem).withTimeout(2000),
                 new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
 
                 PrepareToGrab1,
@@ -162,7 +164,7 @@ public class BackBlueHumanV3 extends AutoBase{
                                 GrabSet1,
                                 new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry).withTimeout(2000),
                                 MoveToMidpoint,
-                                new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry),
+                                new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry).withTimeout(2000),
                                 MoveToMidPoint2,
                                 new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry).withTimeout(2000)
 //                                            MoveRight,
@@ -178,7 +180,7 @@ public class BackBlueHumanV3 extends AutoBase{
                         new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry),
                         new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,false)
                 ),
-                new AutoLaunch(distance,intake,launch,lightSubsystem,telemetry),
+                new newLaunchSequencerAuto(distance,intake,lightSubsystem).withTimeout(2000),
                 new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
                 leave,
                 new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry)
@@ -227,9 +229,9 @@ public class BackBlueHumanV3 extends AutoBase{
         turnServo = hardwareMap.get(Servo.class, "turnServo");
         // intake
         frontIntakeServo = hardwareMap.get(CRServo.class, "frontIntake");
-        frontPassServo = hardwareMap.get(DcMotorEx.class, "frontPass");
+        frontPassServo = hardwareMap.get(DcMotorEx.class, "frontPassM");
         backIntakeServo = hardwareMap.get(CRServo.class, "backIntake");
-        backPassServo = hardwareMap.get(DcMotorEx.class, "backPass");
+        backPassServo = hardwareMap.get(DcMotorEx.class, "backPassM");
         // distance Sensors
         fSensor = hardwareMap.get(DigitalChannel.class, "fSensor");
         mSensor = hardwareMap.get(DigitalChannel.class, "mSensor");
