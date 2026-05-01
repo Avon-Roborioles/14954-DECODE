@@ -61,7 +61,7 @@ public class TurnTableSubsystem extends SubsystemBase {
         if (redAlliance){
             turntable.setPosition(0.385); // copy closeBackSetPoints
         } else if (!redAlliance){
-            turntable.setPosition(0.775); // copy closeBackSetPoints
+            turntable.setPosition(0.76); // copy closeBackSetPoints
         }
     }
     public void BackSetPoints(boolean redAlliance){
@@ -81,7 +81,7 @@ public class TurnTableSubsystem extends SubsystemBase {
     public void closeBackSetPoints(boolean redAlliance){
         if (redAlliance){
 
-            turntable.setPosition(0.385); // MiddleBlue setpoint - 0.475
+            turntable.setPosition(0.375); // MiddleBlue setpoint - 0.475
         } else if (!redAlliance){
             turntable.setPosition(0.775); //MiddleBlue setpoint - 0.085
         }

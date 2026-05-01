@@ -136,7 +136,7 @@ public class BackRedHumanV3 extends AutoBase{
 //                new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry),
                     new SequentialCommandGroup(
                             new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,true),
-                            new newLaunchSequencerAuto(distance,intake,lightSubsystem).withTimeout(2000),
+                            new newLaunchSequencerAuto(distance,intake,lightSubsystem).withTimeout(3000),
                             new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
 //                        MoveLaunchPreload,
 //                        new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry),
@@ -146,7 +146,7 @@ public class BackRedHumanV3 extends AutoBase{
                             new ParallelCommandGroup(
                                     new AutoIntakeCommand(distance,intake,lightSubsystem).withTimeout(2000),
                                     GrabSet2,
-                                    new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry)
+                                    new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem, telemetry).withTimeout(4000)
                             ),
 
 
@@ -154,10 +154,10 @@ public class BackRedHumanV3 extends AutoBase{
 
                             MoveToLaunch1,
                             new ParallelCommandGroup(
-                                    new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry),
+                                    new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry).withTimeout(3000),
                                     new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,true)
                             )),
-                    new newLaunchSequencerAuto(distance,intake,lightSubsystem).withTimeout(2000),
+                    new newLaunchSequencerAuto(distance,intake,lightSubsystem).withTimeout(3000),
                     new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
 
                     PrepareToGrab1,
@@ -185,7 +185,7 @@ public class BackRedHumanV3 extends AutoBase{
                             new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry),
                             new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoBackSetPoint(launch,turnTableSubsystem,true)
                     ),
-                    new newLaunchSequencerAuto(distance,intake,lightSubsystem).withTimeout(2000),
+                    new newLaunchSequencerAuto(distance,intake,lightSubsystem).withTimeout(3000),
                     new org.firstinspires.ftc.teamcode.commands.teleop.launchCommands.StopMotor(launch),
                     leave,
                     new org.firstinspires.ftc.teamcode.commands.Auto.AutoCommands.AutoDriveCommand(autoDriveSubsystem,telemetry)
