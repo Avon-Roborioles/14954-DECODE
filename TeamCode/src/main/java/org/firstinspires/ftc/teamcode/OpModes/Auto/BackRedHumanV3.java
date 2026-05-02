@@ -50,7 +50,7 @@ public class BackRedHumanV3 extends AutoBase{
         Pose grab2Pose = new Pose(101, 30.25, Math.toRadians(0));
 
         Pose launch2Pose = new Pose(68, 7, Math.toRadians(0));
-        Pose leavePose = new Pose(72.5, 25, Math.toRadians(0));
+        Pose leavePose = new Pose(72.5, 15, Math.toRadians(0));
 
         @Override
         public void initialize(){

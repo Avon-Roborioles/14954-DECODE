@@ -152,7 +152,7 @@ public class IntakeSubsystem extends SubsystemBase {
         frontIntake.setPower(0);
         frontPass.setPower(0);
         backIntake.setPower(1);
-        backPass.setPower(.3);
+        backPass.setPower(.5);
     }
 
 
@@ -167,7 +167,7 @@ public class IntakeSubsystem extends SubsystemBase {
        frontIntake.setPower(0);
         frontPass.setPower(-.5);
        backIntake.setPower(0);
-       backPass.setPower(.5);
+       backPass.setPower(.7);
     }
 
 
@@ -181,7 +181,7 @@ public class IntakeSubsystem extends SubsystemBase {
         frontIntake.setPower(1);
         frontPass.setPower(.5);
         backIntake.setPower(-1);
-        backPass.setPower(-.5);
+        backPass.setPower(-.7);
     }
     public void intakeOnly(){
         frontIntake.setPower(-1);
@@ -196,16 +196,16 @@ public class IntakeSubsystem extends SubsystemBase {
         frontIntake.setPower(-1);
         frontPass.setPower(-.5);
         backIntake.setPower(.7);
-        backPass.setPower(.5);
+        backPass.setPower(.7);
     }
     public void backSideLaunch(){
         frontPass.setPower(-.5);
         backIntake.setPower(1);
-        backPass.setPower(.5);
+        backPass.setPower(.7);
     }
      public void frontSideLaunch(){
         frontPass.setPower(-.5);
-        backPass.setPower(.5);
+        backPass.setPower(.7);
         frontIntake.setPower(-1);
      }
     public void proportionalLaunch(float input){

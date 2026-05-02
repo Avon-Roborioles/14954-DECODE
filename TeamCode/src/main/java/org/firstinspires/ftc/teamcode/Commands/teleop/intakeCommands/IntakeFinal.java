@@ -21,7 +21,7 @@ public class IntakeFinal extends CommandBase {
 
     public void initialize() {
         isFront = distanceSubsystem.isIntakingFromFront();
-        timer = new Timing.Timer(7, TimeUnit.MILLISECONDS);
+        timer = new Timing.Timer(0, TimeUnit.MILLISECONDS);
     }
     public void execute() {
 
